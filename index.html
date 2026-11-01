@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mediate — practice software for family mediation firms</title>
+<meta name="description" content="Mediate drafts intake forms, MIAM certificates, letters and billing entries from real enquiries and sessions — inside the Microsoft 365 or Google Workspace your firm already runs on. Nothing sends, files or bills until you approve it.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mediate — practice software for family mediation firms">
+<meta property="og:description" content="Intake, documents, correspondence and billing, drafted automatically. Approved by you, always.">
+<meta name="theme-color" content="#1B4079">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/newsreader-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* ---------- Fonts (self-hosted: no third-party requests) ---------- */
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:swap;src:url(fonts/inter-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:500;font-style:normal;font-display:swap;src:url(fonts/inter-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:600;font-style:normal;font-display:swap;src:url(fonts/inter-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Newsreader";font-weight:400;font-style:normal;font-display:swap;src:url(fonts/newsreader-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Newsreader";font-weight:500;font-style:normal;font-display:swap;src:url(fonts/newsreader-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:swap;src:url(fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:swap;src:url(fonts/jetbrains-mono-latin-500-normal.woff2) format("woff2")}
+
+/* ---------- Tokens ---------- */
+:root{
+  --accent:#1B4079; --accent-2:#2A5CA8; --accent-tint:#EEF3FB;
+  --ink:#18181B; --ink-2:#3F3F46; --ink-3:#71717A; --ink-4:#A1A1AA;
+  --bg:#FFFFFF; --bg-alt:#FAFAFA; --bg-sunken:#F4F4F5;
+  --line:#E4E4E7; --line-2:#D4D4D8;
+  --ok:#15803D; --ok-bg:#F0FDF4; --ok-line:#BBF7D0;
+  --warn:#A16207; --warn-bg:#FEFCE8; --warn-line:#FEF08A;
+  --bad:#B91C1C;
+  --r:6px; --r-sm:4px;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --shadow-1:0 1px 2px rgba(24,24,27,.05);
+  --shadow-2:0 1px 2px rgba(24,24,27,.04),0 18px 40px -16px rgba(24,24,27,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{font-family:var(--sans);font-size:16px;line-height:1.6;color:var(--ink-2);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--r-sm)}
+.wrap{max-width:1160px;margin:0 auto;padding:0 28px}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--ink);color:#fff;padding:10px 14px;border-radius:var(--r);z-index:100}
+.skip:focus{left:12px}
+
+/* ---------- Type ---------- */
+h1,h2,h3{font-family:var(--serif);color:var(--ink);font-weight:400;letter-spacing:-.015em}
+h1{font-size:clamp(42px,5.6vw,68px);line-height:1.02;letter-spacing:-.025em}
+h2{font-size:clamp(30px,3.6vw,44px);line-height:1.1}
+h3{font-size:22px;line-height:1.25;font-weight:500}
+.mono{font-family:var(--mono)}
+.label{font-family:var(--mono);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.lead{font-size:18px;line-height:1.65;color:var(--ink-2)}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 20px;border-radius:var(--r);font-weight:500;font-size:15px;border:1px solid transparent;transition:background .15s,border-color .15s,transform .15s,box-shadow .15s;white-space:nowrap}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-primary:hover{background:#000;transform:translateY(-1px);box-shadow:0 8px 20px -8px rgba(24,24,27,.5)}
+.btn-ghost{background:#fff;color:var(--ink);border-color:var(--line-2)}
+.btn-ghost:hover{border-color:var(--ink-3);background:var(--bg-alt)}
+.btn-sm{height:38px;padding:0 15px;font-size:14px}
+.btn[disabled]{opacity:.65;cursor:progress;transform:none;box-shadow:none}
+
+/* ---------- Nav ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{height:66px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--serif);font-size:24px;font-weight:500;color:var(--ink);letter-spacing:-.02em}
+.brand img{width:32px;height:32px;border-radius:8px;box-shadow:0 1px 2px rgba(18,41,90,.25)}
+.nav-links{display:flex;gap:30px;font-size:14.5px;color:var(--ink-3)}
+.nav-links a{transition:color .15s}
+.nav-links a:hover{color:var(--ink)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;padding:76px 0 84px;background:radial-gradient(900px 420px at 88% -8%,rgba(27,64,121,.09),transparent 70%),linear-gradient(var(--bg),var(--bg))}
+.hero-grid{display:grid;grid-template-columns:1.04fr .96fr;gap:64px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:9px;padding:6px 13px 6px 11px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:13px;color:var(--ink-2);box-shadow:var(--shadow-1);margin-bottom:26px}
+.pill i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-bg)}
+.hero h1{margin-bottom:24px}
+.hero .lead{max-width:540px;margin-bottom:34px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:30px}
+.hero-meta{display:flex;gap:22px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-3);letter-spacing:.02em}
+.hero-meta span{display:inline-flex;align-items:center;gap:8px}
+.hero-meta span::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--ink-4)}
+
+/* ---------- Mock cards ---------- */
+.mock{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow-2)}
+.mock-head{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--line)}
+.mock-head b{font-weight:600;color:var(--ink);font-size:14.5px}
+.mock-count{font-family:var(--mono);font-size:11.5px;background:var(--accent-tint);color:var(--accent);padding:3px 9px;border-radius:999px;font-weight:500}
+.q-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.q-row:last-of-type{border-bottom:0}
+.q-row strong{display:block;color:var(--ink);font-size:14.5px;font-weight:600;margin-bottom:2px}
+.q-row small{color:var(--ink-3);font-size:13px;line-height:1.45;display:block}
+.chip{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-size:12px;font-weight:500;padding:3px 10px;border-radius:999px;border:1px solid var(--line-2);color:var(--ink-2);background:#fff}
+.chip.warn{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn)}
+.chip.ok{background:var(--ok-bg);border-color:var(--ok-line);color:var(--ok)}
+.chip.accent{background:var(--accent-tint);border-color:#D3E0F5;color:var(--accent)}
+.chip.quiet{background:var(--bg-sunken);border-color:var(--line);color:var(--ink-3)}
+.mock-foot{display:flex;align-items:center;gap:8px;padding:14px 20px;background:var(--bg-alt);border-top:1px solid var(--line);border-radius:0 0 10px 10px}
+.mock-foot .spacer{flex:1}
+.mb{display:inline-flex;align-items:center;justify-content:center;height:32px;padding:0 13px;font-size:13px;border-radius:var(--r-sm);border:1px solid var(--line-2);background:#fff;color:var(--ink);font-weight:500;cursor:default}
+.mb.pri{background:var(--ink);border-color:var(--ink);color:#fff}
+.mock-note{font-size:12.5px;color:var(--ink-3);display:inline-flex;align-items:center;gap:7px}
+.mock-note::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ink-4)}
+
+/* ---------- Trust strip ---------- */
+.trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-alt)}
+.trust-in{padding-top:34px;padding-bottom:34px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.trust-title{font-family:var(--serif);font-size:26px;color:var(--ink);letter-spacing:-.015em}
+.trust-title em{font-style:normal;color:var(--accent)}
+.trust p{max-width:470px;color:var(--ink-3);font-size:14.5px}
+
+/* ---------- Sections ---------- */
+section.s{padding:104px 0}
+section.s.alt{background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.sec-num{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.sec-num b{font-family:var(--mono);font-size:12px;font-weight:500;color:#fff;background:var(--accent);padding:3px 8px;border-radius:var(--r-sm)}
+.sec-head{max-width:700px;margin-bottom:52px}
+.sec-head h2{margin-bottom:16px}
+
+.grid{display:grid;gap:18px}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px 24px;transition:border-color .2s,box-shadow .2s,transform .2s}
+.card:hover{border-color:var(--line-2);box-shadow:var(--shadow-2);transform:translateY(-2px)}
+.card .label{display:flex;align-items:center;gap:9px;margin-bottom:16px;color:var(--accent)}
+.card .label::before{content:"";width:18px;height:2px;background:var(--accent);border-radius:2px}
+.card h3{margin-bottom:10px}
+.card p{font-size:14.8px;color:var(--ink-3);line-height:1.6}
+
+/* ---------- Tabs / workflow ---------- */
+.tabs{display:inline-flex;gap:4px;padding:4px;background:var(--bg-sunken);border:1px solid var(--line);border-radius:9px;margin-bottom:34px;flex-wrap:wrap}
+.tab{border:0;background:transparent;padding:9px 18px;border-radius:6px;font-size:14.5px;font-weight:500;color:var(--ink-3);transition:all .15s}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(24,24,27,.12)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:10px;background:#fff;overflow:hidden}
+.step{padding:26px 22px 28px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:14px;min-width:0}
+.step:last-child{border-right:0}
+.step .label{color:var(--accent)}
+.step h3{font-size:19px;line-height:1.25}
+.step p.cap{font-size:13.5px;color:var(--ink-3);line-height:1.55}
+.step .chips{display:flex;gap:7px;flex-wrap:wrap}
+ul.ticks{list-style:none;display:flex;flex-direction:column;gap:11px}
+ul.ticks li{position:relative;padding-left:24px;font-size:14px;line-height:1.5;color:var(--ink-2)}
+ul.ticks li::before{content:"";position:absolute;left:0;top:3px;width:15px;height:15px;border-radius:50%;background:var(--ok-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.3 8.4l2.4 2.4 5-5.2' fill='none' stroke='%2315803D' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/15px no-repeat;border:1px solid var(--ok-line)}
+ul.ticks li.flag::before{background:var(--warn-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 4.5v4.2M8 11.3v.2' fill='none' stroke='%23A16207' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center/15px no-repeat;border-color:var(--warn-line)}
+.mini{border:1px solid var(--line);border-radius:var(--r);background:var(--bg-alt);padding:13px 14px}
+.mini .who{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent-tint);color:var(--accent);font-size:11.5px;font-weight:600;display:grid;place-items:center;flex-shrink:0}
+.mini .who b{display:block;font-size:13.5px;color:var(--ink);font-weight:600;line-height:1.25}
+.mini .who span{font-size:12px;color:var(--ink-3)}
+.mini q{display:block;quotes:none;font-size:13px;line-height:1.55;color:var(--ink-2);font-style:italic}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cmp div{border:1px solid var(--line);border-radius:var(--r);padding:9px 11px;background:#fff}
+.cmp div:first-child{background:var(--warn-bg);border-color:var(--warn-line)}
+.cmp div:last-child{background:var(--warn-bg);border-color:var(--warn-line)}
+.cmp small{display:block;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.03em;text-transform:uppercase;margin-bottom:2px}
+.cmp span{font-size:13px;font-weight:500;color:var(--ink)}
+.note-line{font-size:12.5px;color:var(--ink-3);line-height:1.5;border-left:2px solid var(--line-2);padding-left:11px}
+
+/* ---------- Approval ---------- */
+.approve{display:grid;grid-template-columns:1fr 1.02fr;gap:64px;align-items:start}
+.alist{display:flex;flex-direction:column}
+.aitem{display:grid;grid-template-columns:78px 1fr;gap:18px;padding:24px 0;border-bottom:1px solid var(--line)}
+.aitem:first-child{padding-top:4px}
+.aitem:last-child{border-bottom:0}
+.aitem .label{color:var(--accent);padding-top:5px}
+.aitem h3{font-size:21px;margin-bottom:6px}
+.aitem p{font-size:14.8px;color:var(--ink-3)}
+.letter{padding:22px 24px 8px}
+.letter .meta{font-size:12.5px;color:var(--ink-3);margin-bottom:18px;line-height:1.5}
+.letter p{font-family:var(--serif);font-size:16.5px;line-height:1.65;color:var(--ink);margin-bottom:14px}
+.letter .fade{height:34px;margin-top:-34px;position:relative;background:linear-gradient(rgba(255,255,255,0),#fff)}
+
+/* ---------- Table ---------- */
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:#fff}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th{font-family:var(--mono);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:500;text-align:left;padding:15px 22px;background:var(--bg-alt);border-bottom:1px solid var(--line)}
+td{padding:17px 22px;border-bottom:1px solid var(--line);vertical-align:top;font-size:14.5px}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:600;color:var(--ink);width:25%}
+td b{display:block;color:var(--ink);font-weight:600}
+td span{display:block;color:var(--ink-3);font-size:13.5px;margin-top:1px}
+.table-note{margin-top:22px;color:var(--ink-3);font-size:14.8px;max-width:760px}
+
+/* ---------- Demo ---------- */
+.demo{display:grid;grid-template-columns:1fr 1.05fr;gap:72px;align-items:start}
+.demo-left{position:sticky;top:110px}
+.demo-left h2{margin-bottom:16px}
+.demo-left .lead{margin-bottom:28px}
+.form-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:32px;box-shadow:var(--shadow-2)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.row{display:grid;grid-template-columns:1fr 1fr;column-gap:16px;row-gap:0}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field label{font-size:13px;font-weight:500;color:var(--ink)}
+.field label em{font-style:normal;color:var(--ink-4);font-weight:400}
+input,select,textarea{font:inherit;font-size:15px;color:var(--ink);background:#fff;border:1px solid var(--line-2);border-radius:var(--r);padding:0 13px;height:44px;width:100%;transition:border-color .15s,box-shadow .15s}
+textarea{height:96px;padding:11px 13px;resize:vertical;line-height:1.5}
+select{appearance:none;-webkit-appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6.5l4 4 4-4' fill='none' stroke='%2371717A' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 12px center/16px no-repeat;padding-right:38px}
+input:hover,select:hover,textarea:hover{border-color:var(--ink-4)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(27,64,121,.14)}
+select:invalid{color:var(--ink-3)}
+.form-err{display:flex;gap:10px;align-items:flex-start;background:#FEF2F2;border:1px solid #FECACA;color:var(--bad);border-radius:var(--r);padding:12px 14px;font-size:14px;margin-bottom:16px;line-height:1.5}
+.form-err a{text-decoration:underline;font-weight:500}
+.fine{margin-top:14px;font-size:12.5px;color:var(--ink-3);text-align:center}
+.form-card .btn{width:100%}
+.done{text-align:center;padding:26px 8px 18px}
+.done:focus{outline:none}
+.done .tick{width:54px;height:54px;border-radius:50%;background:var(--ok-bg);border:1px solid var(--ok-line);display:grid;place-items:center;margin:0 auto 20px}
+.done .label{color:var(--ok);margin-bottom:10px}
+.done h3{font-size:30px;margin-bottom:12px}
+.done p{color:var(--ink-3);font-size:15.5px;max-width:380px;margin:0 auto}
+.done a{color:var(--accent);text-decoration:underline}
+
+/* ---------- Footer ---------- */
+footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.foot .brand{font-size:21px}
+.foot .brand img{width:28px;height:28px}
+.foot-links{display:flex;gap:26px;font-size:14px;color:var(--ink-3);flex-wrap:wrap}
+.foot-links a:hover{color:var(--ink)}
+.copy{width:100%;font-size:13px;color:var(--ink-4);padding-top:22px;margin-top:6px;border-top:1px solid var(--line)}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1040px){
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .step:nth-child(2){border-right:0}
+  .step:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .hero-grid,.approve,.demo{grid-template-columns:1fr;gap:44px}
+  .demo-left{position:static}
+}
+@media (max-width:760px){
+  .wrap{padding:0 20px}
+  .nav-links{display:none}
+  .hero{padding:48px 0 56px}
+  section.s{padding:72px 0}
+  .g4,.g3,.steps,.row{grid-template-columns:1fr}
+  .step{border-right:0;border-bottom:1px solid var(--line)}
+  .step:last-child{border-bottom:0}
+  .aitem{grid-template-columns:1fr;gap:6px}
+  .form-card{padding:22px}
+  .trust-in{padding-top:28px;padding-bottom:28px}
+  .tabs{display:flex;width:100%}
+  .tab{flex:1;padding:9px 8px;font-size:13.5px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="Mediate — home"><img src="/logo.svg" alt="" width="32" height="32">Mediate</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#capabilities">Capabilities</a>
+      <a href="#workflow">How it works</a>
+      <a href="#approval">Approval</a>
+      <a href="#stack">Integrations</a>
+      <a href="#security">Security</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="#demo">Book a demo</a>
+  </div>
+</header>
+
+<main id="main">
+<!-- ================= HERO ================= -->
+<div class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="pill"><i></i>In daily use at a UK family mediation firm</div>
+      <h1>The paperwork of mediation, drafted for you.</h1>
+      <p class="lead">Mediate turns enquiries, MIAM appointments and session transcripts into finished intake forms, certificates, letters and billing entries — inside the Microsoft 365 or Google Workspace your firm already runs on. Nothing sends, files or bills until you approve it.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#demo">Book a demo</a>
+        <a class="btn btn-ghost" href="#workflow">See how it works</a>
+      </div>
+      <div class="hero-meta"><span>Family mediation only</span><span>20-minute demo</span><span>No migration</span></div>
+    </div>
+
+    <div class="mock" aria-label="Example review queue">
+      <div class="mock-head"><b>Review queue</b><span class="mock-count">3 items</span></div>
+      <div class="q-row">
+        <div><strong>MIAM certificate — Patel</strong><small>Drafted from Teams transcript · files to /Matters/Patel</small></div>
+        <span class="chip warn">Awaiting you</span>
+      </div>
+      <div class="q-row">
+        <div><strong>Follow-up letter — Patel (Party A)</strong><small>Sends from you@yourfirm · 4 edits since first draft</small></div>
+        <span class="chip warn">Awaiting you</span>
+      </div>
+      <div class="q-row">
+        <div><strong>Billing — week to 4 Aug</strong><small>14 entries matched · 2 flagged for your call</small></div>
+        <span class="chip quiet">Queued</span>
+      </div>
+      <div class="mock-foot">
+        <span class="mb pri">Approve</span><span class="mb">Edit</span><span class="mb">Discard</span>
+        <span class="spacer"></span><span class="mock-note">Nothing sent yet</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= TRUST ================= -->
+<div class="trust">
+  <div class="wrap trust-in">
+    <div class="trust-title">Built for mediation firms in London — <em>in daily use today.</em></div>
+    <p>Designed alongside a working family mediation practice, on live cases — not modelled on how firms are assumed to work.</p>
+  </div>
+</div>
+
+<!-- ================= 01 CAPABILITIES ================= -->
+<section class="s" id="capabilities">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num"><b>01</b><span class="label">Capabilities</span></div>
+      <h2>Four jobs your team does by hand. All four, drafted.</h2>
+      <p class="lead">Mediate sits on top of the systems you already use and takes the repetitive drafting off your desk — while leaving every decision exactly where it belongs.</p>
+    </div>
+    <div class="grid g4">
+      <article class="card"><div class="label">Intake</div><h3>Forms that fill themselves</h3><p>Enquiry emails and screening calls become a completed intake form against your own template — one pass per party, never merged.</p></article>
+      <article class="card"><div class="label">Sessions</div><h3>Appointments become documents</h3><p>MIAMs and mediation sessions are transcribed, then drafted into certificates, attendance notes and follow-up letters in your house style.</p></article>
+      <article class="card"><div class="label">Billing</div><h3>Time that reaches the sheet</h3><p>Work is matched to the right matter and proposed as new rows on your existing billing sheet. It only ever adds — it never overwrites.</p></article>
+      <article class="card"><div class="label">Correspondence</div><h3>Letters waiting on your send</h3><p>Client updates, exemption letters and chasers arrive as drafts in your own mailbox, written from the case file and ready for review.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 WORKFLOW ================= -->
+<section class="s alt" id="workflow">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num"><b>02</b><span class="label">How it works</span></div>
+      <h2>Receive. Extract. Draft. Approve.</h2>
+      <p class="lead">The same four steps whatever comes in. This is what happens between an enquiry landing and a document being filed.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Workflow">
+      <button class="tab" role="tab" id="tab-enq" aria-controls="panel-enq" aria-selected="true">New enquiry</button>
+      <button class="tab" role="tab" id="tab-miam" aria-controls="panel-miam" aria-selected="false" tabindex="-1">MIAM &amp; sessions</button>
+      <button class="tab" role="tab" id="tab-bill" aria-controls="panel-bill" aria-selected="false" tabindex="-1">Billing</button>
+    </div>
+
+    <!-- Tab 1 -->
+    <div class="steps" role="tabpanel" id="panel-enq" aria-labelledby="tab-enq">
+      <div class="step">
+        <div class="label">01 — Receive</div>
+        <h3>An enquiry arrives in the firm's inbox</h3>
+        <div class="mini">
+          <div class="who"><div class="avatar">AP</div><div><b>A. Patel</b><span>Outlook / Gmail</span></div></div>
+          <q>“I'd like to arrange mediation with my ex-partner about our two children. We separated last year. Could you tell me about a MIAM?”</q>
+        </div>
+      </div>
+      <div class="step">
+        <div class="label">02 — Extract</div>
+        <h3>Mediate reads it and classifies the matter</h3>
+        <div class="chips"><span class="chip ok">Conflict check clear</span><span class="chip accent">Children matter</span><span class="chip warn">Safeguarding screen required</span></div>
+        <p class="cap">Opened as a new matter, with both parties created as separate records</p>
+      </div>
+      <div class="step">
+        <div class="label">03 — Draft</div>
+        <h3>Context is pulled from your live systems</h3>
+        <div class="chips"><span class="chip">SharePoint or Drive</span><span class="chip">Outlook or Gmail</span><span class="chip">Excel or Sheets</span></div>
+        <ul class="ticks">
+          <li>Your intake template filled — one pass per party, never combined</li>
+          <li>Safeguarding answers inserted verbatim, never summarised</li>
+          <li class="flag">Conflicting answers — flagged, not resolved</li>
+        </ul>
+        <div class="cmp"><div><small>Party A says</small><span>Separated March 2024</span></div><div><small>Party B says</small><span>Separated August 2024</span></div></div>
+        <p class="note-line">Where parties disagree on a shared field, both accounts are shown side by side. Mediate never silently picks one.</p>
+      </div>
+      <div class="step">
+        <div class="label">04 — Approve</div>
+        <h3>You review, then it goes where the work lives</h3>
+        <ul class="ticks">
+          <li>Filed to the matter folder in SharePoint or Google Drive</li>
+          <li>Opening billing line appended to your Excel or Sheets workbook</li>
+          <li>MIAM invitation waiting as a draft in your own mailbox</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Tab 2 -->
+    <div class="steps" role="tabpanel" id="panel-miam" aria-labelledby="tab-miam" hidden>
+      <div class="step">
+        <div class="label">01 — Receive</div>
+        <h3>The appointment ends</h3>
+        <div class="mini">
+          <div class="who"><div class="avatar">MI</div><div><b>MIAM — Patel (Party A) · 48 min</b><span>Teams / Meet</span></div></div>
+        </div>
+        <p class="cap">Transcript captured natively by Microsoft Teams or Google Meet. No third-party recorder joins the call, and nothing leaves your own tenancy.</p>
+      </div>
+      <div class="step">
+        <div class="label">02 — Extract</div>
+        <h3>The mediation-relevant facts are lifted out</h3>
+        <div class="chips"><span class="chip">Suitability discussed</span><span class="chip">Children's arrangements</span><span class="chip warn">Safeguarding disclosure — verbatim</span><span class="chip">Next steps agreed</span></div>
+        <p class="cap">Written to Party A's record only — structurally isolated from Party B's</p>
+      </div>
+      <div class="step">
+        <div class="label">03 — Draft</div>
+        <h3>Your documents, drafted from the session</h3>
+        <ul class="ticks">
+          <li>MIAM certificate populated into your own Word or Google Docs template</li>
+          <li>Attendance note and case summary written up</li>
+          <li>Follow-up letter to the client, in your firm's voice</li>
+        </ul>
+        <p class="note-line">Exemption letters are manual-trigger only — suitability is the mediator's judgement, never the software's</p>
+      </div>
+      <div class="step">
+        <div class="label">04 — Approve</div>
+        <h3>Nothing moves until you say so</h3>
+        <ul class="ticks">
+          <li>Certificate filed to the matter folder on approval</li>
+          <li>Letter sent from your own mailbox, under your own address</li>
+          <li>Session time logged against the matter</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Tab 3 -->
+    <div class="steps" role="tabpanel" id="panel-bill" aria-labelledby="tab-bill" hidden>
+      <div class="step">
+        <div class="label">01 — Receive</div>
+        <h3>Billable work happens</h3>
+        <div class="mini">
+          <div class="who"><div class="avatar">CA</div><div><b>Calendar &amp; matter activity · this week</b><span>M365 / Workspace</span></div></div>
+        </div>
+        <p class="cap">3 appointments held · 11 items of correspondence · 2 documents drafted — all against live matters, none of it yet on a bill.</p>
+      </div>
+      <div class="step">
+        <div class="label">02 — Extract</div>
+        <h3>Matched to the right matter and rate</h3>
+        <div class="chips"><span class="chip ok">14 items matched</span><span class="chip warn">2 need your call</span></div>
+        <p class="cap">Anything ambiguous is queued for you rather than guessed at</p>
+      </div>
+      <div class="step">
+        <div class="label">03 — Draft</div>
+        <h3>Proposed as new rows on your existing sheet</h3>
+        <ul class="ticks">
+          <li>Your Excel or Google Sheets workbook stays the source of truth</li>
+          <li>Additions only — existing rows, formulas and formatting are never touched</li>
+          <li>Time gaps and unbilled work surfaced before month end</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="label">04 — Approve</div>
+        <h3>You sign off the sheet, not the software</h3>
+        <ul class="ticks">
+          <li>Approved lines written to your workbook in its existing location</li>
+          <li>Invoice drafted for your review</li>
+          <li>Every change written to an append-only audit log</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 APPROVAL ================= -->
+<section class="s" id="approval">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num"><b>03</b><span class="label">The approval gate</span></div>
+      <h2>Nothing sends, files or bills without you.</h2>
+      <p class="lead">Mediate drafts. You decide. That line is structural — not a preference someone can switch off on a busy Friday afternoon.</p>
+    </div>
+    <div class="approve">
+      <div class="alist">
+        <div class="aitem"><div class="label">Queue</div><div><h3>Every outbound action waits</h3><p>Emails, filings and billing entries sit in a review queue. There is no code path to the outside world that skips it.</p></div></div>
+        <div class="aitem"><div class="label">Edit</div><div><h3>Change it before you approve</h3><p>A word, a date, or the whole letter. Your edits inform how the next draft is written.</p></div></div>
+        <div class="aitem"><div class="label">Record</div><div><h3>Your systems stay the record</h3><p>Microsoft 365 and Google Workspace remain the source of truth. Mediate reads live and only ever adds.</p></div></div>
+        <div class="aitem"><div class="label">Trail</div><div><h3>A full trail, permanently</h3><p>Who approved what, when, and against which draft — written to an append-only log you can export.</p></div></div>
+      </div>
+      <div class="mock" aria-label="Example draft letter awaiting approval">
+        <div class="mock-head"><b>Draft — awaiting approval</b><span class="chip accent">MIAM follow-up</span></div>
+        <div class="letter">
+          <div class="meta">Drafted from MIAM held 4 Aug · sends from you@yourfirm · files to /Matters/Patel</div>
+          <p>Dear Mrs Patel,</p>
+          <p>Thank you for attending your Mediation Information and Assessment Meeting on 4 August 2026. As discussed, I have written to Mr Patel to invite him to a separate MIAM.</p>
+          <p>Following our conversation, I consider this matter suitable to proceed to joint mediation, subject to his attendance…</p>
+          <div class="fade"></div>
+        </div>
+        <div class="mock-foot">
+          <span class="mb pri">Approve &amp; send</span><span class="mb">Edit</span><span class="mb">Discard</span>
+          <span class="spacer"></span><span class="mock-note">Nothing has been sent</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 INTEGRATIONS ================= -->
+<section class="s alt" id="stack">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num"><b>04</b><span class="label">Integrations</span></div>
+      <h2>Runs on Microsoft 365 or Google Workspace.</h2>
+      <p class="lead">No migration, no second case management system, no asking your team to learn another interface. Mediate connects to the tenancy you already have and works inside the files and mailboxes you use today.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Capability</th><th scope="col">Microsoft 365</th><th scope="col">Google Workspace</th></tr></thead>
+        <tbody>
+          <tr><td>Enquiries &amp; correspondence</td><td><b>Outlook</b><span>Reads threads, writes drafts</span></td><td><b>Gmail</b><span>Reads threads, writes drafts</span></td></tr>
+          <tr><td>Appointments &amp; transcription</td><td><b>Microsoft Teams</b><span>Native transcript, no bot joins</span></td><td><b>Google Meet</b><span>Native transcript, no bot joins</span></td></tr>
+          <tr><td>Document storage</td><td><b>SharePoint</b><span>Files into your matter folders</span></td><td><b>Google Drive</b><span>Files into your matter folders</span></td></tr>
+          <tr><td>Templates &amp; documents</td><td><b>Word</b><span>Your own .docx templates</span></td><td><b>Google Docs</b><span>Your own Docs templates</span></td></tr>
+          <tr><td>Billing sheets</td><td><b>Excel</b><span>Appends rows, never overwrites</span></td><td><b>Google Sheets</b><span>Appends rows, never overwrites</span></td></tr>
+          <tr><td>Diary</td><td><b>Outlook Calendar</b><span>Time capture against matters</span></td><td><b>Google Calendar</b><span>Time capture against matters</span></td></tr>
+          <tr><td>Sign-in &amp; permissions</td><td><b>Microsoft Entra ID</b><span>Your existing accounts and MFA</span></td><td><b>Google Identity</b><span>Your existing accounts and MFA</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-note">Mixed estates are fine — plenty of firms run Google for mail and Microsoft for documents. Mediate connects to each service independently, so you can use either side of this table in any combination.</p>
+  </div>
+</section>
+
+<!-- ================= 05 SECURITY ================= -->
+<section class="s" id="security">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-num"><b>05</b><span class="label">Security &amp; data protection</span></div>
+      <h2>Client confidentiality was the first requirement, not the last.</h2>
+      <p class="lead">Family mediation handles some of the most sensitive material in law. Mediate was architected around that from the first line, with data handling designed to comply with UK GDPR.</p>
+    </div>
+    <div class="grid g3">
+      <article class="card"><div class="label">Residency</div><h3>UK and EU data residency</h3><p>Case data is stored in a UK or EU region. Documents, transcripts and mail stay inside your own Microsoft or Google tenancy.</p></article>
+      <article class="card"><div class="label">Access</div><h3>Role-based access control</h3><p>Row-level security across every case table, with distinct principal, administrator and auditor roles. Anonymous access is revoked outright.</p></article>
+      <article class="card"><div class="label">Audit</div><h3>Append-only audit log</h3><p>Every read, draft and approval is recorded and cannot be edited or deleted by ordinary users — administrators included.</p></article>
+      <article class="card"><div class="label">Training</div><h3>No training on your data</h3><p>Client material is never used to train models. It is processed to do the job you asked for, and nothing beyond it.</p></article>
+      <article class="card"><div class="label">Isolation</div><h3>Cross-party isolation</h3><p>Each party is handled in a separate, structurally enforced pass. Party A's answers cannot leak into Party B's file.</p></article>
+      <article class="card"><div class="label">Compliance</div><h3>Built to GDPR regulations</h3><p>Data handling is designed to comply with UK GDPR and EU GDPR: UK or EU residency, access controls, retention limits and a full audit trail.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06 DEMO ================= -->
+<section class="s alt" id="demo">
+  <div class="wrap demo">
+    <div class="demo-left">
+      <div class="sec-num"><b>06</b><span class="label">Book a demo</span></div>
+      <h2>See it running on matters like yours.</h2>
+      <p class="lead">Twenty minutes, no slides. We walk through a real intake, a real MIAM write-up and a real billing run, then talk about what it would take to run it in your practice.</p>
+      <ul class="ticks">
+        <li>A live walkthrough, not a recorded pitch</li>
+        <li>Straight answers on data protection and where your files sit</li>
+        <li>An honest view on whether it fits your firm — including when it doesn't</li>
+        <li>A reply within one working day</li>
+      </ul>
+    </div>
+
+    <div class="form-card">
+      <form id="demo-form" name="demo-request" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="demo-request">
+        <p class="hp" aria-hidden="true"><label>Leave this blank: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+
+        <div class="row">
+          <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="f-firm">Firm</label><input id="f-firm" name="firm" type="text" autocomplete="organization" required></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="f-phone">Phone <em>(optional)</em></label><input id="f-phone" name="phone" type="tel" autocomplete="tel"></div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="f-size">Mediators in the practice</label>
+            <select id="f-size" name="mediators" required>
+              <option value="" selected disabled>Select…</option>
+              <option>Sole practitioner</option><option>2–5</option><option>6–15</option><option>16+</option>
+            </select></div>
+          <div class="field"><label for="f-stack">Your stack</label>
+            <select id="f-stack" name="stack" required>
+              <option value="" selected disabled>Select…</option>
+              <option>Microsoft 365</option><option>Google Workspace</option><option>A mix of both</option><option>Not sure</option>
+            </select></div>
+        </div>
+        <div class="field"><label for="f-note">What's taking the most time right now? <em>(optional)</em></label><textarea id="f-note" name="message"></textarea></div>
+
+        <div class="form-err" id="form-err" role="alert" hidden>
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:1px"><circle cx="10" cy="10" r="8.2" stroke="#B91C1C" stroke-width="1.6"/><path d="M10 5.8v5M10 13.6v.1" stroke="#B91C1C" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span>That didn't send. Please email <a href="mailto:Nikhal@realaidynamics.com">Nikhal@realaidynamics.com</a> directly.</span>
+        </div>
+        <button class="btn btn-primary" id="form-btn" type="submit">Book a demo</button>
+        <p class="fine">Used only to arrange your demo. No mailing list, no sharing with anyone else.</p>
+      </form>
+
+      <div class="done" id="form-done" tabindex="-1" hidden>
+        <div class="tick"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5.5 12.6l4.2 4.2 8.8-9" stroke="#15803D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="label">Submitted</div>
+        <h3>Thank you — that's landed.</h3>
+        <p>We'll be in touch within one working day to find a time that suits. If it's urgent, email <a href="mailto:Nikhal@realaidynamics.com">Nikhal@realaidynamics.com</a>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="#top" aria-label="Mediate — back to top"><img src="/logo.svg" alt="" width="28" height="28">Mediate</a>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="#capabilities">Capabilities</a><a href="#workflow">How it works</a><a href="#stack">Integrations</a><a href="#security">Security</a><a href="#demo">Contact</a>
+    </nav>
+    <div class="copy">© 2026 Mediate — practice software for family mediation</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  /* Workflow tabs */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('[role="tabpanel"]'));
+  function select(tab, focus) {
+    tabs.forEach(function (t) { var on = t === tab; t.setAttribute('aria-selected', on ? 'true' : 'false'); t.tabIndex = on ? 0 : -1; });
+    panels.forEach(function (p) { p.hidden = p.id !== tab.getAttribute('aria-controls'); });
+    if (focus) tab.focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { select(t); });
+    t.addEventListener('keydown', function (e) {
+      var n = null;
+      if (e.key === 'ArrowRight') n = tabs[(i + 1) % tabs.length];
+      else if (e.key === 'ArrowLeft') n = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (e.key === 'Home') n = tabs[0];
+      else if (e.key === 'End') n = tabs[tabs.length - 1];
+      if (n) { e.preventDefault(); select(n, true); }
+    });
+  });
+
+  /* Demo request -> Netlify Forms (emailed to the site owner via a Netlify form notification) */
+  var form = document.getElementById('demo-form');
+  var btn = document.getElementById('form-btn');
+  var err = document.getElementById('form-err');
+  var done = document.getElementById('form-done');
+  function showDone() { form.hidden = true; done.hidden = false; done.focus(); }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    if (form.elements['bot-field'].value) { showDone(); return; } /* honeypot: look successful, send nothing */
+    btn.disabled = true; btn.textContent = 'Sending…'; err.hidden = true;
+    var body = new URLSearchParams(new FormData(form)).toString();
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body })
+      .then(function (res) { if (!res.ok) throw new Error('status ' + res.status); showDone(); })
+      .catch(function () { err.hidden = false; btn.disabled = false; btn.textContent = 'Book a demo'; });
+  });
+})();
+</script>
+</body>
+</html>
