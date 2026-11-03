@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mediate — practice software for family mediation firms</title>
-<meta name="description" content="Mediate drafts intake forms, MIAM certificates, letters and billing entries from real enquiries and sessions — inside the Microsoft 365 or Google Workspace your firm already runs on. Nothing sends, files or bills until you approve it.">
+<title>Mediate: practice software for family mediation firms</title>
+<meta name="description" content="Mediate drafts intake forms, MIAM certificates, letters and billing entries from real enquiries and sessions, inside the Microsoft 365 or Google Workspace your firm already runs on. Nothing sends, files or bills until you approve it.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Mediate — practice software for family mediation firms">
+<meta property="og:title" content="Mediate: practice software for family mediation firms">
 <meta property="og:description" content="Intake, documents, correspondence and billing, drafted automatically. Approved by you, always.">
 <meta name="theme-color" content="#1B4079">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -253,15 +253,242 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
   .tabs{display:flex;width:100%}
   .tab{flex:1;padding:9px 8px;font-size:13.5px}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+/* ---------- Motion: easing tokens ----------
+   Apple's interface motion is slow-out, never bouncy, and almost always pairs
+   a short translate with opacity. Two curves cover it: --ease-out for things
+   entering (decelerating into place) and --ease-io for a state change on
+   something already on screen. */
+:root{
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-io:cubic-bezier(.4,0,.2,1);
+  --dur:.72s;
+}
+
+/* ---------- Scroll reveal ----------
+   Opacity plus a small rise, nothing else. The distance is deliberately short
+   (14px): a long travel reads as a slide-in effect, a short one reads as the
+   page settling. Children stagger via --i so a row of cards arrives in
+   sequence rather than all together. */
+[data-reveal]{opacity:0;transform:translate3d(0,14px,0);transition:opacity var(--dur) var(--ease-out),transform var(--dur) var(--ease-out);transition-delay:calc(var(--i,0)*70ms);will-change:opacity,transform}
+[data-reveal].in{opacity:1;transform:none}
+[data-reveal="scale"]{transform:translate3d(0,18px,0) scale(.985)}
+[data-reveal="scale"].in{transform:none}
+/* Headline words rise individually, kept to the lines that carry the page so
+   it stays an accent rather than a tic.
+   Deliberately a rise-and-fade, NOT a mask reveal: clipping each word with
+   overflow:hidden changes an inline-block's baseline and cuts descenders the
+   moment a heading wraps to a second line, which is exactly what it did to
+   "Runs on Microsoft 365 or Google Workspace" at desktop width. Animating
+   opacity and transform leaves the text flowing normally. */
+.wordline{display:inline-block}
+.wordline>span{display:inline-block;opacity:0;transform:translate3d(0,.42em,0);transition:opacity .72s var(--ease-out),transform .72s var(--ease-out);transition-delay:calc(var(--i,0)*45ms)}
+.wordline.in>span{opacity:1;transform:none}
+
+/* ---------- Nav: lifts once the page moves ---------- */
+.nav{transition:background .3s var(--ease-io),border-color .3s var(--ease-io),box-shadow .3s var(--ease-io)}
+.nav.scrolled{background:rgba(255,255,255,.78);box-shadow:0 1px 0 rgba(24,24,27,.04),0 10px 30px -22px rgba(24,24,27,.3)}
+.nav-in{transition:height .3s var(--ease-io)}
+.nav.scrolled .nav-in{height:58px}
+.brand img{transition:transform .4s var(--ease-out)}
+.brand:hover img{transform:scale(1.06) rotate(-2deg)}
+.nav-links a{position:relative}
+.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:1.5px;background:var(--accent);border-radius:2px;transform:scaleX(0);transform-origin:left;transition:transform .34s var(--ease-out)}
+.nav-links a:hover::after{transform:scaleX(1)}
+
+/* ---------- Refined micro-interactions ---------- */
+.btn{transition:background .22s var(--ease-io),border-color .22s var(--ease-io),transform .22s var(--ease-out),box-shadow .3s var(--ease-out)}
+.btn-primary:active,.btn-ghost:active{transform:translateY(0) scale(.985)}
+.card{transition:border-color .32s var(--ease-io),box-shadow .42s var(--ease-out),transform .42s var(--ease-out)}
+.card:hover{transform:translateY(-3px)}
+.q-row{transition:background .25s var(--ease-io)}
+.q-row:hover{background:var(--bg-alt)}
+tbody tr{transition:background .25s var(--ease-io)}
+tbody tr:hover{background:var(--accent-tint)}
+.pill i{animation:livePulse 2.6s var(--ease-io) infinite}
+@keyframes livePulse{
+  0%,100%{box-shadow:0 0 0 3px var(--ok-bg)}
+  50%{box-shadow:0 0 0 6px rgba(21,128,61,.10)}
+}
+
+/* ---------- Integration brand marks ---------- */
+.ico{width:22px;height:22px;flex-shrink:0}
+.cell{display:flex;align-items:center;gap:11px}
+.cell-txt{min-width:0}
+td .cell b{display:block}
+.ico-sm{width:14px;height:14px;flex-shrink:0}
+.chip{transition:border-color .25s var(--ease-io),background .25s var(--ease-io),transform .25s var(--ease-out)}
+.chip:hover{transform:translateY(-1px)}
+.chip .ico-sm{margin-right:1px}
+.who-logos{display:inline-flex;align-items:center;gap:5px;vertical-align:middle;margin-left:2px}
+
+/* ---------- Draft being written (approval section) ---------- */
+.letter{position:relative}
+.letter p.typing::after{content:"";display:inline-block;width:1.5px;height:1.05em;background:var(--accent);margin-left:2px;vertical-align:-2px;animation:caret 1s steps(1) infinite}
+@keyframes caret{0%,49%{opacity:1}50%,100%{opacity:0}}
+.draft-state{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;padding:3px 9px;border-radius:999px;border:1px solid var(--line-2);background:#fff;color:var(--ink-3);transition:background .3s var(--ease-io),color .3s var(--ease-io),border-color .3s var(--ease-io)}
+/* The head now carries a state badge next to the existing chip. Both are
+   nowrap, so without this the row's min-content width blows the approval
+   grid's column out past a phone viewport (caught in a real 390px render,
+   not assumed). Wrapping keeps the desktop layout byte-identical, since
+   there is room there, and lets it stack on a narrow screen. */
+.mock-head{flex-wrap:wrap;gap:10px}
+.mock-head .cell{flex-wrap:wrap;gap:8px}
+/* Grid items default to min-width:auto, which is what lets a wide child
+   stretch the whole column. */
+.approve>*,.hero-grid>*,.demo>*{min-width:0}
+.mock-foot{flex-wrap:wrap}
+.draft-state.writing{background:var(--accent-tint);border-color:#D3E0F5;color:var(--accent)}
+.draft-state.ready{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn)}
+.draft-state .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.draft-state.writing .dot{animation:livePulse 1.4s var(--ease-io) infinite}
+/* The footer actions stay dimmed until the draft has finished writing, which
+   is the section's whole argument: there is nothing to approve mid-draft. */
+.mock-foot .mb{transition:opacity .5s var(--ease-io),transform .25s var(--ease-out)}
+.mock-foot.pending .mb{opacity:.42}
+.replay{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 11px;font-size:12px;font-family:var(--mono);letter-spacing:.03em;border-radius:var(--r-sm);border:1px solid var(--line-2);background:#fff;color:var(--ink-3);transition:color .2s var(--ease-io),border-color .2s var(--ease-io)}
+.replay:hover{color:var(--ink);border-color:var(--ink-4)}
+
+/* ---------- Cursor tracker ----------
+   A thin ring that trails the pointer with easing, plus a precise dot that
+   tracks it exactly. The lag between the two IS the effect. Pointer events are
+   off so it can never intercept a click, and it is fine-pointer only: on a
+   touch screen there is no cursor to track. */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;opacity:0;transition:opacity .3s var(--ease-io)}
+.cursor-dot{width:5px;height:5px;background:var(--accent);margin:-2.5px 0 0 -2.5px}
+.cursor-ring{width:30px;height:30px;margin:-15px 0 0 -15px;border:1.3px solid rgba(27,64,121,.42);transition:opacity .3s var(--ease-io),width .3s var(--ease-out),height .3s var(--ease-out),margin .3s var(--ease-out),border-color .3s var(--ease-io),background .3s var(--ease-io)}
+.cursor-on .cursor-dot,.cursor-on .cursor-ring{opacity:1}
+/* Over something clickable the ring opens and fills faintly: the same "target
+   acquired" language as a focus ring, not a novelty. */
+.cursor-ring.hot{width:46px;height:46px;margin:-23px 0 0 -23px;border-color:rgba(27,64,121,.6);background:rgba(27,64,121,.06)}
+.cursor-ring.down{width:24px;height:24px;margin:-12px 0 0 -12px}
+/* Over text it becomes a slim bar, so it reads as "this is readable". */
+.cursor-ring.text{width:2px;height:22px;margin:-11px 0 0 -1px;border-radius:2px;border-color:transparent;background:rgba(27,64,121,.45)}
+@media (hover:none),(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+
+@media (max-width:760px){.ico{width:20px;height:20px}}
+
+/* ---------- Reduced motion ----------
+   Everything above is an enhancement, so this turns all of it off and shows
+   the finished state: revealed content visible, headline words in place, no
+   cursor tracker, draft letter fully written, actions not dimmed. */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important;animation:none!important}
+  [data-reveal]{opacity:1!important;transform:none!important}
+  .wordline>span{transform:none!important}
+  .cursor-dot,.cursor-ring{display:none!important}
+  .mock-foot.pending .mb{opacity:1!important}
+}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
+<!-- Brand marks for the integrations, as an inline SVG sprite. Inline rather
+     than hosted files so the page still makes no third-party requests and no
+     extra round-trips, consistent with the self-hosted fonts above. Each is a
+     simplified mark, recognisable by its own colour and letterform. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-outlook" viewBox="0 0 24 24">
+    <path d="M9.6 4.2h11a1.4 1.4 0 0 1 1.4 1.4v12.8a1.4 1.4 0 0 1-1.4 1.4h-11z" fill="#0F6CBD"/>
+    <path d="M22 7.3v9.4l-7.2-4.7z" fill="#0A5A9E"/>
+    <path d="M9.6 11.1 22 7.3v-.6l-12.4 3z" fill="#fff" opacity=".9"/>
+    <rect x="1.6" y="5.4" width="9.6" height="13.2" rx="1.5" fill="#0A4C8A"/>
+    <ellipse cx="6.4" cy="12" rx="2.5" ry="3.1" fill="none" stroke="#fff" stroke-width="1.6"/>
+  </symbol>
+  <symbol id="i-gmail" viewBox="0 0 24 24">
+    <rect x="1.8" y="5.2" width="20.4" height="13.6" rx="2" fill="#fff" stroke="#E6E6E6" stroke-width=".8"/>
+    <path d="M1.8 7.2 12 14.3l10.2-7.1v-.2A1.8 1.8 0 0 0 20.4 5.2H3.6A1.8 1.8 0 0 0 1.8 7z" fill="#EA4335"/>
+    <path d="M1.8 7.4v9.6a1.8 1.8 0 0 0 1.8 1.8h1.6V9.6z" fill="#C5221F"/>
+    <path d="M22.2 7.4v9.6a1.8 1.8 0 0 1-1.8 1.8h-1.6V9.6z" fill="#4285F4"/>
+    <path d="M5.2 9.6 12 14.3l6.8-4.7v9.2H5.2z" fill="#fff"/>
+    <path d="M5.2 9.6 12 14.4l6.8-4.8-.1-1.4L12 12.9 5.3 8.2z" fill="#EA4335"/>
+  </symbol>
+  <symbol id="i-teams" viewBox="0 0 24 24">
+    <rect x="8.2" y="5.6" width="13.4" height="13" rx="2.2" fill="#5059C9"/>
+    <path d="M10.4 8.2h9v2.2h-3.3v7h-2.4v-7h-3.3z" fill="#fff"/>
+    <circle cx="6.2" cy="6.6" r="2.6" fill="#7B83EB"/>
+    <path d="M2 10.4h8.4v6.4A3.2 3.2 0 0 1 7.2 20H5.2A3.2 3.2 0 0 1 2 16.8z" fill="#7B83EB"/>
+  </symbol>
+  <symbol id="i-meet" viewBox="0 0 24 24">
+    <path d="M2.4 7.6A1.6 1.6 0 0 1 4 6h8.6v12H4a1.6 1.6 0 0 1-1.6-1.6z" fill="#4285F4"/>
+    <path d="M12.6 6v5.2L17 8V7.1A1.1 1.1 0 0 0 15.3 6z" fill="#34A853"/>
+    <path d="M12.6 12.8V18h2.7a1.7 1.7 0 0 0 1.7-1.7v-.8z" fill="#FBBC04"/>
+    <path d="M17 8v8l3.6 2.6a.9.9 0 0 0 1.4-.7V6.1a.9.9 0 0 0-1.4-.7z" fill="#EA4335"/>
+    <path d="M12.6 11.2 17 8v8l-4.4-3.2z" fill="#1967D2"/>
+  </symbol>
+  <symbol id="i-sharepoint" viewBox="0 0 24 24">
+    <circle cx="9.4" cy="8" r="5.4" fill="#037B74"/>
+    <circle cx="15.2" cy="13.4" r="4.6" fill="#1A9E96" opacity=".92"/>
+    <circle cx="10.6" cy="17.4" r="3.6" fill="#036C66"/>
+    <path d="M11.4 9.1c-.6-.5-1.5-.8-2.4-.8-1.3 0-2.2.6-2.2 1.6 0 .8.5 1.3 1.8 1.7 1.5.5 2.1 1 2.1 2 0 1.3-1.1 2-2.7 2-.9 0-1.8-.2-2.4-.6" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-gdrive" viewBox="0 0 24 24">
+    <path d="M8.9 3.4h6.2l6.3 10.9h-6.2z" fill="#FBBC04"/>
+    <path d="M8.9 3.4 2.6 14.3l3.1 5.4 6.3-10.9z" fill="#34A853" transform="translate(0,0)"/>
+    <path d="M2.6 14.3h12.6l-3.1 5.4H5.7z" fill="#4285F4"/>
+    <path d="M8.9 3.4 2.6 14.3h6.3L12 8.8z" fill="#188038"/>
+    <path d="M15.1 3.4 12 8.8l3.2 5.5h6.2z" fill="#FBBC04"/>
+    <path d="M15.2 14.3H2.6l3.1 5.4h12.6z" fill="#4285F4"/>
+  </symbol>
+  <symbol id="i-word" viewBox="0 0 24 24">
+    <rect x="2.4" y="3.6" width="19.2" height="16.8" rx="2" fill="#185ABD"/>
+    <rect x="2.4" y="3.6" width="7.4" height="16.8" rx="2" fill="#103F91"/>
+    <path d="M12 8.2l1.5 5.2 1.3-5.2h1.6l-2.1 7.6h-1.7l-1.4-4.8-1.3 4.8h-1.7L6.1 8.2h1.7l1.3 5.2 1.4-5.2z" fill="#fff"/>
+  </symbol>
+  <symbol id="i-gdocs" viewBox="0 0 24 24">
+    <path d="M6 2.8h7.6L19 8.2v12a1.4 1.4 0 0 1-1.4 1.4H6a1.4 1.4 0 0 1-1.4-1.4V4.2A1.4 1.4 0 0 1 6 2.8z" fill="#4285F4"/>
+    <path d="M13.6 2.8 19 8.2h-5.4z" fill="#A1C2FA"/>
+    <path d="M7.6 11.4h8.2M7.6 14h8.2M7.6 16.6h5.6" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-excel" viewBox="0 0 24 24">
+    <rect x="2.4" y="3.6" width="19.2" height="16.8" rx="2" fill="#107C41"/>
+    <rect x="2.4" y="3.6" width="7.4" height="16.8" rx="2" fill="#0B5C30"/>
+    <path d="M11.3 8.2h1.9l1.6 2.7 1.6-2.7h1.9l-2.5 3.8 2.6 3.8h-2l-1.6-2.8-1.6 2.8h-2l2.6-3.8z" fill="#fff"/>
+  </symbol>
+  <symbol id="i-gsheets" viewBox="0 0 24 24">
+    <path d="M6 2.8h7.6L19 8.2v12a1.4 1.4 0 0 1-1.4 1.4H6a1.4 1.4 0 0 1-1.4-1.4V4.2A1.4 1.4 0 0 1 6 2.8z" fill="#0F9D58"/>
+    <path d="M13.6 2.8 19 8.2h-5.4z" fill="#A8DAC1"/>
+    <path d="M7.4 11.2h9.2v6.6H7.4z" fill="#fff"/>
+    <path d="M7.4 13.4h9.2M7.4 15.6h9.2M10.5 11.2v6.6M13.6 11.2v6.6" stroke="#0F9D58" stroke-width="1"/>
+  </symbol>
+  <symbol id="i-outlookcal" viewBox="0 0 24 24">
+    <rect x="2.6" y="4.4" width="18.8" height="15.6" rx="2" fill="#0F6CBD"/>
+    <rect x="2.6" y="4.4" width="18.8" height="4.2" rx="2" fill="#0A4C8A"/>
+    <rect x="5.4" y="10.6" width="3.4" height="3" rx=".6" fill="#fff"/>
+    <rect x="10.3" y="10.6" width="3.4" height="3" rx=".6" fill="#fff" opacity=".75"/>
+    <rect x="15.2" y="10.6" width="3.4" height="3" rx=".6" fill="#fff" opacity=".75"/>
+    <rect x="5.4" y="15.1" width="3.4" height="3" rx=".6" fill="#fff" opacity=".75"/>
+    <rect x="10.3" y="15.1" width="3.4" height="3" rx=".6" fill="#fff" opacity=".75"/>
+  </symbol>
+  <symbol id="i-gcal" viewBox="0 0 24 24">
+    <rect x="3.2" y="3.8" width="17.6" height="16.4" rx="2.2" fill="#fff" stroke="#DADCE0" stroke-width="1.1"/>
+    <path d="M3.2 6a2.2 2.2 0 0 1 2.2-2.2h13.2A2.2 2.2 0 0 1 20.8 6v1.4H3.2z" fill="#4285F4"/>
+    <text x="12" y="16.6" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="7.4" font-weight="600" fill="#4285F4">31</text>
+  </symbol>
+  <symbol id="i-entra" viewBox="0 0 24 24">
+    <path d="M12 2.6 20.4 7v6.2c0 4-3.4 7-8.4 8.2-5-1.2-8.4-4.2-8.4-8.2V7z" fill="#0F6CBD"/>
+    <path d="M12 2.6 20.4 7v6.2c0 4-3.4 7-8.4 8.2z" fill="#0A4C8A"/>
+    <circle cx="12" cy="10.4" r="2.3" fill="#fff"/>
+    <path d="M7.9 17.2c.5-2.1 2.1-3.3 4.1-3.3s3.6 1.2 4.1 3.3a7.3 7.3 0 0 1-8.2 0z" fill="#fff"/>
+  </symbol>
+  <symbol id="i-google" viewBox="0 0 24 24">
+    <path d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2a9.5 9.5 0 0 0 3-7.3z" fill="#4285F4"/>
+    <path d="M12 21.6a9.6 9.6 0 0 0 6.6-2.4l-3.2-2.5a6 6 0 0 1-8.9-3.1H3.2v2.6A9.6 9.6 0 0 0 12 21.6z" fill="#34A853"/>
+    <path d="M6.5 13.6a5.8 5.8 0 0 1 0-3.6V7.4H3.2a9.6 9.6 0 0 0 0 8.8z" fill="#FBBC04"/>
+    <path d="M12 6.3a5.2 5.2 0 0 1 3.7 1.4l2.8-2.8A9.2 9.2 0 0 0 12 2.4a9.6 9.6 0 0 0-8.8 5l3.3 2.6A5.8 5.8 0 0 1 12 6.3z" fill="#EA4335"/>
+  </symbol>
+  <symbol id="i-microsoft" viewBox="0 0 24 24">
+    <rect x="3" y="3" width="8.4" height="8.4" fill="#F25022"/>
+    <rect x="12.6" y="3" width="8.4" height="8.4" fill="#7FBA00"/>
+    <rect x="3" y="12.6" width="8.4" height="8.4" fill="#00A4EF"/>
+    <rect x="12.6" y="12.6" width="8.4" height="8.4" fill="#FFB900"/>
+  </symbol>
+</defs></svg>
+
 <header class="nav">
   <div class="wrap nav-in">
-    <a class="brand" href="#top" aria-label="Mediate — home"><img src="/logo.svg" alt="" width="32" height="32">Mediate</a>
+    <a class="brand" href="#top" aria-label="Mediate home"><img src="/logo.svg" alt="" width="32" height="32">Mediate</a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#capabilities">Capabilities</a>
       <a href="#workflow">How it works</a>
@@ -280,7 +507,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
     <div>
       <div class="pill"><i></i>In daily use at a UK family mediation firm</div>
       <h1>The paperwork of mediation, drafted for you.</h1>
-      <p class="lead">Mediate turns enquiries, MIAM appointments and session transcripts into finished intake forms, certificates, letters and billing entries — inside the Microsoft 365 or Google Workspace your firm already runs on. Nothing sends, files or bills until you approve it.</p>
+      <p class="lead">Mediate turns enquiries, MIAM appointments and session transcripts into finished intake forms, certificates, letters and billing entries, inside the Microsoft 365 or Google Workspace your firm already runs on. Nothing sends, files or bills until you approve it.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#demo">Book a demo</a>
         <a class="btn btn-ghost" href="#workflow">See how it works</a>
@@ -291,15 +518,15 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
     <div class="mock" aria-label="Example review queue">
       <div class="mock-head"><b>Review queue</b><span class="mock-count">3 items</span></div>
       <div class="q-row">
-        <div><strong>MIAM certificate — Bloggs</strong><small>Drafted from Teams transcript · files to /Matters/Bloggs</small></div>
+        <div><strong>MIAM certificate: Bloggs</strong><small>Drafted from Teams transcript · files to /Matters/Bloggs</small></div>
         <span class="chip warn">Awaiting you</span>
       </div>
       <div class="q-row">
-        <div><strong>Follow-up letter — Bloggs (Party A)</strong><small>Sends from you@yourfirm · 4 edits since first draft</small></div>
+        <div><strong>Follow-up letter: Bloggs (Party A)</strong><small>Sends from you@yourfirm · 4 edits since first draft</small></div>
         <span class="chip warn">Awaiting you</span>
       </div>
       <div class="q-row">
-        <div><strong>Billing — week to 4 Aug</strong><small>14 entries matched · 2 flagged for your call</small></div>
+        <div><strong>Billing: week to 4 Aug</strong><small>14 entries matched · 2 flagged for your call</small></div>
         <span class="chip quiet">Queued</span>
       </div>
       <div class="mock-foot">
@@ -313,8 +540,8 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
 <!-- ================= TRUST ================= -->
 <div class="trust">
   <div class="wrap trust-in">
-    <div class="trust-title">Built for mediation firms in London — <em>in daily use today.</em></div>
-    <p>Designed alongside a working family mediation practice, on live cases — not modelled on how firms are assumed to work.</p>
+    <div class="trust-title">Built for mediation firms in London. <em>In daily use today.</em></div>
+    <p>Designed alongside a working family mediation practice, on live cases, not modelled on how firms are assumed to work.</p>
   </div>
 </div>
 
@@ -324,12 +551,12 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
     <div class="sec-head">
       <div class="sec-num"><b>01</b><span class="label">Capabilities</span></div>
       <h2>Four jobs your team does by hand. All four, drafted.</h2>
-      <p class="lead">Mediate sits on top of the systems you already use and takes the repetitive drafting off your desk — while leaving every decision exactly where it belongs.</p>
+      <p class="lead">Mediate sits on top of the systems you already use and takes the repetitive drafting off your desk, while leaving every decision exactly where it belongs.</p>
     </div>
     <div class="grid g4">
-      <article class="card"><div class="label">Intake</div><h3>Forms that fill themselves</h3><p>Enquiry emails and screening calls become a completed intake form against your own template — one pass per party, never merged.</p></article>
+      <article class="card"><div class="label">Intake</div><h3>Forms that fill themselves</h3><p>Enquiry emails and screening calls become a completed intake form against your own template. One pass per party, never merged.</p></article>
       <article class="card"><div class="label">Sessions</div><h3>Appointments become documents</h3><p>MIAMs and mediation sessions are transcribed, then drafted into certificates, attendance notes and follow-up letters in your house style.</p></article>
-      <article class="card"><div class="label">Billing</div><h3>Time that reaches the sheet</h3><p>Work is matched to the right matter and proposed as new rows on your existing billing sheet. It only ever adds — it never overwrites.</p></article>
+      <article class="card"><div class="label">Billing</div><h3>Time that reaches the sheet</h3><p>Work is matched to the right matter and proposed as new rows on your existing billing sheet. It only ever adds. It never overwrites.</p></article>
       <article class="card"><div class="label">Correspondence</div><h3>Letters waiting on your send</h3><p>Client updates, exemption letters and chasers arrive as drafts in your own mailbox, written from the case file and ready for review.</p></article>
     </div>
   </div>
@@ -353,33 +580,33 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
     <!-- Tab 1 -->
     <div class="steps" role="tabpanel" id="panel-enq" aria-labelledby="tab-enq">
       <div class="step">
-        <div class="label">01 — Receive</div>
+        <div class="label">01 · Receive</div>
         <h3>An enquiry arrives in the firm's inbox</h3>
         <div class="mini">
-          <div class="who"><div class="avatar">JB</div><div><b>J. Bloggs</b><span>Outlook / Gmail</span></div></div>
+          <div class="who"><div class="avatar">JB</div><div><b>J. Bloggs</b><span>Outlook / Gmail<span class="who-logos"><svg class="ico-sm" aria-hidden="true"><use href="#i-outlook"/></svg><svg class="ico-sm" aria-hidden="true"><use href="#i-gmail"/></svg></span></span></div></div>
           <q>“I'd like to arrange mediation with my ex-partner about our two children. We separated last year. Could you tell me about a MIAM?”</q>
         </div>
       </div>
       <div class="step">
-        <div class="label">02 — Extract</div>
+        <div class="label">02 · Extract</div>
         <h3>Mediate reads it and classifies the matter</h3>
         <div class="chips"><span class="chip ok">Conflict check clear</span><span class="chip accent">Children matter</span><span class="chip warn">Safeguarding screen required</span></div>
         <p class="cap">Opened as a new matter, with both parties created as separate records</p>
       </div>
       <div class="step">
-        <div class="label">03 — Draft</div>
+        <div class="label">03 · Draft</div>
         <h3>Context is pulled from your live systems</h3>
-        <div class="chips"><span class="chip">SharePoint or Drive</span><span class="chip">Outlook or Gmail</span><span class="chip">Excel or Sheets</span></div>
+        <div class="chips"><span class="chip"><svg class="ico-sm" aria-hidden="true"><use href="#i-sharepoint"/></svg><svg class="ico-sm" aria-hidden="true"><use href="#i-gdrive"/></svg>SharePoint or Drive</span><span class="chip"><svg class="ico-sm" aria-hidden="true"><use href="#i-outlook"/></svg><svg class="ico-sm" aria-hidden="true"><use href="#i-gmail"/></svg>Outlook or Gmail</span><span class="chip"><svg class="ico-sm" aria-hidden="true"><use href="#i-excel"/></svg><svg class="ico-sm" aria-hidden="true"><use href="#i-gsheets"/></svg>Excel or Sheets</span></div>
         <ul class="ticks">
-          <li>Your intake template filled — one pass per party, never combined</li>
+          <li>Your intake template filled, one pass per party, never combined</li>
           <li>Safeguarding answers inserted verbatim, never summarised</li>
-          <li class="flag">Conflicting answers — flagged, not resolved</li>
+          <li class="flag">Conflicting answers: flagged, not resolved</li>
         </ul>
         <div class="cmp"><div><small>Party A says</small><span>Separated March 2024</span></div><div><small>Party B says</small><span>Separated August 2024</span></div></div>
         <p class="note-line">Where parties disagree on a shared field, both accounts are shown side by side. Mediate never silently picks one.</p>
       </div>
       <div class="step">
-        <div class="label">04 — Approve</div>
+        <div class="label">04 · Approve</div>
         <h3>You review, then it goes where the work lives</h3>
         <ul class="ticks">
           <li>Filed to the matter folder in SharePoint or Google Drive</li>
@@ -392,31 +619,31 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
     <!-- Tab 2 -->
     <div class="steps" role="tabpanel" id="panel-miam" aria-labelledby="tab-miam" hidden>
       <div class="step">
-        <div class="label">01 — Receive</div>
+        <div class="label">01 · Receive</div>
         <h3>The appointment ends</h3>
         <div class="mini">
-          <div class="who"><div class="avatar">MI</div><div><b>MIAM — Bloggs (Party A) · 48 min</b><span>Teams / Meet</span></div></div>
+          <div class="who"><div class="avatar">MI</div><div><b>MIAM: Bloggs (Party A) · 48 min</b><span>Teams / Meet<span class="who-logos"><svg class="ico-sm" aria-hidden="true"><use href="#i-teams"/></svg><svg class="ico-sm" aria-hidden="true"><use href="#i-meet"/></svg></span></span></div></div>
         </div>
         <p class="cap">Transcript captured natively by Microsoft Teams or Google Meet. No third-party recorder joins the call, and nothing leaves your own tenancy.</p>
       </div>
       <div class="step">
-        <div class="label">02 — Extract</div>
+        <div class="label">02 · Extract</div>
         <h3>The mediation-relevant facts are lifted out</h3>
-        <div class="chips"><span class="chip">Suitability discussed</span><span class="chip">Children's arrangements</span><span class="chip warn">Safeguarding disclosure — verbatim</span><span class="chip">Next steps agreed</span></div>
-        <p class="cap">Written to Party A's record only — structurally isolated from Party B's</p>
+        <div class="chips"><span class="chip">Suitability discussed</span><span class="chip">Children's arrangements</span><span class="chip warn">Safeguarding disclosure: verbatim</span><span class="chip">Next steps agreed</span></div>
+        <p class="cap">Written to Party A's record only, structurally isolated from Party B's</p>
       </div>
       <div class="step">
-        <div class="label">03 — Draft</div>
+        <div class="label">03 · Draft</div>
         <h3>Your documents, drafted from the session</h3>
         <ul class="ticks">
           <li>MIAM certificate populated into your own Word or Google Docs template</li>
           <li>Attendance note and case summary written up</li>
           <li>Follow-up letter to the client, in your firm's voice</li>
         </ul>
-        <p class="note-line">Exemption letters are manual-trigger only — suitability is the mediator's judgement, never the software's</p>
+        <p class="note-line">Exemption letters are manual-trigger only. Suitability is the mediator's judgement, never the software's</p>
       </div>
       <div class="step">
-        <div class="label">04 — Approve</div>
+        <div class="label">04 · Approve</div>
         <h3>Nothing moves until you say so</h3>
         <ul class="ticks">
           <li>Certificate filed to the matter folder on approval</li>
@@ -429,30 +656,30 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
     <!-- Tab 3 -->
     <div class="steps" role="tabpanel" id="panel-bill" aria-labelledby="tab-bill" hidden>
       <div class="step">
-        <div class="label">01 — Receive</div>
+        <div class="label">01 · Receive</div>
         <h3>Billable work happens</h3>
         <div class="mini">
-          <div class="who"><div class="avatar">CA</div><div><b>Calendar &amp; matter activity · this week</b><span>M365 / Workspace</span></div></div>
+          <div class="who"><div class="avatar">CA</div><div><b>Calendar &amp; matter activity · this week</b><span>M365 / Workspace<span class="who-logos"><svg class="ico-sm" aria-hidden="true"><use href="#i-microsoft"/></svg><svg class="ico-sm" aria-hidden="true"><use href="#i-google"/></svg></span></span></div></div>
         </div>
-        <p class="cap">3 appointments held · 11 items of correspondence · 2 documents drafted — all against live matters, none of it yet on a bill.</p>
+        <p class="cap">3 appointments held · 11 items of correspondence · 2 documents drafted, all against live matters, none of it yet on a bill.</p>
       </div>
       <div class="step">
-        <div class="label">02 — Extract</div>
+        <div class="label">02 · Extract</div>
         <h3>Matched to the right matter and rate</h3>
         <div class="chips"><span class="chip ok">14 items matched</span><span class="chip warn">2 need your call</span></div>
         <p class="cap">Anything ambiguous is queued for you rather than guessed at</p>
       </div>
       <div class="step">
-        <div class="label">03 — Draft</div>
+        <div class="label">03 · Draft</div>
         <h3>Proposed as new rows on your existing sheet</h3>
         <ul class="ticks">
           <li>Your Excel or Google Sheets workbook stays the source of truth</li>
-          <li>Additions only — existing rows, formulas and formatting are never touched</li>
+          <li>Additions only. Existing rows, formulas and formatting are never touched</li>
           <li>Time gaps and unbilled work surfaced before month end</li>
         </ul>
       </div>
       <div class="step">
-        <div class="label">04 — Approve</div>
+        <div class="label">04 · Approve</div>
         <h3>You sign off the sheet, not the software</h3>
         <ul class="ticks">
           <li>Approved lines written to your workbook in its existing location</li>
@@ -470,27 +697,43 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
     <div class="sec-head">
       <div class="sec-num"><b>03</b><span class="label">The approval gate</span></div>
       <h2>Nothing sends, files or bills without you.</h2>
-      <p class="lead">Mediate drafts. You decide. That line is structural — not a preference someone can switch off on a busy Friday afternoon.</p>
+      <p class="lead">Mediate drafts. You decide. That line is structural, not a preference someone can switch off on a busy Friday afternoon.</p>
     </div>
     <div class="approve">
       <div class="alist">
         <div class="aitem"><div class="label">Queue</div><div><h3>Every outbound action waits</h3><p>Emails, filings and billing entries sit in a review queue. There is no code path to the outside world that skips it.</p></div></div>
         <div class="aitem"><div class="label">Edit</div><div><h3>Change it before you approve</h3><p>A word, a date, or the whole letter. Your edits inform how the next draft is written.</p></div></div>
         <div class="aitem"><div class="label">Record</div><div><h3>Your systems stay the record</h3><p>Microsoft 365 and Google Workspace remain the source of truth. Mediate reads live and only ever adds.</p></div></div>
-        <div class="aitem"><div class="label">Trail</div><div><h3>A full trail, permanently</h3><p>Who approved what, when, and against which draft — written to an append-only log you can export.</p></div></div>
+        <div class="aitem"><div class="label">Trail</div><div><h3>A full trail, permanently</h3><p>Who approved what, when, and against which draft, written to an append-only log you can export.</p></div></div>
       </div>
-      <div class="mock" aria-label="Example draft letter awaiting approval">
-        <div class="mock-head"><b>Draft — awaiting approval</b><span class="chip accent">MIAM follow-up</span></div>
-        <div class="letter">
+      <!-- The letter writes itself when this scrolls into view. The text below
+           is the real content and the script types it back in rather than
+           supplying it, so with JS off, or with reduced motion requested, the
+           finished letter is simply there. The actions stay dimmed until it
+           finishes: the section's own argument, made visible. -->
+      <div class="mock" id="draft-mock" aria-label="Example draft letter awaiting approval" data-reveal="scale">
+        <div class="mock-head">
+          <b>Draft: awaiting approval</b>
+          <span class="cell" style="gap:8px">
+            <span class="draft-state" id="draft-state" aria-hidden="true"><span class="dot"></span>Awaiting approval</span>
+            <span class="chip accent">MIAM follow-up</span>
+          </span>
+        </div>
+        <div class="letter" id="draft-letter">
           <div class="meta">Drafted from MIAM held 4 Aug · sends from you@yourfirm · files to /Matters/Bloggs</div>
           <p>Dear Mr Bloggs,</p>
           <p>Thank you for attending your Mediation Information and Assessment Meeting on 4 August 2026. As discussed, I have written to Mrs Bloggs to invite her to a separate MIAM.</p>
           <p>Following our conversation, I consider this matter suitable to proceed to joint mediation, subject to her attendance…</p>
           <div class="fade"></div>
         </div>
-        <div class="mock-foot">
+        <div class="mock-foot" id="draft-foot">
           <span class="mb pri">Approve &amp; send</span><span class="mb">Edit</span><span class="mb">Discard</span>
-          <span class="spacer"></span><span class="mock-note">Nothing has been sent</span>
+          <span class="spacer"></span>
+          <button class="replay" id="draft-replay" type="button" hidden>
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 1 1-1.9-4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M13.8 2.2v3.1h-3.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Replay
+          </button>
+          <span class="mock-note">Nothing has been sent</span>
         </div>
       </div>
     </div>
@@ -507,19 +750,19 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
     </div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th scope="col">Capability</th><th scope="col">Microsoft 365</th><th scope="col">Google Workspace</th></tr></thead>
+        <thead><tr><th scope="col">Capability</th><th scope="col"><span class="cell"><svg class="ico-sm" aria-hidden="true"><use href="#i-microsoft"/></svg>Microsoft 365</span></th><th scope="col"><span class="cell"><svg class="ico-sm" aria-hidden="true"><use href="#i-google"/></svg>Google Workspace</span></th></tr></thead>
         <tbody>
-          <tr><td>Enquiries &amp; correspondence</td><td><b>Outlook</b><span>Reads threads, writes drafts</span></td><td><b>Gmail</b><span>Reads threads, writes drafts</span></td></tr>
-          <tr><td>Appointments &amp; transcription</td><td><b>Microsoft Teams</b><span>Native transcript, no bot joins</span></td><td><b>Google Meet</b><span>Native transcript, no bot joins</span></td></tr>
-          <tr><td>Document storage</td><td><b>SharePoint</b><span>Files into your matter folders</span></td><td><b>Google Drive</b><span>Files into your matter folders</span></td></tr>
-          <tr><td>Templates &amp; documents</td><td><b>Word</b><span>Your own .docx templates</span></td><td><b>Google Docs</b><span>Your own Docs templates</span></td></tr>
-          <tr><td>Billing sheets</td><td><b>Excel</b><span>Appends rows, never overwrites</span></td><td><b>Google Sheets</b><span>Appends rows, never overwrites</span></td></tr>
-          <tr><td>Diary</td><td><b>Outlook Calendar</b><span>Time capture against matters</span></td><td><b>Google Calendar</b><span>Time capture against matters</span></td></tr>
-          <tr><td>Sign-in &amp; permissions</td><td><b>Microsoft Entra ID</b><span>Your existing accounts and MFA</span></td><td><b>Google Identity</b><span>Your existing accounts and MFA</span></td></tr>
+          <tr><td>Enquiries &amp; correspondence</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-outlook"/></svg><div class="cell-txt"><b>Outlook</b><span>Reads threads, writes drafts</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gmail"/></svg><div class="cell-txt"><b>Gmail</b><span>Reads threads, writes drafts</span></div></div></td></tr>
+          <tr><td>Appointments &amp; transcription</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-teams"/></svg><div class="cell-txt"><b>Microsoft Teams</b><span>Native transcript, no bot joins</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-meet"/></svg><div class="cell-txt"><b>Google Meet</b><span>Native transcript, no bot joins</span></div></div></td></tr>
+          <tr><td>Document storage</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-sharepoint"/></svg><div class="cell-txt"><b>SharePoint</b><span>Files into your matter folders</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gdrive"/></svg><div class="cell-txt"><b>Google Drive</b><span>Files into your matter folders</span></div></div></td></tr>
+          <tr><td>Templates &amp; documents</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-word"/></svg><div class="cell-txt"><b>Word</b><span>Your own .docx templates</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gdocs"/></svg><div class="cell-txt"><b>Google Docs</b><span>Your own Docs templates</span></div></div></td></tr>
+          <tr><td>Billing sheets</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-excel"/></svg><div class="cell-txt"><b>Excel</b><span>Appends rows, never overwrites</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gsheets"/></svg><div class="cell-txt"><b>Google Sheets</b><span>Appends rows, never overwrites</span></div></div></td></tr>
+          <tr><td>Diary</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-outlookcal"/></svg><div class="cell-txt"><b>Outlook Calendar</b><span>Time capture against matters</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gcal"/></svg><div class="cell-txt"><b>Google Calendar</b><span>Time capture against matters</span></div></div></td></tr>
+          <tr><td>Sign-in &amp; permissions</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-entra"/></svg><div class="cell-txt"><b>Microsoft Entra ID</b><span>Your existing accounts and MFA</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-google"/></svg><div class="cell-txt"><b>Google Identity</b><span>Your existing accounts and MFA</span></div></div></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="table-note">Mixed estates are fine — plenty of firms run Google for mail and Microsoft for documents. Mediate connects to each service independently, so you can use either side of this table in any combination.</p>
+    <p class="table-note">Mixed estates are fine. Plenty of firms run Google for mail and Microsoft for documents. Mediate connects to each service independently, so you can use either side of this table in any combination.</p>
   </div>
 </section>
 
@@ -534,7 +777,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
     <div class="grid g3">
       <article class="card"><div class="label">Residency</div><h3>UK and EU data residency</h3><p>Case data is stored in a UK or EU region. Documents, transcripts and mail stay inside your own Microsoft or Google tenancy.</p></article>
       <article class="card"><div class="label">Access</div><h3>Role-based access control</h3><p>Row-level security across every case table, with distinct principal, administrator and auditor roles. Anonymous access is revoked outright.</p></article>
-      <article class="card"><div class="label">Audit</div><h3>Append-only audit log</h3><p>Every read, draft and approval is recorded and cannot be edited or deleted by ordinary users — administrators included.</p></article>
+      <article class="card"><div class="label">Audit</div><h3>Append-only audit log</h3><p>Every read, draft and approval is recorded and cannot be edited or deleted by ordinary users, administrators included.</p></article>
       <article class="card"><div class="label">Training</div><h3>No training on your data</h3><p>Client material is never used to train models. It is processed to do the job you asked for, and nothing beyond it.</p></article>
       <article class="card"><div class="label">Isolation</div><h3>Cross-party isolation</h3><p>Each party is handled in a separate, structurally enforced pass. Party A's answers cannot leak into Party B's file.</p></article>
       <article class="card"><div class="label">Compliance</div><h3>Built to GDPR regulations</h3><p>Data handling is designed to comply with UK GDPR and EU GDPR: UK or EU residency, access controls, retention limits and a full audit trail.</p></article>
@@ -552,7 +795,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
       <ul class="ticks">
         <li>A live walkthrough, not a recorded pitch</li>
         <li>Straight answers on data protection and where your files sit</li>
-        <li>An honest view on whether it fits your firm — including when it doesn't</li>
+        <li>An honest view on whether it fits your firm, including when it doesn't</li>
         <li>A reply within one working day</li>
       </ul>
     </div>
@@ -595,7 +838,7 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
       <div class="done" id="form-done" tabindex="-1" hidden>
         <div class="tick"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5.5 12.6l4.2 4.2 8.8-9" stroke="#15803D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="label">Submitted</div>
-        <h3>Thank you — that's landed.</h3>
+        <h3>Thank you. That's landed.</h3>
         <p>We'll be in touch within one working day to find a time that suits.</p>
       </div>
     </div>
@@ -605,11 +848,11 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
 
 <footer>
   <div class="wrap foot">
-    <a class="brand" href="#top" aria-label="Mediate — back to top"><img src="/logo.svg" alt="" width="28" height="28">Mediate</a>
+    <a class="brand" href="#top" aria-label="Mediate, back to top"><img src="/logo.svg" alt="" width="28" height="28">Mediate</a>
     <nav class="foot-links" aria-label="Footer">
       <a href="#capabilities">Capabilities</a><a href="#workflow">How it works</a><a href="#stack">Integrations</a><a href="#security">Security</a><a href="#demo">Contact</a>
     </nav>
-    <div class="copy">© 2026 Mediate — practice software for family mediation</div>
+    <div class="copy">© 2026 Mediate · practice software for family mediation</div>
   </div>
 </footer>
 
@@ -634,6 +877,247 @@ footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
       if (n) { e.preventDefault(); select(n, true); }
     });
   });
+
+  /* ============================================================
+     Motion layer. Every part of this is an enhancement: if it does
+     not run, the page is the same page, fully readable, with its
+     content already in the DOM. Anyone who has asked their system
+     for reduced motion gets the finished state immediately and
+     none of the animation below is started at all.
+     ============================================================ */
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* ---- Scroll reveal ----------------------------------------
+     One observer for the whole page. Elements reveal once and are
+     then unobserved: re-animating on every scroll past is the
+     thing that makes a site feel restless rather than considered. */
+  function setupReveal() {
+    var targets = document.querySelectorAll('[data-reveal]');
+    if (reduced || !('IntersectionObserver' in window)) {
+      Array.prototype.forEach.call(targets, function (el) { el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+    Array.prototype.forEach.call(targets, function (el) { io.observe(el); });
+  }
+
+  /* Tag the things worth revealing, and stagger siblings so a row of
+     cards arrives in sequence. Done in script rather than by hand in
+     the markup so the HTML stays readable and nothing is missed. */
+  function markReveals() {
+    // The hero card reveals as ONE unit: animating its five rows separately
+    // reads as the card assembling itself, which is busier than the page wants.
+    var solo = ['.sec-head', '.trust-in', '.table-wrap', '.table-note', '.tabs', '.demo-left', '.form-card', '.hero-cta', '.hero-meta', '.pill', '.hero .mock'];
+    solo.forEach(function (sel) {
+      Array.prototype.forEach.call(document.querySelectorAll(sel), function (el) {
+        if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', '');
+      });
+    });
+    // Staggered groups: each child gets its index, so they cascade.
+    var groups = ['.grid', '.steps', '.alist'];
+    groups.forEach(function (sel) {
+      Array.prototype.forEach.call(document.querySelectorAll(sel), function (group) {
+        var kids = group.children.length ? group.children : [group];
+        Array.prototype.forEach.call(kids, function (kid, i) {
+          if (kid.hasAttribute('data-reveal')) return;
+          kid.setAttribute('data-reveal', '');
+          kid.style.setProperty('--i', String(Math.min(i, 6)));
+        });
+      });
+    });
+  }
+
+  /* ---- Headline words rise into place -----------------------
+     Applied to the hero h1 and each section h2. Words are wrapped
+     individually; the wrapper has overflow hidden so each word
+     appears to rise out of the line rather than fade in place. */
+  function splitHeadlines() {
+    if (reduced) return;
+    var heads = document.querySelectorAll('.hero h1, .sec-head h2');
+    Array.prototype.forEach.call(heads, function (h) {
+      var words = h.textContent.trim().split(/\s+/);
+      h.textContent = '';
+      words.forEach(function (w, i) {
+        var outer = document.createElement('span');
+        outer.className = 'wordline';
+        var inner = document.createElement('span');
+        inner.textContent = w;
+        inner.style.setProperty('--i', String(i));
+        outer.appendChild(inner);
+        h.appendChild(outer);
+        if (i < words.length - 1) h.appendChild(document.createTextNode(' '));
+      });
+      if (!('IntersectionObserver' in window)) { h.querySelectorAll('.wordline').forEach(function (n) { n.classList.add('in'); }); return; }
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          Array.prototype.forEach.call(h.querySelectorAll('.wordline'), function (n) { n.classList.add('in'); });
+          io.unobserve(h);
+        });
+      }, { threshold: 0.3 });
+      io.observe(h);
+    });
+  }
+
+  /* ---- Nav lifts once the page has moved -------------------- */
+  function setupNav() {
+    var nav = document.querySelector('.nav');
+    if (!nav) return;
+    var ticking = false;
+    function update() { nav.classList.toggle('scrolled', window.scrollY > 12); ticking = false; }
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }, { passive: true });
+    update();
+  }
+
+  /* ---- The draft writes itself -------------------------------
+     The paragraphs already contain the finished letter. This stores
+     that text, empties them, and types it back when the card comes
+     into view, so the section shows the drafting happening instead
+     of asserting it. The letter region is marked aria-busy and
+     hidden from assistive tech only while it types, then handed
+     back complete: a screen reader gets the whole letter, never a
+     stream of half-sentences. */
+  function setupDraft() {
+    var letter = document.getElementById('draft-letter');
+    var state = document.getElementById('draft-state');
+    var foot = document.getElementById('draft-foot');
+    var replay = document.getElementById('draft-replay');
+    if (!letter || !state || !foot) return;
+
+    var paras = Array.prototype.slice.call(letter.querySelectorAll('p'));
+    var full = paras.map(function (p) { return p.textContent; });
+    var timers = [];
+    function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+
+    function finish() {
+      paras.forEach(function (p, i) { p.textContent = full[i]; p.classList.remove('typing'); });
+      letter.removeAttribute('aria-hidden');
+      letter.removeAttribute('aria-busy');
+      state.className = 'draft-state ready';
+      state.innerHTML = '<span class="dot"></span>Awaiting approval';
+      foot.classList.remove('pending');
+      if (replay) replay.hidden = false;
+    }
+
+    function run() {
+      clearTimers();
+      if (replay) replay.hidden = true;
+      foot.classList.add('pending');
+      letter.setAttribute('aria-hidden', 'true');
+      letter.setAttribute('aria-busy', 'true');
+      state.className = 'draft-state writing';
+      state.innerHTML = '<span class="dot"></span>Drafting from transcript';
+      paras.forEach(function (p) { p.textContent = ''; });
+
+      var delay = 420;
+      paras.forEach(function (p, pi) {
+        timers.push(setTimeout(function () { typePara(p, full[pi], pi === paras.length - 1); }, delay));
+        // Pace per paragraph, plus a beat between them: a letter is
+        // composed in sentences, not at a constant character rate.
+        delay += full[pi].length * 15 + 360;
+      });
+    }
+
+    function typePara(p, text, isLast) {
+      p.classList.add('typing');
+      var i = 0;
+      (function step() {
+        // Two or three characters a tick reads as writing; one at a
+        // time reads as a terminal, which is the wrong register for a
+        // solicitor's letter.
+        i = Math.min(text.length, i + 2 + Math.floor(Math.random() * 2));
+        p.textContent = text.slice(0, i);
+        if (i < text.length) { timers.push(setTimeout(step, 14)); return; }
+        p.classList.remove('typing');
+        if (isLast) timers.push(setTimeout(finish, 260));
+      })();
+    }
+
+    if (reduced || !('IntersectionObserver' in window)) { finish(); return; }
+
+    var started = false;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting || started) return;
+        started = true;
+        run();
+        io.unobserve(letter);
+      });
+    }, { threshold: 0.45 });
+    io.observe(letter);
+
+    if (replay) replay.addEventListener('click', run);
+
+    // A tab switch mid-type leaves half a letter on screen; finish it
+    // rather than leaving the card looking broken.
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden && started) { clearTimers(); finish(); }
+    });
+  }
+
+  /* ---- Cursor tracker ---------------------------------------
+     A precise dot on the pointer and a ring that trails it, eased
+     toward the target each frame. The lag between the two is the
+     whole effect. It reacts to what is under the pointer: opening
+     over anything clickable, narrowing to a bar over text. Desktop
+     with a real pointer only, and never when reduced motion is
+     requested, since this is decoration. */
+  function setupCursor() {
+    if (reduced || !finePointer) return;
+
+    var dot = document.createElement('div'); dot.className = 'cursor-dot';
+    var ring = document.createElement('div'); ring.className = 'cursor-ring';
+    document.body.appendChild(dot); document.body.appendChild(ring);
+
+    var tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+    var rx = tx, ry = ty, raf = null;
+
+    function frame() {
+      // Exponential easing toward the pointer: fast enough to feel
+      // attached, slow enough to read as a trail.
+      rx += (tx - rx) * 0.18;
+      ry += (ty - ry) * 0.18;
+      ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0)';
+      raf = Math.abs(tx - rx) > 0.1 || Math.abs(ty - ry) > 0.1 ? window.requestAnimationFrame(frame) : null;
+    }
+    function kick() { if (!raf) raf = window.requestAnimationFrame(frame); }
+
+    window.addEventListener('mousemove', function (e) {
+      tx = e.clientX; ty = e.clientY;
+      dot.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0)';
+      document.body.classList.add('cursor-on');
+      kick();
+
+      var el = e.target;
+      var clickable = el.closest && el.closest('a,button,.tab,.mb,.card,input,select,textarea,.replay');
+      var textish = !clickable && el.closest && el.closest('p,h1,h2,h3,li,q,td,th,.lead,.meta,label');
+      ring.classList.toggle('hot', !!clickable);
+      ring.classList.toggle('text', !!textish);
+    }, { passive: true });
+
+    window.addEventListener('mousedown', function () { ring.classList.add('down'); });
+    window.addEventListener('mouseup', function () { ring.classList.remove('down'); });
+    document.addEventListener('mouseleave', function () { document.body.classList.remove('cursor-on'); });
+    document.addEventListener('mouseenter', function () { document.body.classList.add('cursor-on'); });
+  }
+
+  markReveals();
+  splitHeadlines();
+  setupReveal();
+  setupNav();
+  setupDraft();
+  setupCursor();
 
   /* Demo request -> Netlify Forms (emailed to the site owner via a Netlify form notification) */
   var form = document.getElementById('demo-form');
