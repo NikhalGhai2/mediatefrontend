@@ -4,496 +4,337 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mediate: practice software for family mediation firms</title>
-<meta name="description" content="Mediate drafts intake forms, MIAM certificates, letters and billing entries from real enquiries and sessions, inside the Microsoft 365 or Google Workspace your firm already runs on. Nothing sends, files or bills until you approve it.">
+<meta name="description" content="Mediate drafts intake forms, MIAM certificates, letters and billing entries from your enquiries and sessions, inside Microsoft 365 or Google Workspace. Nothing is sent, filed or billed until you approve it.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Mediate: practice software for family mediation firms">
-<meta property="og:description" content="Intake, documents, correspondence and billing, drafted automatically. Approved by you, always.">
-<meta name="theme-color" content="#1B4079">
+<meta property="og:description" content="Intake forms, certificates, letters and billing, drafted for you. Nothing goes out until you approve it.">
+<meta name="theme-color" content="#ffffff">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="alternate icon" href="/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="preload" href="/fonts/newsreader-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script>document.documentElement.className += ' js';</script>
 <style>
-/* ---------- Fonts (self-hosted: no third-party requests) ---------- */
+/* ---------- Fonts ----------
+   Apple devices get their own system font (SF Pro) first; everyone else gets
+   self-hosted Inter, the closest open match. No third-party requests. */
 @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:swap;src:url(fonts/inter-latin-400-normal.woff2) format("woff2")}
 @font-face{font-family:"Inter";font-weight:500;font-style:normal;font-display:swap;src:url(fonts/inter-latin-500-normal.woff2) format("woff2")}
 @font-face{font-family:"Inter";font-weight:600;font-style:normal;font-display:swap;src:url(fonts/inter-latin-600-normal.woff2) format("woff2")}
 @font-face{font-family:"Newsreader";font-weight:400;font-style:normal;font-display:swap;src:url(fonts/newsreader-latin-400-normal.woff2) format("woff2")}
-@font-face{font-family:"Newsreader";font-weight:500;font-style:normal;font-display:swap;src:url(fonts/newsreader-latin-500-normal.woff2) format("woff2")}
-@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:swap;src:url(fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2")}
-@font-face{font-family:"JetBrains Mono";font-weight:500;font-style:normal;font-display:swap;src:url(fonts/jetbrains-mono-latin-500-normal.woff2) format("woff2")}
 
-/* ---------- Tokens ---------- */
 :root{
-  --accent:#1B4079; --accent-2:#2A5CA8; --accent-tint:#EEF3FB;
-  --ink:#18181B; --ink-2:#3F3F46; --ink-3:#71717A; --ink-4:#A1A1AA;
-  --bg:#FFFFFF; --bg-alt:#FAFAFA; --bg-sunken:#F4F4F5;
-  --line:#E4E4E7; --line-2:#D4D4D8;
-  --ok:#15803D; --ok-bg:#F0FDF4; --ok-line:#BBF7D0;
-  --warn:#A16207; --warn-bg:#FEFCE8; --warn-line:#FEF08A;
-  --bad:#B91C1C;
-  --r:6px; --r-sm:4px;
+  --ink:#1d1d1f; --ink-2:#424245; --ink-3:#6e6e73; --ink-4:#a1a1a6;
+  --bg:#ffffff; --bg-alt:#f5f5f7; --line:#e3e3e8; --line-2:#d2d2d7;
+  --accent:#1B4079; --accent-hi:#2A5CA8; --accent-tint:#eef3fb;
+  --ok:#1d7a3e; --ok-bg:#effaf2; --warn:#9a5b00; --warn-bg:#fdf6e7;
+  --sans:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",system-ui,sans-serif;
   --serif:"Newsreader",Georgia,"Times New Roman",serif;
-  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  --shadow-1:0 1px 2px rgba(24,24,27,.05);
-  --shadow-2:0 1px 2px rgba(24,24,27,.04),0 18px 40px -16px rgba(24,24,27,.18);
+  --ease:cubic-bezier(.22,1,.36,1);
+  --r:14px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
-html{scroll-behavior:smooth;scroll-padding-top:84px}
-body{font-family:var(--sans);font-size:16px;line-height:1.6;color:var(--ink-2);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html{scroll-padding-top:72px;-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);font-size:17px;line-height:1.53;letter-spacing:-.011em;color:var(--ink-2);background:var(--bg);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 img,svg{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
-button{font:inherit;cursor:pointer}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--r-sm)}
-.wrap{max-width:1160px;margin:0 auto;padding:0 28px}
-.skip{position:absolute;left:-9999px;top:8px;background:var(--ink);color:#fff;padding:10px 14px;border-radius:var(--r);z-index:100}
+button{font:inherit;cursor:pointer;color:inherit}
+:focus-visible{outline:2px solid var(--accent-hi);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--ink);color:#fff;padding:10px 14px;border-radius:8px;z-index:200}
 .skip:focus{left:12px}
 
-/* ---------- Type ---------- */
-h1,h2,h3{font-family:var(--serif);color:var(--ink);font-weight:400;letter-spacing:-.015em}
-h1{font-size:clamp(42px,5.6vw,68px);line-height:1.02;letter-spacing:-.025em}
-h2{font-size:clamp(30px,3.6vw,44px);line-height:1.1}
-h3{font-size:22px;line-height:1.25;font-weight:500}
-.mono{font-family:var(--mono)}
-.label{font-family:var(--mono);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
-.lead{font-size:18px;line-height:1.65;color:var(--ink-2)}
+/* ---------- Type: tracking tightens as size grows ---------- */
+h1,h2,h3{color:var(--ink);font-weight:600}
+h1{font-size:clamp(44px,7.2vw,80px);line-height:1.04;letter-spacing:-.035em}
+h2{font-size:clamp(32px,4.6vw,52px);line-height:1.08;letter-spacing:-.028em}
+h3{font-size:21px;line-height:1.24;letter-spacing:-.018em}
+.eyebrow{font-size:15px;font-weight:600;color:var(--accent-hi);letter-spacing:-.005em;margin-bottom:14px}
+.lead{font-size:clamp(19px,1.9vw,22px);line-height:1.45;letter-spacing:-.017em;color:var(--ink-3)}
 
-/* ---------- Buttons ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 20px;border-radius:var(--r);font-weight:500;font-size:15px;border:1px solid transparent;transition:background .15s,border-color .15s,transform .15s,box-shadow .15s;white-space:nowrap}
-.btn-primary{background:var(--ink);color:#fff}
-.btn-primary:hover{background:#000;transform:translateY(-1px);box-shadow:0 8px 20px -8px rgba(24,24,27,.5)}
-.btn-ghost{background:#fff;color:var(--ink);border-color:var(--line-2)}
-.btn-ghost:hover{border-color:var(--ink-3);background:var(--bg-alt)}
-.btn-sm{height:38px;padding:0 15px;font-size:14px}
-.btn[disabled]{opacity:.65;cursor:progress;transform:none;box-shadow:none}
+/* ---------- Buttons: feedback on press, not release ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:46px;padding:0 22px;border-radius:999px;font-size:16px;font-weight:500;border:0;white-space:nowrap;transition:background .2s var(--ease),transform .1s ease-out}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-hi)}
+.btn-text{color:var(--accent-hi);padding:0 8px;height:46px}
+.btn-text:hover{text-decoration:underline}
+.btn-text::after{content:"›";font-size:20px;line-height:1;margin-top:-2px}
+.btn-sm{height:32px;padding:0 15px;font-size:14px}
+.btn[disabled]{opacity:.6;cursor:progress}
 
-/* ---------- Nav ---------- */
-.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
-.nav-in{height:66px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.brand{display:flex;align-items:center;gap:11px;font-family:var(--serif);font-size:24px;font-weight:500;color:var(--ink);letter-spacing:-.02em}
-.brand img{width:32px;height:32px;border-radius:8px;box-shadow:0 1px 2px rgba(18,41,90,.25)}
-.nav-links{display:flex;gap:30px;font-size:14.5px;color:var(--ink-3)}
-.nav-links a{transition:color .15s}
+/* ---------- Loading screen ----------
+   Only exists when JS runs (.js), so the page is never hidden behind it
+   without a way to remove it. Capped in script at 1.6s. */
+.loader{display:none}
+.js .loader{display:flex;position:fixed;inset:0;z-index:300;background:#fff;align-items:center;justify-content:center;flex-direction:column;gap:22px;transition:opacity .5s var(--ease),visibility .5s}
+.loader img{width:56px;height:56px;border-radius:13px;animation:markIn .7s var(--ease) both}
+.loader .bar{width:120px;height:2px;border-radius:2px;background:var(--line);overflow:hidden}
+.loader .bar i{display:block;height:100%;width:100%;background:var(--ink);transform-origin:left;transform:scaleX(0);animation:fill 1.1s .15s var(--ease) forwards}
+.loader.done{opacity:0;visibility:hidden}
+@keyframes markIn{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:none}}
+@keyframes fill{to{transform:scaleX(.92)}}
+.loader.done .bar i{transform:scaleX(1);transition:transform .2s}
+
+/* ---------- Nav: translucent material, content scrolls underneath ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);transition:box-shadow .3s}
+.nav.scrolled{box-shadow:0 1px 0 rgba(0,0,0,.08)}
+.nav-in{height:56px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:9px;font-size:19px;font-weight:600;color:var(--ink);letter-spacing:-.02em}
+.brand img{width:26px;height:26px;border-radius:7px}
+.nav-links{display:flex;gap:28px;font-size:13.5px;color:var(--ink-2)}
+.nav-links a{transition:color .2s}
 .nav-links a:hover{color:var(--ink)}
 
 /* ---------- Hero ---------- */
-.hero{position:relative;padding:76px 0 84px;background:radial-gradient(900px 420px at 88% -8%,rgba(27,64,121,.09),transparent 70%),linear-gradient(var(--bg),var(--bg))}
-.hero-grid{display:grid;grid-template-columns:1.04fr .96fr;gap:64px;align-items:center}
-.pill{display:inline-flex;align-items:center;gap:9px;padding:6px 13px 6px 11px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:13px;color:var(--ink-2);box-shadow:var(--shadow-1);margin-bottom:26px}
-.pill i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px var(--ok-bg)}
-.hero h1{margin-bottom:24px}
-.hero .lead{max-width:540px;margin-bottom:34px}
-.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:30px}
-.hero-meta{display:flex;gap:22px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-3);letter-spacing:.02em}
-.hero-meta span{display:inline-flex;align-items:center;gap:8px}
-.hero-meta span::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--ink-4)}
+.hero{text-align:center;padding:96px 0 28px}
+.hero h1{max-width:900px;margin:0 auto 22px}
+.hero .lead{max-width:690px;margin:0 auto 32px}
+.hero-cta{display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap}
+.hero-note{margin-top:22px;font-size:14px;color:var(--ink-3)}
 
-/* ---------- Mock cards ---------- */
-.mock{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow-2)}
-.mock-head{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--line)}
-.mock-head b{font-weight:600;color:var(--ink);font-size:14.5px}
-.mock-count{font-family:var(--mono);font-size:11.5px;background:var(--accent-tint);color:var(--accent);padding:3px 9px;border-radius:999px;font-weight:500}
-.q-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:16px 20px;border-bottom:1px solid var(--line)}
-.q-row:last-of-type{border-bottom:0}
-.q-row strong{display:block;color:var(--ink);font-size:14.5px;font-weight:600;margin-bottom:2px}
-.q-row small{color:var(--ink-3);font-size:13px;line-height:1.45;display:block}
-.chip{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-size:12px;font-weight:500;padding:3px 10px;border-radius:999px;border:1px solid var(--line-2);color:var(--ink-2);background:#fff}
-.chip.warn{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn)}
-.chip.ok{background:var(--ok-bg);border-color:var(--ok-line);color:var(--ok)}
-.chip.accent{background:var(--accent-tint);border-color:#D3E0F5;color:var(--accent)}
-.chip.quiet{background:var(--bg-sunken);border-color:var(--line);color:var(--ink-3)}
-.mock-foot{display:flex;align-items:center;gap:8px;padding:14px 20px;background:var(--bg-alt);border-top:1px solid var(--line);border-radius:0 0 10px 10px}
-.mock-foot .spacer{flex:1}
-.mb{display:inline-flex;align-items:center;justify-content:center;height:32px;padding:0 13px;font-size:13px;border-radius:var(--r-sm);border:1px solid var(--line-2);background:#fff;color:var(--ink);font-weight:500;cursor:default}
-.mb.pri{background:var(--ink);border-color:var(--ink);color:#fff}
-.mock-note{font-size:12.5px;color:var(--ink-3);display:inline-flex;align-items:center;gap:7px}
-.mock-note::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ink-4)}
+/* ---------- Laptop scene ----------
+   A tall section with a sticky stage. Scroll position drives the lid angle
+   and which app screen is showing, 1:1, so scrolling back reverses it at
+   any point. */
+.scene{position:relative;height:340vh}
+.stage{position:sticky;top:56px;height:calc(100vh - 56px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(18px,3vh,34px);overflow:hidden;padding:0 16px}
+.captions{position:relative;height:96px;width:100%;max-width:640px;text-align:center}
+.cap{position:absolute;inset:0;opacity:0;transform:translateY(10px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.cap.on{opacity:1;transform:none}
+.cap h3{font-size:clamp(24px,3vw,32px);letter-spacing:-.025em;margin-bottom:6px}
+.cap p{color:var(--ink-3);font-size:17px}
+.device{--w:min(960px,92vw,calc((100vh - 290px) * 1.48));width:var(--w);perspective:2200px;perspective-origin:50% -10%}
+.lid{position:relative;width:100%;aspect-ratio:16/10.6;transform-origin:50% 100%;transform-style:preserve-3d;transform:rotateX(2deg)}
+.lid-front,.lid-back{position:absolute;inset:0;border-radius:calc(var(--w) * .022) calc(var(--w) * .022) 0 0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.lid-front{background:#0e0e10;padding:calc(var(--w) * .016) calc(var(--w) * .016) calc(var(--w) * .022);box-shadow:inset 0 0 0 1px #2a2a2e}
+.lid-back{transform:rotateX(180deg);background:linear-gradient(160deg,#e8e8ec,#c9c9cf);display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.lid-back img{width:12%;opacity:.55;filter:grayscale(1)}
+.screen{position:relative;width:100%;height:100%;border-radius:calc(var(--w) * .006);overflow:hidden;background:#fff;container-type:inline-size}
+.mark{position:absolute;left:50%;top:0;width:1px;height:0;pointer-events:none}
+.glare{position:absolute;inset:0;pointer-events:none;background:#000;opacity:0;transition:none}
+.base{position:relative;width:114%;margin-left:-7%;height:calc(var(--w) * .022);background:linear-gradient(#e4e4e8,#b9b9c0);border-radius:0 0 calc(var(--w) * .03) calc(var(--w) * .03)/0 0 calc(var(--w) * .02) calc(var(--w) * .02);box-shadow:0 30px 50px -28px rgba(0,0,0,.45)}
+.base::before{content:"";position:absolute;left:50%;top:0;width:16%;height:38%;transform:translateX(-50%);background:#a9a9b0;border-radius:0 0 8px 8px}
+.dots{display:flex;gap:8px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--line-2);transition:background .3s,transform .3s var(--ease)}
+.dots i.on{background:var(--ink);transform:scale(1.15)}
 
-/* ---------- Trust strip ---------- */
-.trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-alt)}
-.trust-in{padding-top:34px;padding-bottom:34px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
-.trust-title{font-family:var(--serif);font-size:26px;color:var(--ink);letter-spacing:-.015em}
-.trust-title em{font-style:normal;color:var(--accent)}
-.trust p{max-width:470px;color:var(--ink-3);font-size:14.5px}
+/* ---------- The app inside the screen (sized in cqw so it scales) ---------- */
+.app{position:absolute;inset:0;display:grid;grid-template-columns:22% 1fr;grid-template-rows:6.2cqw 1fr;font-size:1.5cqw;color:var(--ink);letter-spacing:-.01em;line-height:1.4}
+.app-bar{grid-column:1/-1;display:flex;align-items:center;gap:.8cqw;padding:0 1.8cqw;border-bottom:1px solid var(--line);background:#fbfbfd}
+.app-bar i{width:1.1cqw;height:1.1cqw;border-radius:50%;background:#e0e0e5}
+.app-bar b{margin-left:1.4cqw;font-weight:600;font-size:1.45cqw}
+.app-side{background:var(--bg-alt);border-right:1px solid var(--line);padding:1.8cqw 1.2cqw;display:flex;flex-direction:column;gap:.4cqw}
+.app-side span{padding:.7cqw 1cqw;border-radius:.7cqw;color:var(--ink-3);display:flex;justify-content:space-between;transition:background .35s,color .35s}
+.app-side span.on{background:#fff;color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.app-side em{font-style:normal;font-size:1.2cqw;background:var(--accent);color:#fff;border-radius:99px;padding:0 .7cqw}
+.app-main{position:relative}
+.pane{position:absolute;inset:0;padding:2.6cqw 3cqw;opacity:0;transform:translateY(1.2cqw);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.pane.on{opacity:1;transform:none}
+.pane h4{font-size:2.3cqw;letter-spacing:-.025em;margin-bottom:.4cqw}
+.pane .sub{color:var(--ink-3);font-size:1.35cqw;margin-bottom:2cqw}
+.mail{border:1px solid var(--line);border-radius:1.2cqw;padding:2cqw}
+.mail-who{display:flex;align-items:center;gap:1.2cqw;margin-bottom:1.4cqw}
+.av{width:3.6cqw;height:3.6cqw;border-radius:50%;background:var(--accent-tint);color:var(--accent);display:grid;place-items:center;font-weight:600;font-size:1.3cqw}
+.mail-who small{display:block;color:var(--ink-3);font-size:1.25cqw}
+.mail p{font-size:1.55cqw;color:var(--ink-2)}
+.tags{display:flex;gap:.8cqw;margin-top:1.8cqw;flex-wrap:wrap}
+.tag{font-size:1.2cqw;padding:.3cqw 1cqw;border-radius:99px;background:var(--bg-alt);color:var(--ink-2)}
+.tag.ok{background:var(--ok-bg);color:var(--ok)}
+.tag.warn{background:var(--warn-bg);color:var(--warn)}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:1.2cqw 2cqw}
+.fld small{display:block;color:var(--ink-3);font-size:1.15cqw;margin-bottom:.3cqw}
+.fld div{border:1px solid var(--line);border-radius:.8cqw;padding:.8cqw 1.1cqw;font-size:1.4cqw}
+.fld.wide{grid-column:1/-1}
+.fld.flag div{background:var(--warn-bg);border-color:#f0dcae;display:flex;justify-content:space-between}
+.row{display:flex;justify-content:space-between;align-items:center;gap:2cqw;padding:1.4cqw 0;border-bottom:1px solid var(--line)}
+.row:last-of-type{border-bottom:0}
+.row b{display:block;font-size:1.5cqw}
+.row small{color:var(--ink-3);font-size:1.25cqw}
+.acts{display:flex;gap:1cqw;margin-top:2cqw}
+.acts span{font-size:1.3cqw;padding:.7cqw 1.6cqw;border-radius:99px;border:1px solid var(--line-2)}
+.acts span:first-child{background:var(--accent);border-color:var(--accent);color:#fff}
 
 /* ---------- Sections ---------- */
-section.s{padding:104px 0}
-section.s.alt{background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.sec-num{display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.sec-num b{font-family:var(--mono);font-size:12px;font-weight:500;color:#fff;background:var(--accent);padding:3px 8px;border-radius:var(--r-sm)}
-.sec-head{max-width:700px;margin-bottom:52px}
-.sec-head h2{margin-bottom:16px}
+section.s{padding:120px 0}
+section.alt{background:var(--bg-alt)}
+.head{max-width:760px;margin-bottom:56px}
+.head.center{margin-left:auto;margin-right:auto;text-align:center}
+.head h2{margin-bottom:16px}
+.trust{padding:56px 0 0;text-align:center}
+.trust p{max-width:640px;margin:0 auto;font-size:17px;color:var(--ink-3)}
+.trust b{color:var(--ink);font-weight:600}
 
-.grid{display:grid;gap:18px}
-.g4{grid-template-columns:repeat(4,1fr)}
-.g3{grid-template-columns:repeat(3,1fr)}
-.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px 24px;transition:border-color .2s,box-shadow .2s,transform .2s}
-.card:hover{border-color:var(--line-2);box-shadow:var(--shadow-2);transform:translateY(-2px)}
-.card .label{display:flex;align-items:center;gap:9px;margin-bottom:16px;color:var(--accent)}
-.card .label::before{content:"";width:18px;height:2px;background:var(--accent);border-radius:2px}
-.card h3{margin-bottom:10px}
-.card p{font-size:14.8px;color:var(--ink-3);line-height:1.6}
+.jobs{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.job{background:var(--bg-alt);border-radius:var(--r);padding:36px 34px}
+.job .k{font-size:14px;font-weight:600;color:var(--accent-hi);margin-bottom:8px}
+.job h3{margin-bottom:8px}
+.job p{color:var(--ink-3)}
 
-/* ---------- Tabs / workflow ---------- */
-.tabs{display:inline-flex;gap:4px;padding:4px;background:var(--bg-sunken);border:1px solid var(--line);border-radius:9px;margin-bottom:34px;flex-wrap:wrap}
-.tab{border:0;background:transparent;padding:9px 18px;border-radius:6px;font-size:14.5px;font-weight:500;color:var(--ink-3);transition:all .15s}
-.tab:hover{color:var(--ink)}
-.tab[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(24,24,27,.12)}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:10px;background:#fff;overflow:hidden}
-.step{padding:26px 22px 28px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:14px;min-width:0}
-.step:last-child{border-right:0}
-.step .label{color:var(--accent)}
-.step h3{font-size:19px;line-height:1.25}
-.step p.cap{font-size:13.5px;color:var(--ink-3);line-height:1.55}
-.step .chips{display:flex;gap:7px;flex-wrap:wrap}
-ul.ticks{list-style:none;display:flex;flex-direction:column;gap:11px}
-ul.ticks li{position:relative;padding-left:24px;font-size:14px;line-height:1.5;color:var(--ink-2)}
-ul.ticks li::before{content:"";position:absolute;left:0;top:3px;width:15px;height:15px;border-radius:50%;background:var(--ok-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.3 8.4l2.4 2.4 5-5.2' fill='none' stroke='%2315803D' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/15px no-repeat;border:1px solid var(--ok-line)}
-ul.ticks li.flag::before{background:var(--warn-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 4.5v4.2M8 11.3v.2' fill='none' stroke='%23A16207' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center/15px no-repeat;border-color:var(--warn-line)}
-.mini{border:1px solid var(--line);border-radius:var(--r);background:var(--bg-alt);padding:13px 14px}
-.mini .who{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.avatar{width:30px;height:30px;border-radius:50%;background:var(--accent-tint);color:var(--accent);font-size:11.5px;font-weight:600;display:grid;place-items:center;flex-shrink:0}
-.mini .who b{display:block;font-size:13.5px;color:var(--ink);font-weight:600;line-height:1.25}
-.mini .who span{font-size:12px;color:var(--ink-3)}
-.mini q{display:block;quotes:none;font-size:13px;line-height:1.55;color:var(--ink-2);font-style:italic}
-.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.cmp div{border:1px solid var(--line);border-radius:var(--r);padding:9px 11px;background:#fff}
-.cmp div:first-child{background:var(--warn-bg);border-color:var(--warn-line)}
-.cmp div:last-child{background:var(--warn-bg);border-color:var(--warn-line)}
-.cmp small{display:block;font-size:11px;color:var(--ink-3);font-family:var(--mono);letter-spacing:.03em;text-transform:uppercase;margin-bottom:2px}
-.cmp span{font-size:13px;font-weight:500;color:var(--ink)}
-.note-line{font-size:12.5px;color:var(--ink-3);line-height:1.5;border-left:2px solid var(--line-2);padding-left:11px}
+/* Workflow tabs: a segmented control */
+.seg{display:inline-flex;padding:3px;background:#e8e8ed;border-radius:10px;margin-bottom:36px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;padding:8px 18px;border-radius:8px;font-size:14px;font-weight:500;color:var(--ink-2);transition:background .2s,box-shadow .2s}
+.seg button[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.step{background:#fff;border-radius:var(--r);padding:26px 22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.step .n{font-size:13px;font-weight:600;color:var(--ink-4)}
+.step h3{font-size:18px}
+.step p{font-size:15px;color:var(--ink-3)}
+.step ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.step li{font-size:15px;color:var(--ink-2);padding-left:20px;position:relative}
+.step li::before{content:"";position:absolute;left:2px;top:9px;width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.step li.flag::before{background:#d99a1e}
+.quote{background:var(--bg-alt);border-radius:10px;padding:12px 14px;font-size:14.5px;color:var(--ink-2)}
+.quote b{display:block;font-size:13px;color:var(--ink);margin-bottom:4px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pair div{background:var(--warn-bg);border-radius:8px;padding:8px 10px;font-size:13.5px;color:var(--ink)}
+.pair small{display:block;color:var(--warn);font-size:12px}
 
-/* ---------- Approval ---------- */
-.approve{display:grid;grid-template-columns:1fr 1.02fr;gap:64px;align-items:start}
-.alist{display:flex;flex-direction:column}
-.aitem{display:grid;grid-template-columns:78px 1fr;gap:18px;padding:24px 0;border-bottom:1px solid var(--line)}
-.aitem:first-child{padding-top:4px}
-.aitem:last-child{border-bottom:0}
-.aitem .label{color:var(--accent);padding-top:5px}
-.aitem h3{font-size:21px;margin-bottom:6px}
-.aitem p{font-size:14.8px;color:var(--ink-3)}
-.letter{padding:22px 24px 8px}
-.letter .meta{font-size:12.5px;color:var(--ink-3);margin-bottom:18px;line-height:1.5}
-.letter p{font-family:var(--serif);font-size:16.5px;line-height:1.65;color:var(--ink);margin-bottom:14px}
-.letter .fade{height:34px;margin-top:-34px;position:relative;background:linear-gradient(rgba(255,255,255,0),#fff)}
+/* Approval */
+.approve{display:grid;grid-template-columns:1fr 1.05fr;gap:72px;align-items:center}
+.points{display:flex;flex-direction:column;gap:30px}
+.points h3{font-size:19px;margin-bottom:4px}
+.points p{color:var(--ink-3);font-size:16px}
+.card{background:#fff;border-radius:18px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 24px 60px -24px rgba(0,0,0,.22);overflow:hidden}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:16px 22px;border-bottom:1px solid var(--line)}
+.card-head b{font-size:15px;color:var(--ink)}
+.state{font-size:12.5px;font-weight:500;padding:3px 10px;border-radius:99px;background:var(--warn-bg);color:var(--warn);transition:background .3s,color .3s}
+.state.writing{background:var(--accent-tint);color:var(--accent-hi)}
+.letter{padding:22px 24px 6px}
+.letter .meta{font-size:13px;color:var(--ink-3);margin-bottom:16px}
+.letter p{font-family:var(--serif);font-size:17px;line-height:1.6;color:var(--ink);margin-bottom:12px;letter-spacing:0;min-height:1.6em}
+.letter p.typing::after{content:"";display:inline-block;width:1.5px;height:1em;background:var(--accent-hi);margin-left:2px;vertical-align:-2px;animation:caret 1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+.card-foot{display:flex;align-items:center;gap:8px;padding:14px 22px;background:var(--bg-alt);flex-wrap:wrap}
+.card-foot span{font-size:13.5px;padding:6px 14px;border-radius:99px;border:1px solid var(--line-2);background:#fff;color:var(--ink);transition:opacity .4s}
+.card-foot span.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.card-foot.pending span{opacity:.4}
+.card-foot small{margin-left:auto;font-size:13px;color:var(--ink-3)}
 
-/* ---------- Table ---------- */
-.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:#fff}
-table{width:100%;border-collapse:collapse;min-width:760px}
-th{font-family:var(--mono);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:500;text-align:left;padding:15px 22px;background:var(--bg-alt);border-bottom:1px solid var(--line)}
-td{padding:17px 22px;border-bottom:1px solid var(--line);vertical-align:top;font-size:14.5px}
+/* Integrations */
+.table-wrap{overflow-x:auto;background:#fff;border-radius:var(--r)}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th{font-size:13px;font-weight:600;color:var(--ink-3);text-align:left;padding:18px 24px;border-bottom:1px solid var(--line)}
+td{padding:16px 24px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:15px}
 tr:last-child td{border-bottom:0}
-td:first-child{font-weight:600;color:var(--ink);width:25%}
-td b{display:block;color:var(--ink);font-weight:600}
-td span{display:block;color:var(--ink-3);font-size:13.5px;margin-top:1px}
-.table-note{margin-top:22px;color:var(--ink-3);font-size:14.8px;max-width:760px}
+td:first-child{color:var(--ink);font-weight:500;width:26%}
+.cell{display:flex;align-items:center;gap:12px}
+.cell b{display:block;color:var(--ink);font-weight:500}
+.cell span{display:block;color:var(--ink-3);font-size:13.5px}
+.ico{width:24px;height:24px;flex-shrink:0}
+.ico-sm{width:16px;height:16px;flex-shrink:0}
+.note{margin-top:22px;color:var(--ink-3);font-size:15px;max-width:720px}
 
-/* ---------- Demo ---------- */
+/* Security */
+.sec{display:grid;grid-template-columns:repeat(3,1fr);gap:44px 40px}
+.sec h3{font-size:18px;margin-bottom:6px}
+.sec p{font-size:15.5px;color:var(--ink-3)}
+
+/* Demo */
 .demo{display:grid;grid-template-columns:1fr 1.05fr;gap:72px;align-items:start}
-.demo-left{position:sticky;top:110px}
-.demo-left h2{margin-bottom:16px}
-.demo-left .lead{margin-bottom:28px}
-.form-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:32px;box-shadow:var(--shadow-2)}
+.demo-left .lead{margin:16px 0 26px}
+.demo-left ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.demo-left li{padding-left:26px;position:relative;color:var(--ink-2)}
+.demo-left li::before{content:"";position:absolute;left:0;top:5px;width:15px;height:15px;border-radius:50%;background:var(--ok-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.3 8.4l2.4 2.4 5-5.2' fill='none' stroke='%231d7a3e' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/15px no-repeat}
+.form-card{background:#fff;border-radius:20px;padding:32px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 24px 60px -30px rgba(0,0,0,.2)}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.row{display:grid;grid-template-columns:1fr 1fr;column-gap:16px;row-gap:0}
+.two{display:grid;grid-template-columns:1fr 1fr;column-gap:14px}
 .field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
-.field label{font-size:13px;font-weight:500;color:var(--ink)}
+.field label{font-size:13.5px;font-weight:500;color:var(--ink)}
 .field label em{font-style:normal;color:var(--ink-4);font-weight:400}
-input,select,textarea{font:inherit;font-size:15px;color:var(--ink);background:#fff;border:1px solid var(--line-2);border-radius:var(--r);padding:0 13px;height:44px;width:100%;transition:border-color .15s,box-shadow .15s}
-textarea{height:96px;padding:11px 13px;resize:vertical;line-height:1.5}
-select{appearance:none;-webkit-appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6.5l4 4 4-4' fill='none' stroke='%2371717A' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 12px center/16px no-repeat;padding-right:38px}
-input:hover,select:hover,textarea:hover{border-color:var(--ink-4)}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(27,64,121,.14)}
+input,select,textarea{font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1px solid var(--line-2);border-radius:10px;padding:0 13px;height:46px;width:100%;transition:border-color .15s,box-shadow .15s}
+textarea{height:96px;padding:11px 13px;resize:vertical}
+select{appearance:none;-webkit-appearance:none;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6.5l4 4 4-4' fill='none' stroke='%236e6e73' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 12px center/16px no-repeat;padding-right:38px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent-hi);box-shadow:0 0 0 4px rgba(42,92,168,.15)}
 select:invalid{color:var(--ink-3)}
-.form-err{display:flex;gap:10px;align-items:flex-start;background:#FEF2F2;border:1px solid #FECACA;color:var(--bad);border-radius:var(--r);padding:12px 14px;font-size:14px;margin-bottom:16px;line-height:1.5}
-.form-err a{text-decoration:underline;font-weight:500}
-.fine{margin-top:14px;font-size:12.5px;color:var(--ink-3);text-align:center}
 .form-card .btn{width:100%}
-.done{text-align:center;padding:26px 8px 18px}
+.form-err{background:#fdf0f0;color:#b3261e;border-radius:10px;padding:12px 14px;font-size:14.5px;margin-bottom:16px}
+.form-err a{text-decoration:underline}
+.fine{margin-top:14px;font-size:13px;color:var(--ink-3);text-align:center}
+.done{text-align:center;padding:30px 8px 20px}
 .done:focus{outline:none}
-.done .tick{width:54px;height:54px;border-radius:50%;background:var(--ok-bg);border:1px solid var(--ok-line);display:grid;place-items:center;margin:0 auto 20px}
-.done .label{color:var(--ok);margin-bottom:10px}
-.done h3{font-size:30px;margin-bottom:12px}
-.done p{color:var(--ink-3);font-size:15.5px;max-width:380px;margin:0 auto}
-.done a{color:var(--accent);text-decoration:underline}
+.done .tick{width:54px;height:54px;border-radius:50%;background:var(--ok-bg);display:grid;place-items:center;margin:0 auto 18px}
+.done h3{font-size:26px;margin-bottom:8px}
+.done p{color:var(--ink-3)}
 
-/* ---------- Footer ---------- */
-footer{border-top:1px solid var(--line);padding:40px 0 48px;background:#fff}
-.foot{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
-.foot .brand{font-size:21px}
-.foot .brand img{width:28px;height:28px}
-.foot-links{display:flex;gap:26px;font-size:14px;color:var(--ink-3);flex-wrap:wrap}
-.foot-links a:hover{color:var(--ink)}
-.copy{width:100%;font-size:13px;color:var(--ink-4);padding-top:22px;margin-top:6px;border-top:1px solid var(--line)}
+footer{padding:36px 0 48px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-3)}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.foot nav{display:flex;gap:22px;flex-wrap:wrap}
+.foot nav a:hover{color:var(--ink)}
+
+/* ---------- Scroll reveal: short rise + fade, once ---------- */
+.js [data-reveal]{opacity:0;transform:translateY(16px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:calc(var(--i,0) * 60ms)}
+.js [data-reveal].in{opacity:1;transform:none}
 
 /* ---------- Responsive ---------- */
-@media (max-width:1040px){
-  .g4{grid-template-columns:repeat(2,1fr)}
+@media (max-width:980px){
   .steps{grid-template-columns:repeat(2,1fr)}
-  .step:nth-child(2){border-right:0}
-  .step:nth-child(-n+2){border-bottom:1px solid var(--line)}
-  .hero-grid,.approve,.demo{grid-template-columns:1fr;gap:44px}
-  .demo-left{position:static}
+  .approve,.demo{grid-template-columns:1fr;gap:48px}
+  .sec{grid-template-columns:repeat(2,1fr)}
 }
-@media (max-width:760px){
-  .wrap{padding:0 20px}
+@media (max-width:700px){
+  body{font-size:16px}
   .nav-links{display:none}
-  .hero{padding:48px 0 56px}
-  section.s{padding:72px 0}
-  .g4,.g3,.steps,.row{grid-template-columns:1fr}
-  .step{border-right:0;border-bottom:1px solid var(--line)}
-  .step:last-child{border-bottom:0}
-  .aitem{grid-template-columns:1fr;gap:6px}
+  .hero{padding:64px 0 12px}
+  section.s{padding:84px 0}
+  .jobs,.steps,.sec,.two{grid-template-columns:1fr}
+  .job{padding:28px 24px}
   .form-card{padding:22px}
-  .trust-in{padding-top:28px;padding-bottom:28px}
-  .tabs{display:flex;width:100%}
-  .tab{flex:1;padding:9px 8px;font-size:13.5px}
-}
-/* ---------- Motion: easing tokens ----------
-   Apple's interface motion is slow-out, never bouncy, and almost always pairs
-   a short translate with opacity. Two curves cover it: --ease-out for things
-   entering (decelerating into place) and --ease-io for a state change on
-   something already on screen. */
-:root{
-  --ease-out:cubic-bezier(.16,1,.3,1);
-  --ease-io:cubic-bezier(.4,0,.2,1);
-  --dur:.72s;
+  .seg{display:flex}
+  .seg button{flex:1;padding:8px 6px;font-size:13px}
+  .scene{height:300vh}
+  .captions{height:110px}
+  .cap p{font-size:15px}
+  .device{--w:min(92vw,calc((100vh - 300px) * 1.48))}
 }
 
-/* ---------- Scroll reveal ----------
-   Opacity plus a small rise, nothing else. The distance is deliberately short
-   (14px): a long travel reads as a slide-in effect, a short one reads as the
-   page settling. Children stagger via --i so a row of cards arrives in
-   sequence rather than all together. */
-[data-reveal]{opacity:0;transform:translate3d(0,14px,0);transition:opacity var(--dur) var(--ease-out),transform var(--dur) var(--ease-out);transition-delay:calc(var(--i,0)*70ms);will-change:opacity,transform}
-[data-reveal].in{opacity:1;transform:none}
-[data-reveal="scale"]{transform:translate3d(0,18px,0) scale(.985)}
-[data-reveal="scale"].in{transform:none}
-/* Headline words rise individually, kept to the lines that carry the page so
-   it stays an accent rather than a tic.
-   Deliberately a rise-and-fade, NOT a mask reveal: clipping each word with
-   overflow:hidden changes an inline-block's baseline and cuts descenders the
-   moment a heading wraps to a second line, which is exactly what it did to
-   "Runs on Microsoft 365 or Google Workspace" at desktop width. Animating
-   opacity and transform leaves the text flowing normally. */
-.wordline{display:inline-block}
-.wordline>span{display:inline-block;opacity:0;transform:translate3d(0,.42em,0);transition:opacity .72s var(--ease-out),transform .72s var(--ease-out);transition-delay:calc(var(--i,0)*45ms)}
-.wordline.in>span{opacity:1;transform:none}
-
-/* ---------- Nav: lifts once the page moves ---------- */
-.nav{transition:background .3s var(--ease-io),border-color .3s var(--ease-io),box-shadow .3s var(--ease-io)}
-.nav.scrolled{background:rgba(255,255,255,.78);box-shadow:0 1px 0 rgba(24,24,27,.04),0 10px 30px -22px rgba(24,24,27,.3)}
-.nav-in{transition:height .3s var(--ease-io)}
-.nav.scrolled .nav-in{height:58px}
-.brand img{transition:transform .4s var(--ease-out)}
-.brand:hover img{transform:scale(1.06) rotate(-2deg)}
-.nav-links a{position:relative}
-.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:1.5px;background:var(--accent);border-radius:2px;transform:scaleX(0);transform-origin:left;transition:transform .34s var(--ease-out)}
-.nav-links a:hover::after{transform:scaleX(1)}
-
-/* ---------- Refined micro-interactions ---------- */
-.btn{transition:background .22s var(--ease-io),border-color .22s var(--ease-io),transform .22s var(--ease-out),box-shadow .3s var(--ease-out)}
-.btn-primary:active,.btn-ghost:active{transform:translateY(0) scale(.985)}
-.card{transition:border-color .32s var(--ease-io),box-shadow .42s var(--ease-out),transform .42s var(--ease-out)}
-.card:hover{transform:translateY(-3px)}
-.q-row{transition:background .25s var(--ease-io)}
-.q-row:hover{background:var(--bg-alt)}
-tbody tr{transition:background .25s var(--ease-io)}
-tbody tr:hover{background:var(--accent-tint)}
-.pill i{animation:livePulse 2.6s var(--ease-io) infinite}
-@keyframes livePulse{
-  0%,100%{box-shadow:0 0 0 3px var(--ok-bg)}
-  50%{box-shadow:0 0 0 6px rgba(21,128,61,.10)}
-}
-
-/* ---------- Integration brand marks ---------- */
-.ico{width:22px;height:22px;flex-shrink:0}
-.cell{display:flex;align-items:center;gap:11px}
-.cell-txt{min-width:0}
-td .cell b{display:block}
-.ico-sm{width:14px;height:14px;flex-shrink:0}
-.chip{transition:border-color .25s var(--ease-io),background .25s var(--ease-io),transform .25s var(--ease-out)}
-.chip:hover{transform:translateY(-1px)}
-.chip .ico-sm{margin-right:1px}
-.who-logos{display:inline-flex;align-items:center;gap:5px;vertical-align:middle;margin-left:2px}
-
-/* ---------- Draft being written (approval section) ---------- */
-.letter{position:relative}
-.letter p.typing::after{content:"";display:inline-block;width:1.5px;height:1.05em;background:var(--accent);margin-left:2px;vertical-align:-2px;animation:caret 1s steps(1) infinite}
-@keyframes caret{0%,49%{opacity:1}50%,100%{opacity:0}}
-.draft-state{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;padding:3px 9px;border-radius:999px;border:1px solid var(--line-2);background:#fff;color:var(--ink-3);transition:background .3s var(--ease-io),color .3s var(--ease-io),border-color .3s var(--ease-io)}
-/* The head now carries a state badge next to the existing chip. Both are
-   nowrap, so without this the row's min-content width blows the approval
-   grid's column out past a phone viewport (caught in a real 390px render,
-   not assumed). Wrapping keeps the desktop layout byte-identical, since
-   there is room there, and lets it stack on a narrow screen. */
-.mock-head{flex-wrap:wrap;gap:10px}
-.mock-head .cell{flex-wrap:wrap;gap:8px}
-/* Grid items default to min-width:auto, which is what lets a wide child
-   stretch the whole column. */
-.approve>*,.hero-grid>*,.demo>*{min-width:0}
-.mock-foot{flex-wrap:wrap}
-.draft-state.writing{background:var(--accent-tint);border-color:#D3E0F5;color:var(--accent)}
-.draft-state.ready{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn)}
-.draft-state .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
-.draft-state.writing .dot{animation:livePulse 1.4s var(--ease-io) infinite}
-/* The footer actions stay dimmed until the draft has finished writing, which
-   is the section's whole argument: there is nothing to approve mid-draft. */
-.mock-foot .mb{transition:opacity .5s var(--ease-io),transform .25s var(--ease-out)}
-.mock-foot.pending .mb{opacity:.42}
-.replay{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 11px;font-size:12px;font-family:var(--mono);letter-spacing:.03em;border-radius:var(--r-sm);border:1px solid var(--line-2);background:#fff;color:var(--ink-3);transition:color .2s var(--ease-io),border-color .2s var(--ease-io)}
-.replay:hover{color:var(--ink);border-color:var(--ink-4)}
-
-/* ---------- Cursor tracker ----------
-   A thin ring that trails the pointer with easing, plus a precise dot that
-   tracks it exactly. The lag between the two IS the effect. Pointer events are
-   off so it can never intercept a click, and it is fine-pointer only: on a
-   touch screen there is no cursor to track. */
-.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;opacity:0;transition:opacity .3s var(--ease-io)}
-.cursor-dot{width:5px;height:5px;background:var(--accent);margin:-2.5px 0 0 -2.5px}
-.cursor-ring{width:30px;height:30px;margin:-15px 0 0 -15px;border:1.3px solid rgba(27,64,121,.42);transition:opacity .3s var(--ease-io),width .3s var(--ease-out),height .3s var(--ease-out),margin .3s var(--ease-out),border-color .3s var(--ease-io),background .3s var(--ease-io)}
-.cursor-on .cursor-dot,.cursor-on .cursor-ring{opacity:1}
-/* Over something clickable the ring opens and fills faintly: the same "target
-   acquired" language as a focus ring, not a novelty. */
-.cursor-ring.hot{width:46px;height:46px;margin:-23px 0 0 -23px;border-color:rgba(27,64,121,.6);background:rgba(27,64,121,.06)}
-.cursor-ring.down{width:24px;height:24px;margin:-12px 0 0 -12px}
-/* Over text it becomes a slim bar, so it reads as "this is readable". */
-.cursor-ring.text{width:2px;height:22px;margin:-11px 0 0 -1px;border-radius:2px;border-color:transparent;background:rgba(27,64,121,.45)}
-@media (hover:none),(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
-
-@media (max-width:760px){.ico{width:20px;height:20px}}
-
-/* ---------- Reduced motion ----------
-   Everything above is an enhancement, so this turns all of it off and shows
-   the finished state: revealed content visible, headline words in place, no
-   cursor tracker, draft letter fully written, actions not dimmed. */
+/* ---------- Reduced motion: same content, no movement ---------- */
 @media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  *{transition:none!important;animation:none!important}
-  [data-reveal]{opacity:1!important;transform:none!important}
-  .wordline>span{transform:none!important}
-  .cursor-dot,.cursor-ring{display:none!important}
-  .mock-foot.pending .mb{opacity:1!important}
+  *{animation:none!important;transition-duration:.01s!important}
+  .js [data-reveal]{opacity:1;transform:none}
+  .cap,.pane{transition:opacity .2s!important;transform:none!important}
+}
+@media (prefers-reduced-transparency:reduce){
+  .nav{background:#fff;backdrop-filter:none;-webkit-backdrop-filter:none}
 }
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
-<!-- Brand marks for the integrations, as an inline SVG sprite. Inline rather
-     than hosted files so the page still makes no third-party requests and no
-     extra round-trips, consistent with the self-hosted fonts above. Each is a
-     simplified mark, recognisable by its own colour and letterform. -->
+<div class="loader" id="loader" aria-hidden="true">
+  <img src="/logo.svg" alt="" width="56" height="56">
+  <div class="bar"><i></i></div>
+</div>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
-  <symbol id="i-outlook" viewBox="0 0 24 24">
-    <path d="M9.6 4.2h11a1.4 1.4 0 0 1 1.4 1.4v12.8a1.4 1.4 0 0 1-1.4 1.4h-11z" fill="#0F6CBD"/>
-    <path d="M22 7.3v9.4l-7.2-4.7z" fill="#0A5A9E"/>
-    <path d="M9.6 11.1 22 7.3v-.6l-12.4 3z" fill="#fff" opacity=".9"/>
-    <rect x="1.6" y="5.4" width="9.6" height="13.2" rx="1.5" fill="#0A4C8A"/>
-    <ellipse cx="6.4" cy="12" rx="2.5" ry="3.1" fill="none" stroke="#fff" stroke-width="1.6"/>
-  </symbol>
-  <symbol id="i-gmail" viewBox="0 0 24 24">
-    <rect x="1.8" y="5.2" width="20.4" height="13.6" rx="2" fill="#fff" stroke="#E6E6E6" stroke-width=".8"/>
-    <path d="M1.8 7.2 12 14.3l10.2-7.1v-.2A1.8 1.8 0 0 0 20.4 5.2H3.6A1.8 1.8 0 0 0 1.8 7z" fill="#EA4335"/>
-    <path d="M1.8 7.4v9.6a1.8 1.8 0 0 0 1.8 1.8h1.6V9.6z" fill="#C5221F"/>
-    <path d="M22.2 7.4v9.6a1.8 1.8 0 0 1-1.8 1.8h-1.6V9.6z" fill="#4285F4"/>
-    <path d="M5.2 9.6 12 14.3l6.8-4.7v9.2H5.2z" fill="#fff"/>
-    <path d="M5.2 9.6 12 14.4l6.8-4.8-.1-1.4L12 12.9 5.3 8.2z" fill="#EA4335"/>
-  </symbol>
-  <symbol id="i-teams" viewBox="0 0 24 24">
-    <rect x="8.2" y="5.6" width="13.4" height="13" rx="2.2" fill="#5059C9"/>
-    <path d="M10.4 8.2h9v2.2h-3.3v7h-2.4v-7h-3.3z" fill="#fff"/>
-    <circle cx="6.2" cy="6.6" r="2.6" fill="#7B83EB"/>
-    <path d="M2 10.4h8.4v6.4A3.2 3.2 0 0 1 7.2 20H5.2A3.2 3.2 0 0 1 2 16.8z" fill="#7B83EB"/>
-  </symbol>
-  <symbol id="i-meet" viewBox="0 0 24 24">
-    <path d="M2.4 7.6A1.6 1.6 0 0 1 4 6h8.6v12H4a1.6 1.6 0 0 1-1.6-1.6z" fill="#4285F4"/>
-    <path d="M12.6 6v5.2L17 8V7.1A1.1 1.1 0 0 0 15.3 6z" fill="#34A853"/>
-    <path d="M12.6 12.8V18h2.7a1.7 1.7 0 0 0 1.7-1.7v-.8z" fill="#FBBC04"/>
-    <path d="M17 8v8l3.6 2.6a.9.9 0 0 0 1.4-.7V6.1a.9.9 0 0 0-1.4-.7z" fill="#EA4335"/>
-    <path d="M12.6 11.2 17 8v8l-4.4-3.2z" fill="#1967D2"/>
-  </symbol>
-  <symbol id="i-sharepoint" viewBox="0 0 24 24">
-    <circle cx="9.4" cy="8" r="5.4" fill="#037B74"/>
-    <circle cx="15.2" cy="13.4" r="4.6" fill="#1A9E96" opacity=".92"/>
-    <circle cx="10.6" cy="17.4" r="3.6" fill="#036C66"/>
-    <path d="M11.4 9.1c-.6-.5-1.5-.8-2.4-.8-1.3 0-2.2.6-2.2 1.6 0 .8.5 1.3 1.8 1.7 1.5.5 2.1 1 2.1 2 0 1.3-1.1 2-2.7 2-.9 0-1.8-.2-2.4-.6" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
-  </symbol>
-  <symbol id="i-gdrive" viewBox="0 0 24 24">
-    <path d="M8.9 3.4h6.2l6.3 10.9h-6.2z" fill="#FBBC04"/>
-    <path d="M8.9 3.4 2.6 14.3l3.1 5.4 6.3-10.9z" fill="#34A853" transform="translate(0,0)"/>
-    <path d="M2.6 14.3h12.6l-3.1 5.4H5.7z" fill="#4285F4"/>
-    <path d="M8.9 3.4 2.6 14.3h6.3L12 8.8z" fill="#188038"/>
-    <path d="M15.1 3.4 12 8.8l3.2 5.5h6.2z" fill="#FBBC04"/>
-    <path d="M15.2 14.3H2.6l3.1 5.4h12.6z" fill="#4285F4"/>
-  </symbol>
-  <symbol id="i-word" viewBox="0 0 24 24">
-    <rect x="2.4" y="3.6" width="19.2" height="16.8" rx="2" fill="#185ABD"/>
-    <rect x="2.4" y="3.6" width="7.4" height="16.8" rx="2" fill="#103F91"/>
-    <path d="M12 8.2l1.5 5.2 1.3-5.2h1.6l-2.1 7.6h-1.7l-1.4-4.8-1.3 4.8h-1.7L6.1 8.2h1.7l1.3 5.2 1.4-5.2z" fill="#fff"/>
-  </symbol>
-  <symbol id="i-gdocs" viewBox="0 0 24 24">
-    <path d="M6 2.8h7.6L19 8.2v12a1.4 1.4 0 0 1-1.4 1.4H6a1.4 1.4 0 0 1-1.4-1.4V4.2A1.4 1.4 0 0 1 6 2.8z" fill="#4285F4"/>
-    <path d="M13.6 2.8 19 8.2h-5.4z" fill="#A1C2FA"/>
-    <path d="M7.6 11.4h8.2M7.6 14h8.2M7.6 16.6h5.6" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/>
-  </symbol>
-  <symbol id="i-excel" viewBox="0 0 24 24">
-    <rect x="2.4" y="3.6" width="19.2" height="16.8" rx="2" fill="#107C41"/>
-    <rect x="2.4" y="3.6" width="7.4" height="16.8" rx="2" fill="#0B5C30"/>
-    <path d="M11.3 8.2h1.9l1.6 2.7 1.6-2.7h1.9l-2.5 3.8 2.6 3.8h-2l-1.6-2.8-1.6 2.8h-2l2.6-3.8z" fill="#fff"/>
-  </symbol>
-  <symbol id="i-gsheets" viewBox="0 0 24 24">
-    <path d="M6 2.8h7.6L19 8.2v12a1.4 1.4 0 0 1-1.4 1.4H6a1.4 1.4 0 0 1-1.4-1.4V4.2A1.4 1.4 0 0 1 6 2.8z" fill="#0F9D58"/>
-    <path d="M13.6 2.8 19 8.2h-5.4z" fill="#A8DAC1"/>
-    <path d="M7.4 11.2h9.2v6.6H7.4z" fill="#fff"/>
-    <path d="M7.4 13.4h9.2M7.4 15.6h9.2M10.5 11.2v6.6M13.6 11.2v6.6" stroke="#0F9D58" stroke-width="1"/>
-  </symbol>
-  <symbol id="i-outlookcal" viewBox="0 0 24 24">
-    <rect x="2.6" y="4.4" width="18.8" height="15.6" rx="2" fill="#0F6CBD"/>
-    <rect x="2.6" y="4.4" width="18.8" height="4.2" rx="2" fill="#0A4C8A"/>
-    <rect x="5.4" y="10.6" width="3.4" height="3" rx=".6" fill="#fff"/>
-    <rect x="10.3" y="10.6" width="3.4" height="3" rx=".6" fill="#fff" opacity=".75"/>
-    <rect x="15.2" y="10.6" width="3.4" height="3" rx=".6" fill="#fff" opacity=".75"/>
-    <rect x="5.4" y="15.1" width="3.4" height="3" rx=".6" fill="#fff" opacity=".75"/>
-    <rect x="10.3" y="15.1" width="3.4" height="3" rx=".6" fill="#fff" opacity=".75"/>
-  </symbol>
-  <symbol id="i-gcal" viewBox="0 0 24 24">
-    <rect x="3.2" y="3.8" width="17.6" height="16.4" rx="2.2" fill="#fff" stroke="#DADCE0" stroke-width="1.1"/>
-    <path d="M3.2 6a2.2 2.2 0 0 1 2.2-2.2h13.2A2.2 2.2 0 0 1 20.8 6v1.4H3.2z" fill="#4285F4"/>
-    <text x="12" y="16.6" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="7.4" font-weight="600" fill="#4285F4">31</text>
-  </symbol>
-  <symbol id="i-entra" viewBox="0 0 24 24">
-    <path d="M12 2.6 20.4 7v6.2c0 4-3.4 7-8.4 8.2-5-1.2-8.4-4.2-8.4-8.2V7z" fill="#0F6CBD"/>
-    <path d="M12 2.6 20.4 7v6.2c0 4-3.4 7-8.4 8.2z" fill="#0A4C8A"/>
-    <circle cx="12" cy="10.4" r="2.3" fill="#fff"/>
-    <path d="M7.9 17.2c.5-2.1 2.1-3.3 4.1-3.3s3.6 1.2 4.1 3.3a7.3 7.3 0 0 1-8.2 0z" fill="#fff"/>
-  </symbol>
-  <symbol id="i-google" viewBox="0 0 24 24">
-    <path d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2a9.5 9.5 0 0 0 3-7.3z" fill="#4285F4"/>
-    <path d="M12 21.6a9.6 9.6 0 0 0 6.6-2.4l-3.2-2.5a6 6 0 0 1-8.9-3.1H3.2v2.6A9.6 9.6 0 0 0 12 21.6z" fill="#34A853"/>
-    <path d="M6.5 13.6a5.8 5.8 0 0 1 0-3.6V7.4H3.2a9.6 9.6 0 0 0 0 8.8z" fill="#FBBC04"/>
-    <path d="M12 6.3a5.2 5.2 0 0 1 3.7 1.4l2.8-2.8A9.2 9.2 0 0 0 12 2.4a9.6 9.6 0 0 0-8.8 5l3.3 2.6A5.8 5.8 0 0 1 12 6.3z" fill="#EA4335"/>
-  </symbol>
-  <symbol id="i-microsoft" viewBox="0 0 24 24">
-    <rect x="3" y="3" width="8.4" height="8.4" fill="#F25022"/>
-    <rect x="12.6" y="3" width="8.4" height="8.4" fill="#7FBA00"/>
-    <rect x="3" y="12.6" width="8.4" height="8.4" fill="#00A4EF"/>
-    <rect x="12.6" y="12.6" width="8.4" height="8.4" fill="#FFB900"/>
-  </symbol>
+  <symbol id="i-outlook" viewBox="0 0 24 24"><path d="M9.6 4.2h11a1.4 1.4 0 0 1 1.4 1.4v12.8a1.4 1.4 0 0 1-1.4 1.4h-11z" fill="#0F6CBD"/><path d="M22 7.3v9.4l-7.2-4.7z" fill="#0A5A9E"/><rect x="1.6" y="5.4" width="9.6" height="13.2" rx="1.5" fill="#0A4C8A"/><ellipse cx="6.4" cy="12" rx="2.5" ry="3.1" fill="none" stroke="#fff" stroke-width="1.6"/></symbol>
+  <symbol id="i-gmail" viewBox="0 0 24 24"><rect x="1.8" y="5.2" width="20.4" height="13.6" rx="2" fill="#fff" stroke="#E6E6E6" stroke-width=".8"/><path d="M1.8 7.4v9.6a1.8 1.8 0 0 0 1.8 1.8h1.6V9.6z" fill="#C5221F"/><path d="M22.2 7.4v9.6a1.8 1.8 0 0 1-1.8 1.8h-1.6V9.6z" fill="#4285F4"/><path d="M5.2 9.6 12 14.4l6.8-4.8-.1-1.4L12 12.9 5.3 8.2z" fill="#EA4335"/></symbol>
+  <symbol id="i-teams" viewBox="0 0 24 24"><rect x="8.2" y="5.6" width="13.4" height="13" rx="2.2" fill="#5059C9"/><path d="M10.4 8.2h9v2.2h-3.3v7h-2.4v-7h-3.3z" fill="#fff"/><circle cx="6.2" cy="6.6" r="2.6" fill="#7B83EB"/><path d="M2 10.4h8.4v6.4A3.2 3.2 0 0 1 7.2 20H5.2A3.2 3.2 0 0 1 2 16.8z" fill="#7B83EB"/></symbol>
+  <symbol id="i-meet" viewBox="0 0 24 24"><path d="M2.4 7.6A1.6 1.6 0 0 1 4 6h8.6v12H4a1.6 1.6 0 0 1-1.6-1.6z" fill="#4285F4"/><path d="M12.6 6v5.2L17 8V7.1A1.1 1.1 0 0 0 15.3 6z" fill="#34A853"/><path d="M12.6 12.8V18h2.7a1.7 1.7 0 0 0 1.7-1.7v-.8z" fill="#FBBC04"/><path d="M17 8v8l3.6 2.6a.9.9 0 0 0 1.4-.7V6.1a.9.9 0 0 0-1.4-.7z" fill="#EA4335"/></symbol>
+  <symbol id="i-sharepoint" viewBox="0 0 24 24"><circle cx="9.4" cy="8" r="5.4" fill="#037B74"/><circle cx="15.2" cy="13.4" r="4.6" fill="#1A9E96" opacity=".92"/><circle cx="10.6" cy="17.4" r="3.6" fill="#036C66"/></symbol>
+  <symbol id="i-gdrive" viewBox="0 0 24 24"><path d="M8.9 3.4h6.2l6.3 10.9h-6.2z" fill="#FBBC04"/><path d="M8.9 3.4 2.6 14.3l3.1 5.4 6.3-10.9z" fill="#34A853"/><path d="M15.2 14.3H2.6l3.1 5.4h12.6z" fill="#4285F4"/></symbol>
+  <symbol id="i-word" viewBox="0 0 24 24"><rect x="2.4" y="3.6" width="19.2" height="16.8" rx="2" fill="#185ABD"/><path d="M12 8.2l1.5 5.2 1.3-5.2h1.6l-2.1 7.6h-1.7l-1.4-4.8-1.3 4.8h-1.7L6.1 8.2h1.7l1.3 5.2 1.4-5.2z" fill="#fff"/></symbol>
+  <symbol id="i-gdocs" viewBox="0 0 24 24"><path d="M6 2.8h7.6L19 8.2v12a1.4 1.4 0 0 1-1.4 1.4H6a1.4 1.4 0 0 1-1.4-1.4V4.2A1.4 1.4 0 0 1 6 2.8z" fill="#4285F4"/><path d="M7.6 11.4h8.2M7.6 14h8.2M7.6 16.6h5.6" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></symbol>
+  <symbol id="i-excel" viewBox="0 0 24 24"><rect x="2.4" y="3.6" width="19.2" height="16.8" rx="2" fill="#107C41"/><path d="M11.3 8.2h1.9l1.6 2.7 1.6-2.7h1.9l-2.5 3.8 2.6 3.8h-2l-1.6-2.8-1.6 2.8h-2l2.6-3.8z" fill="#fff"/></symbol>
+  <symbol id="i-gsheets" viewBox="0 0 24 24"><path d="M6 2.8h7.6L19 8.2v12a1.4 1.4 0 0 1-1.4 1.4H6a1.4 1.4 0 0 1-1.4-1.4V4.2A1.4 1.4 0 0 1 6 2.8z" fill="#0F9D58"/><path d="M7.4 11.2h9.2v6.6H7.4z" fill="#fff"/><path d="M7.4 13.4h9.2M7.4 15.6h9.2M10.5 11.2v6.6M13.6 11.2v6.6" stroke="#0F9D58" stroke-width="1"/></symbol>
+  <symbol id="i-outlookcal" viewBox="0 0 24 24"><rect x="2.6" y="4.4" width="18.8" height="15.6" rx="2" fill="#0F6CBD"/><rect x="2.6" y="4.4" width="18.8" height="4.2" rx="2" fill="#0A4C8A"/><rect x="5.4" y="10.6" width="3.4" height="3" rx=".6" fill="#fff"/><rect x="10.3" y="10.6" width="3.4" height="3" rx=".6" fill="#fff" opacity=".75"/><rect x="15.2" y="10.6" width="3.4" height="3" rx=".6" fill="#fff" opacity=".75"/><rect x="5.4" y="15.1" width="3.4" height="3" rx=".6" fill="#fff" opacity=".75"/></symbol>
+  <symbol id="i-gcal" viewBox="0 0 24 24"><rect x="3.2" y="3.8" width="17.6" height="16.4" rx="2.2" fill="#fff" stroke="#DADCE0" stroke-width="1.1"/><path d="M3.2 6a2.2 2.2 0 0 1 2.2-2.2h13.2A2.2 2.2 0 0 1 20.8 6v1.4H3.2z" fill="#4285F4"/><rect x="6.4" y="10" width="3" height="2.6" rx=".5" fill="#4285F4"/><rect x="10.5" y="10" width="3" height="2.6" rx=".5" fill="#4285F4" opacity=".55"/><rect x="14.6" y="10" width="3" height="2.6" rx=".5" fill="#4285F4" opacity=".55"/><rect x="6.4" y="14" width="3" height="2.6" rx=".5" fill="#4285F4" opacity=".55"/><rect x="10.5" y="14" width="3" height="2.6" rx=".5" fill="#34A853"/></symbol>
+  <symbol id="i-entra" viewBox="0 0 24 24"><path d="M12 2.6 20.4 7v6.2c0 4-3.4 7-8.4 8.2-5-1.2-8.4-4.2-8.4-8.2V7z" fill="#0F6CBD"/><circle cx="12" cy="10.4" r="2.3" fill="#fff"/><path d="M7.9 17.2c.5-2.1 2.1-3.3 4.1-3.3s3.6 1.2 4.1 3.3a7.3 7.3 0 0 1-8.2 0z" fill="#fff"/></symbol>
+  <symbol id="i-google" viewBox="0 0 24 24"><path d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2a9.5 9.5 0 0 0 3-7.3z" fill="#4285F4"/><path d="M12 21.6a9.6 9.6 0 0 0 6.6-2.4l-3.2-2.5a6 6 0 0 1-8.9-3.1H3.2v2.6A9.6 9.6 0 0 0 12 21.6z" fill="#34A853"/><path d="M6.5 13.6a5.8 5.8 0 0 1 0-3.6V7.4H3.2a9.6 9.6 0 0 0 0 8.8z" fill="#FBBC04"/><path d="M12 6.3a5.2 5.2 0 0 1 3.7 1.4l2.8-2.8A9.2 9.2 0 0 0 12 2.4a9.6 9.6 0 0 0-8.8 5l3.3 2.6A5.8 5.8 0 0 1 12 6.3z" fill="#EA4335"/></symbol>
+  <symbol id="i-microsoft" viewBox="0 0 24 24"><rect x="3" y="3" width="8.4" height="8.4" fill="#F25022"/><rect x="12.6" y="3" width="8.4" height="8.4" fill="#7FBA00"/><rect x="3" y="12.6" width="8.4" height="8.4" fill="#00A4EF"/><rect x="12.6" y="12.6" width="8.4" height="8.4" fill="#FFB900"/></symbol>
 </defs></svg>
 
-<header class="nav">
+<header class="nav" id="nav">
   <div class="wrap nav-in">
-    <a class="brand" href="#top" aria-label="Mediate home"><img src="/logo.svg" alt="" width="32" height="32">Mediate</a>
+    <a class="brand" href="#top" aria-label="Mediate home"><img src="/logo.svg" alt="" width="26" height="26">Mediate</a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="#capabilities">Capabilities</a>
-      <a href="#workflow">How it works</a>
+      <a href="#what">What it does</a>
+      <a href="#how">How it works</a>
       <a href="#approval">Approval</a>
-      <a href="#stack">Integrations</a>
+      <a href="#integrations">Integrations</a>
       <a href="#security">Security</a>
     </nav>
     <a class="btn btn-primary btn-sm" href="#demo">Book a demo</a>
@@ -501,345 +342,266 @@ td .cell b{display:block}
 </header>
 
 <main id="main">
-<!-- ================= HERO ================= -->
+
 <div class="hero" id="top">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="pill"><i></i>In daily use at a UK family mediation firm</div>
-      <h1>The paperwork of mediation, drafted for you.</h1>
-      <p class="lead">Mediate turns enquiries, MIAM appointments and session transcripts into finished intake forms, certificates, letters and billing entries, inside the Microsoft 365 or Google Workspace your firm already runs on. Nothing sends, files or bills until you approve it.</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#demo">Book a demo</a>
-        <a class="btn btn-ghost" href="#workflow">See how it works</a>
-      </div>
-      <div class="hero-meta"><span>Family mediation only</span><span>20-minute demo</span><span>No migration</span></div>
-    </div>
-
-    <div class="mock" aria-label="Example review queue">
-      <div class="mock-head"><b>Review queue</b><span class="mock-count">3 items</span></div>
-      <div class="q-row">
-        <div><strong>MIAM certificate: Bloggs</strong><small>Drafted from Teams transcript · files to /Matters/Bloggs</small></div>
-        <span class="chip warn">Awaiting you</span>
-      </div>
-      <div class="q-row">
-        <div><strong>Follow-up letter: Bloggs (Party A)</strong><small>Sends from you@yourfirm · 4 edits since first draft</small></div>
-        <span class="chip warn">Awaiting you</span>
-      </div>
-      <div class="q-row">
-        <div><strong>Billing: week to 4 Aug</strong><small>14 entries matched · 2 flagged for your call</small></div>
-        <span class="chip quiet">Queued</span>
-      </div>
-      <div class="mock-foot">
-        <span class="mb pri">Approve</span><span class="mb">Edit</span><span class="mb">Discard</span>
-        <span class="spacer"></span><span class="mock-note">Nothing sent yet</span>
-      </div>
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>For family mediation firms</p>
+    <h1 data-reveal style="--i:1">The paperwork of mediation, drafted for you.</h1>
+    <p class="lead" data-reveal style="--i:2">Mediate drafts intake forms, MIAM certificates, letters and billing entries from your enquiries and sessions. It works inside Microsoft 365 or Google Workspace, and nothing is sent, filed or billed until you approve it.</p>
+    <div class="hero-cta" data-reveal style="--i:3">
+      <a class="btn btn-primary" href="#demo">Book a demo</a>
+      <a class="btn btn-text" href="#how">See how it works</a>
     </div>
   </div>
 </div>
 
-<!-- ================= TRUST ================= -->
+<!-- Laptop scene. Without JS the lid is open and the last screen shows. -->
+<section class="scene" id="scene" aria-label="Mediate, from enquiry to approval">
+  <div class="stage">
+    <div class="captions">
+      <div class="cap" data-step="0"><h3>An enquiry comes in.</h3><p>Mediate reads it, runs a conflict check and opens the matter.</p></div>
+      <div class="cap" data-step="1"><h3>The intake form drafts itself.</h3><p>Your own template, one party at a time. Where the parties disagree, both answers are kept.</p></div>
+      <div class="cap on" data-step="2"><h3>You approve. Then it goes out.</h3><p>Letters, filings and billing lines wait in your review queue until you say so.</p></div>
+    </div>
+    <div class="device" id="device">
+      <div class="lid" id="lid">
+        <i class="mark" id="mark-top"></i><i class="mark" id="mark-hinge" style="top:auto;bottom:0"></i>
+        <div class="lid-front">
+          <div class="screen">
+            <div class="app" aria-hidden="true">
+              <div class="app-bar"><i></i><i></i><i></i><b>Mediate</b></div>
+              <div class="app-side">
+                <span data-nav="0">Inbox</span>
+                <span data-nav="1">Matters</span>
+                <span data-nav="2" class="on">Review queue <em>3</em></span>
+                <span>Billing</span>
+              </div>
+              <div class="app-main">
+                <div class="pane" data-step="0">
+                  <h4>Inbox</h4><p class="sub">1 new enquiry</p>
+                  <div class="mail">
+                    <div class="mail-who"><div class="av">JB</div><div><b>J. Bloggs</b><small>Today, 09:14</small></div></div>
+                    <p>I'd like to arrange mediation with my ex-partner about our two children. We separated last year. Could you tell me about a MIAM?</p>
+                    <div class="tags"><span class="tag ok">Conflict check clear</span><span class="tag">Children matter</span><span class="tag warn">Safeguarding screen needed</span></div>
+                  </div>
+                </div>
+                <div class="pane" data-step="1">
+                  <h4>Intake form: Bloggs</h4><p class="sub">Drafted from the enquiry and the screening call</p>
+                  <div class="form">
+                    <div class="fld"><small>Party A</small><div>J. Bloggs</div></div>
+                    <div class="fld"><small>Party B</small><div>S. Bloggs</div></div>
+                    <div class="fld"><small>Children</small><div>2, aged 6 and 9</div></div>
+                    <div class="fld"><small>Matter type</small><div>Child arrangements</div></div>
+                    <div class="fld wide flag"><small>Date of separation</small><div><span>A: March 2024</span><span>B: August 2024</span></div></div>
+                    <div class="fld wide"><small>Safeguarding</small><div>Answers recorded word for word, for the mediator to review</div></div>
+                  </div>
+                </div>
+                <div class="pane on" data-step="2">
+                  <h4>Review queue</h4><p class="sub">3 items waiting for you</p>
+                  <div class="row"><div><b>MIAM certificate: Bloggs</b><small>From the Teams transcript · files to /Matters/Bloggs</small></div><span class="tag warn">Waiting</span></div>
+                  <div class="row"><div><b>Follow-up letter: Bloggs (Party A)</b><small>Sends from your own mailbox</small></div><span class="tag warn">Waiting</span></div>
+                  <div class="row"><div><b>Billing: week to 4 Aug</b><small>14 entries matched · 2 need your decision</small></div><span class="tag">Queued</span></div>
+                  <div class="acts"><span>Approve</span><span>Edit</span><span>Discard</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="glare" id="glare"></div>
+          </div>
+        </div>
+        <div class="lid-back"><img src="/logo.svg" alt=""></div>
+      </div>
+      <div class="base" id="base"></div>
+    </div>
+    <div class="dots" aria-hidden="true"><i data-step="0"></i><i data-step="1"></i><i data-step="2" class="on"></i></div>
+  </div>
+</section>
+
 <div class="trust">
-  <div class="wrap trust-in">
-    <div class="trust-title">Built for mediation firms in London. <em>In daily use today.</em></div>
-    <p>Designed alongside a working family mediation practice, on live cases, not modelled on how firms are assumed to work.</p>
-  </div>
+  <div class="wrap"><p data-reveal><b>Built with a family mediation practice in London</b>, and used there on live cases every day.</p></div>
 </div>
 
-<!-- ================= 01 CAPABILITIES ================= -->
-<section class="s" id="capabilities">
+<section class="s" id="what">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-num"><b>01</b><span class="label">Capabilities</span></div>
-      <h2>Four jobs your team does by hand. All four, drafted.</h2>
-      <p class="lead">Mediate sits on top of the systems you already use and takes the repetitive drafting off your desk, while leaving every decision exactly where it belongs.</p>
+    <div class="head" data-reveal>
+      <h2>Four jobs it takes off your desk.</h2>
+      <p class="lead">Mediate works with the systems you already use. It writes the drafts. You make the decisions.</p>
     </div>
-    <div class="grid g4">
-      <article class="card"><div class="label">Intake</div><h3>Forms that fill themselves</h3><p>Enquiry emails and screening calls become a completed intake form against your own template. One pass per party, never merged.</p></article>
-      <article class="card"><div class="label">Sessions</div><h3>Appointments become documents</h3><p>MIAMs and mediation sessions are transcribed, then drafted into certificates, attendance notes and follow-up letters in your house style.</p></article>
-      <article class="card"><div class="label">Billing</div><h3>Time that reaches the sheet</h3><p>Work is matched to the right matter and proposed as new rows on your existing billing sheet. It only ever adds. It never overwrites.</p></article>
-      <article class="card"><div class="label">Correspondence</div><h3>Letters waiting on your send</h3><p>Client updates, exemption letters and chasers arrive as drafts in your own mailbox, written from the case file and ready for review.</p></article>
+    <div class="jobs">
+      <article class="job" data-reveal><p class="k">Intake</p><h3>Intake forms, filled in</h3><p>Enquiry emails and screening calls become a completed intake form on your own template, with each party handled separately.</p></article>
+      <article class="job" data-reveal style="--i:1"><p class="k">Sessions</p><h3>Sessions written up</h3><p>MIAMs and mediation sessions are transcribed, then drafted into certificates, attendance notes and follow-up letters in your house style.</p></article>
+      <article class="job" data-reveal style="--i:2"><p class="k">Billing</p><h3>Time onto the billing sheet</h3><p>Work is matched to the right matter and added as new rows on your existing billing sheet. Existing rows are never changed.</p></article>
+      <article class="job" data-reveal style="--i:3"><p class="k">Correspondence</p><h3>Letters ready to send</h3><p>Client updates, exemption letters and reminders appear as drafts in your own mailbox, written from the case file.</p></article>
     </div>
   </div>
 </section>
 
-<!-- ================= 02 WORKFLOW ================= -->
-<section class="s alt" id="workflow">
+<section class="s alt" id="how">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-num"><b>02</b><span class="label">How it works</span></div>
-      <h2>Receive. Extract. Draft. Approve.</h2>
-      <p class="lead">The same four steps whatever comes in. This is what happens between an enquiry landing and a document being filed.</p>
+    <div class="head" data-reveal>
+      <h2>Receive. Read. Draft. Approve.</h2>
+      <p class="lead">The same four steps for every piece of work, from the moment it arrives to the moment it's filed.</p>
     </div>
 
-    <div class="tabs" role="tablist" aria-label="Workflow">
-      <button class="tab" role="tab" id="tab-enq" aria-controls="panel-enq" aria-selected="true">New enquiry</button>
-      <button class="tab" role="tab" id="tab-miam" aria-controls="panel-miam" aria-selected="false" tabindex="-1">MIAM &amp; sessions</button>
-      <button class="tab" role="tab" id="tab-bill" aria-controls="panel-bill" aria-selected="false" tabindex="-1">Billing</button>
+    <div class="seg" role="tablist" aria-label="Example workflows">
+      <button role="tab" id="tab-enq" aria-controls="panel-enq" aria-selected="true">New enquiry</button>
+      <button role="tab" id="tab-miam" aria-controls="panel-miam" aria-selected="false" tabindex="-1">MIAMs and sessions</button>
+      <button role="tab" id="tab-bill" aria-controls="panel-bill" aria-selected="false" tabindex="-1">Billing</button>
     </div>
 
-    <!-- Tab 1 -->
     <div class="steps" role="tabpanel" id="panel-enq" aria-labelledby="tab-enq">
-      <div class="step">
-        <div class="label">01 · Receive</div>
-        <h3>An enquiry arrives in the firm's inbox</h3>
-        <div class="mini">
-          <div class="who"><div class="avatar">JB</div><div><b>J. Bloggs</b><span>Outlook / Gmail<span class="who-logos"><svg class="ico-sm" aria-hidden="true"><use href="#i-outlook"/></svg><svg class="ico-sm" aria-hidden="true"><use href="#i-gmail"/></svg></span></span></div></div>
-          <q>“I'd like to arrange mediation with my ex-partner about our two children. We separated last year. Could you tell me about a MIAM?”</q>
-        </div>
-      </div>
-      <div class="step">
-        <div class="label">02 · Extract</div>
-        <h3>Mediate reads it and classifies the matter</h3>
-        <div class="chips"><span class="chip ok">Conflict check clear</span><span class="chip accent">Children matter</span><span class="chip warn">Safeguarding screen required</span></div>
-        <p class="cap">Opened as a new matter, with both parties created as separate records</p>
-      </div>
-      <div class="step">
-        <div class="label">03 · Draft</div>
-        <h3>Context is pulled from your live systems</h3>
-        <div class="chips"><span class="chip"><svg class="ico-sm" aria-hidden="true"><use href="#i-sharepoint"/></svg><svg class="ico-sm" aria-hidden="true"><use href="#i-gdrive"/></svg>SharePoint or Drive</span><span class="chip"><svg class="ico-sm" aria-hidden="true"><use href="#i-outlook"/></svg><svg class="ico-sm" aria-hidden="true"><use href="#i-gmail"/></svg>Outlook or Gmail</span><span class="chip"><svg class="ico-sm" aria-hidden="true"><use href="#i-excel"/></svg><svg class="ico-sm" aria-hidden="true"><use href="#i-gsheets"/></svg>Excel or Sheets</span></div>
-        <ul class="ticks">
-          <li>Your intake template filled, one pass per party, never combined</li>
-          <li>Safeguarding answers inserted verbatim, never summarised</li>
-          <li class="flag">Conflicting answers: flagged, not resolved</li>
-        </ul>
-        <div class="cmp"><div><small>Party A says</small><span>Separated March 2024</span></div><div><small>Party B says</small><span>Separated August 2024</span></div></div>
-        <p class="note-line">Where parties disagree on a shared field, both accounts are shown side by side. Mediate never silently picks one.</p>
-      </div>
-      <div class="step">
-        <div class="label">04 · Approve</div>
-        <h3>You review, then it goes where the work lives</h3>
-        <ul class="ticks">
-          <li>Filed to the matter folder in SharePoint or Google Drive</li>
-          <li>Opening billing line appended to your Excel or Sheets workbook</li>
-          <li>MIAM invitation waiting as a draft in your own mailbox</li>
-        </ul>
-      </div>
+      <div class="step"><span class="n">1</span><h3>An enquiry arrives</h3>
+        <div class="quote"><b>J. Bloggs, by email</b>“I'd like to arrange mediation with my ex-partner about our two children. Could you tell me about a MIAM?”</div></div>
+      <div class="step"><span class="n">2</span><h3>Mediate reads it</h3>
+        <ul><li>Conflict check run</li><li>Classed as a children matter</li><li class="flag">Safeguarding screen flagged</li></ul>
+        <p>A new matter is opened, with a separate record for each party.</p></div>
+      <div class="step"><span class="n">3</span><h3>The intake form is drafted</h3>
+        <ul><li>Filled in on your own template, one party at a time</li><li>Safeguarding answers kept word for word</li><li class="flag">Disagreements flagged, not settled</li></ul>
+        <div class="pair"><div><small>Party A</small>March 2024</div><div><small>Party B</small>August 2024</div></div></div>
+      <div class="step"><span class="n">4</span><h3>You approve it</h3>
+        <ul><li>Filed to the matter folder</li><li>Opening billing line added to your sheet</li><li>MIAM invitation saved as a draft in your mailbox</li></ul></div>
     </div>
 
-    <!-- Tab 2 -->
     <div class="steps" role="tabpanel" id="panel-miam" aria-labelledby="tab-miam" hidden>
-      <div class="step">
-        <div class="label">01 · Receive</div>
-        <h3>The appointment ends</h3>
-        <div class="mini">
-          <div class="who"><div class="avatar">MI</div><div><b>MIAM: Bloggs (Party A) · 48 min</b><span>Teams / Meet<span class="who-logos"><svg class="ico-sm" aria-hidden="true"><use href="#i-teams"/></svg><svg class="ico-sm" aria-hidden="true"><use href="#i-meet"/></svg></span></span></div></div>
-        </div>
-        <p class="cap">Transcript captured natively by Microsoft Teams or Google Meet. No third-party recorder joins the call, and nothing leaves your own tenancy.</p>
-      </div>
-      <div class="step">
-        <div class="label">02 · Extract</div>
-        <h3>The mediation-relevant facts are lifted out</h3>
-        <div class="chips"><span class="chip">Suitability discussed</span><span class="chip">Children's arrangements</span><span class="chip warn">Safeguarding disclosure: verbatim</span><span class="chip">Next steps agreed</span></div>
-        <p class="cap">Written to Party A's record only, structurally isolated from Party B's</p>
-      </div>
-      <div class="step">
-        <div class="label">03 · Draft</div>
-        <h3>Your documents, drafted from the session</h3>
-        <ul class="ticks">
-          <li>MIAM certificate populated into your own Word or Google Docs template</li>
-          <li>Attendance note and case summary written up</li>
-          <li>Follow-up letter to the client, in your firm's voice</li>
-        </ul>
-        <p class="note-line">Exemption letters are manual-trigger only. Suitability is the mediator's judgement, never the software's</p>
-      </div>
-      <div class="step">
-        <div class="label">04 · Approve</div>
-        <h3>Nothing moves until you say so</h3>
-        <ul class="ticks">
-          <li>Certificate filed to the matter folder on approval</li>
-          <li>Letter sent from your own mailbox, under your own address</li>
-          <li>Session time logged against the matter</li>
-        </ul>
-      </div>
+      <div class="step"><span class="n">1</span><h3>The appointment ends</h3>
+        <div class="quote"><b>MIAM: Bloggs (Party A), 48 min</b>Transcript saved by Teams or Google Meet. No extra recorder joins the call.</div></div>
+      <div class="step"><span class="n">2</span><h3>The key facts are picked out</h3>
+        <ul><li>Suitability discussed</li><li>Children's arrangements</li><li class="flag">Safeguarding disclosure, word for word</li><li>Next steps agreed</li></ul>
+        <p>Saved to Party A's record only. Party B's record is kept separate.</p></div>
+      <div class="step"><span class="n">3</span><h3>Your documents are drafted</h3>
+        <ul><li>MIAM certificate on your own template</li><li>Attendance note and case summary</li><li>Follow-up letter in your firm's style</li></ul>
+        <p>Exemption letters are only drafted when you ask. Suitability is always the mediator's decision.</p></div>
+      <div class="step"><span class="n">4</span><h3>You approve them</h3>
+        <ul><li>Certificate filed to the matter folder</li><li>Letter sent from your own mailbox</li><li>Session time logged against the matter</li></ul></div>
     </div>
 
-    <!-- Tab 3 -->
     <div class="steps" role="tabpanel" id="panel-bill" aria-labelledby="tab-bill" hidden>
-      <div class="step">
-        <div class="label">01 · Receive</div>
-        <h3>Billable work happens</h3>
-        <div class="mini">
-          <div class="who"><div class="avatar">CA</div><div><b>Calendar &amp; matter activity · this week</b><span>M365 / Workspace<span class="who-logos"><svg class="ico-sm" aria-hidden="true"><use href="#i-microsoft"/></svg><svg class="ico-sm" aria-hidden="true"><use href="#i-google"/></svg></span></span></div></div>
-        </div>
-        <p class="cap">3 appointments held · 11 items of correspondence · 2 documents drafted, all against live matters, none of it yet on a bill.</p>
-      </div>
-      <div class="step">
-        <div class="label">02 · Extract</div>
-        <h3>Matched to the right matter and rate</h3>
-        <div class="chips"><span class="chip ok">14 items matched</span><span class="chip warn">2 need your call</span></div>
-        <p class="cap">Anything ambiguous is queued for you rather than guessed at</p>
-      </div>
-      <div class="step">
-        <div class="label">03 · Draft</div>
-        <h3>Proposed as new rows on your existing sheet</h3>
-        <ul class="ticks">
-          <li>Your Excel or Google Sheets workbook stays the source of truth</li>
-          <li>Additions only. Existing rows, formulas and formatting are never touched</li>
-          <li>Time gaps and unbilled work surfaced before month end</li>
-        </ul>
-      </div>
-      <div class="step">
-        <div class="label">04 · Approve</div>
-        <h3>You sign off the sheet, not the software</h3>
-        <ul class="ticks">
-          <li>Approved lines written to your workbook in its existing location</li>
-          <li>Invoice drafted for your review</li>
-          <li>Every change written to an append-only audit log</li>
-        </ul>
-      </div>
+      <div class="step"><span class="n">1</span><h3>The week's work happens</h3>
+        <div class="quote"><b>This week</b>3 appointments, 11 emails and letters, 2 documents drafted. None of it billed yet.</div></div>
+      <div class="step"><span class="n">2</span><h3>Each item is matched</h3>
+        <ul><li>14 items matched to a matter and rate</li><li class="flag">2 left for you to decide</li></ul>
+        <p>Anything unclear comes to you instead of being guessed.</p></div>
+      <div class="step"><span class="n">3</span><h3>New rows are proposed</h3>
+        <ul><li>Your Excel or Google Sheets workbook stays the record</li><li>Rows are only added. Existing rows and formulas are left alone</li><li>Unbilled time shown before month end</li></ul></div>
+      <div class="step"><span class="n">4</span><h3>You sign off the sheet</h3>
+        <ul><li>Approved rows written to your workbook</li><li>Invoice drafted for you to check</li><li>Every change logged</li></ul></div>
     </div>
   </div>
 </section>
 
-<!-- ================= 03 APPROVAL ================= -->
 <section class="s" id="approval">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-num"><b>03</b><span class="label">The approval gate</span></div>
-      <h2>Nothing sends, files or bills without you.</h2>
-      <p class="lead">Mediate drafts. You decide. That line is structural, not a preference someone can switch off on a busy Friday afternoon.</p>
+  <div class="wrap approve">
+    <div>
+      <div class="head" data-reveal style="margin-bottom:40px">
+        <h2>Nothing goes out until you approve it.</h2>
+        <p class="lead">Mediate writes drafts. You decide what happens to them.</p>
+      </div>
+      <div class="points">
+        <div data-reveal><h3>Everything waits in one queue</h3><p>Emails, filings and billing entries sit in your review queue. There is no way for them to leave without your approval.</p></div>
+        <div data-reveal style="--i:1"><h3>Edit before you approve</h3><p>Change a word, a date or the whole letter first.</p></div>
+        <div data-reveal style="--i:2"><h3>Your systems stay the record</h3><p>Microsoft 365 or Google Workspace remains where everything lives. Mediate only adds to it.</p></div>
+        <div data-reveal style="--i:3"><h3>A permanent log</h3><p>Who approved what, when, and which draft they approved, in a log that can't be edited.</p></div>
+      </div>
     </div>
-    <div class="approve">
-      <div class="alist">
-        <div class="aitem"><div class="label">Queue</div><div><h3>Every outbound action waits</h3><p>Emails, filings and billing entries sit in a review queue. There is no code path to the outside world that skips it.</p></div></div>
-        <div class="aitem"><div class="label">Edit</div><div><h3>Change it before you approve</h3><p>A word, a date, or the whole letter. Your edits inform how the next draft is written.</p></div></div>
-        <div class="aitem"><div class="label">Record</div><div><h3>Your systems stay the record</h3><p>Microsoft 365 and Google Workspace remain the source of truth. Mediate reads live and only ever adds.</p></div></div>
-        <div class="aitem"><div class="label">Trail</div><div><h3>A full trail, permanently</h3><p>Who approved what, when, and against which draft, written to an append-only log you can export.</p></div></div>
+    <div class="card" data-reveal>
+      <div class="card-head"><b>MIAM follow-up letter</b><span class="state" id="draft-state">Waiting for approval</span></div>
+      <div class="letter" id="draft-letter">
+        <div class="meta">From the MIAM on 4 Aug · sends from you@yourfirm.co.uk</div>
+        <p>Dear Mr Bloggs,</p>
+        <p>Thank you for attending your Mediation Information and Assessment Meeting on 4 August 2026. As we discussed, I have written to Mrs Bloggs to invite her to a separate MIAM.</p>
+        <p>From our conversation, I consider this matter suitable for joint mediation, subject to her attendance.</p>
       </div>
-      <!-- The letter writes itself when this scrolls into view. The text below
-           is the real content and the script types it back in rather than
-           supplying it, so with JS off, or with reduced motion requested, the
-           finished letter is simply there. The actions stay dimmed until it
-           finishes: the section's own argument, made visible. -->
-      <div class="mock" id="draft-mock" aria-label="Example draft letter awaiting approval" data-reveal="scale">
-        <div class="mock-head">
-          <b>Draft: awaiting approval</b>
-          <span class="cell" style="gap:8px">
-            <span class="draft-state" id="draft-state" aria-hidden="true"><span class="dot"></span>Awaiting approval</span>
-            <span class="chip accent">MIAM follow-up</span>
-          </span>
-        </div>
-        <div class="letter" id="draft-letter">
-          <div class="meta">Drafted from MIAM held 4 Aug · sends from you@yourfirm · files to /Matters/Bloggs</div>
-          <p>Dear Mr Bloggs,</p>
-          <p>Thank you for attending your Mediation Information and Assessment Meeting on 4 August 2026. As discussed, I have written to Mrs Bloggs to invite her to a separate MIAM.</p>
-          <p>Following our conversation, I consider this matter suitable to proceed to joint mediation, subject to her attendance…</p>
-          <div class="fade"></div>
-        </div>
-        <div class="mock-foot" id="draft-foot">
-          <span class="mb pri">Approve &amp; send</span><span class="mb">Edit</span><span class="mb">Discard</span>
-          <span class="spacer"></span>
-          <button class="replay" id="draft-replay" type="button" hidden>
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 1 1-1.9-4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M13.8 2.2v3.1h-3.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Replay
-          </button>
-          <span class="mock-note">Nothing has been sent</span>
-        </div>
-      </div>
+      <div class="card-foot" id="draft-foot"><span class="pri">Approve and send</span><span>Edit</span><span>Discard</span><small>Not sent</small></div>
     </div>
   </div>
 </section>
 
-<!-- ================= 04 INTEGRATIONS ================= -->
-<section class="s alt" id="stack">
+<section class="s alt" id="integrations">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-num"><b>04</b><span class="label">Integrations</span></div>
-      <h2>Runs on Microsoft 365 or Google Workspace.</h2>
-      <p class="lead">No migration, no second case management system, no asking your team to learn another interface. Mediate connects to the tenancy you already have and works inside the files and mailboxes you use today.</p>
+    <div class="head" data-reveal>
+      <h2>Works with Microsoft 365 or Google Workspace.</h2>
+      <p class="lead">No migration and no new case management system. Mediate connects to the accounts you already have and works in the same files and mailboxes.</p>
     </div>
-    <div class="table-wrap">
+    <div class="table-wrap" data-reveal>
       <table>
-        <thead><tr><th scope="col">Capability</th><th scope="col"><span class="cell"><svg class="ico-sm" aria-hidden="true"><use href="#i-microsoft"/></svg>Microsoft 365</span></th><th scope="col"><span class="cell"><svg class="ico-sm" aria-hidden="true"><use href="#i-google"/></svg>Google Workspace</span></th></tr></thead>
+        <thead><tr><th scope="col">For</th><th scope="col"><span class="cell"><svg class="ico-sm" aria-hidden="true"><use href="#i-microsoft"/></svg>Microsoft 365</span></th><th scope="col"><span class="cell"><svg class="ico-sm" aria-hidden="true"><use href="#i-google"/></svg>Google Workspace</span></th></tr></thead>
         <tbody>
-          <tr><td>Enquiries &amp; correspondence</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-outlook"/></svg><div class="cell-txt"><b>Outlook</b><span>Reads threads, writes drafts</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gmail"/></svg><div class="cell-txt"><b>Gmail</b><span>Reads threads, writes drafts</span></div></div></td></tr>
-          <tr><td>Appointments &amp; transcription</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-teams"/></svg><div class="cell-txt"><b>Microsoft Teams</b><span>Native transcript, no bot joins</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-meet"/></svg><div class="cell-txt"><b>Google Meet</b><span>Native transcript, no bot joins</span></div></div></td></tr>
-          <tr><td>Document storage</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-sharepoint"/></svg><div class="cell-txt"><b>SharePoint</b><span>Files into your matter folders</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gdrive"/></svg><div class="cell-txt"><b>Google Drive</b><span>Files into your matter folders</span></div></div></td></tr>
-          <tr><td>Templates &amp; documents</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-word"/></svg><div class="cell-txt"><b>Word</b><span>Your own .docx templates</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gdocs"/></svg><div class="cell-txt"><b>Google Docs</b><span>Your own Docs templates</span></div></div></td></tr>
-          <tr><td>Billing sheets</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-excel"/></svg><div class="cell-txt"><b>Excel</b><span>Appends rows, never overwrites</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gsheets"/></svg><div class="cell-txt"><b>Google Sheets</b><span>Appends rows, never overwrites</span></div></div></td></tr>
-          <tr><td>Diary</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-outlookcal"/></svg><div class="cell-txt"><b>Outlook Calendar</b><span>Time capture against matters</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gcal"/></svg><div class="cell-txt"><b>Google Calendar</b><span>Time capture against matters</span></div></div></td></tr>
-          <tr><td>Sign-in &amp; permissions</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-entra"/></svg><div class="cell-txt"><b>Microsoft Entra ID</b><span>Your existing accounts and MFA</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-google"/></svg><div class="cell-txt"><b>Google Identity</b><span>Your existing accounts and MFA</span></div></div></td></tr>
+          <tr><td>Email</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-outlook"/></svg><div><b>Outlook</b><span>Reads emails, writes drafts</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gmail"/></svg><div><b>Gmail</b><span>Reads emails, writes drafts</span></div></div></td></tr>
+          <tr><td>Meetings</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-teams"/></svg><div><b>Teams</b><span>Uses the built-in transcript</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-meet"/></svg><div><b>Google Meet</b><span>Uses the built-in transcript</span></div></div></td></tr>
+          <tr><td>Files</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-sharepoint"/></svg><div><b>SharePoint</b><span>Files into your matter folders</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gdrive"/></svg><div><b>Google Drive</b><span>Files into your matter folders</span></div></div></td></tr>
+          <tr><td>Templates</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-word"/></svg><div><b>Word</b><span>Your own .docx templates</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gdocs"/></svg><div><b>Google Docs</b><span>Your own templates</span></div></div></td></tr>
+          <tr><td>Billing</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-excel"/></svg><div><b>Excel</b><span>Adds rows, never overwrites</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gsheets"/></svg><div><b>Google Sheets</b><span>Adds rows, never overwrites</span></div></div></td></tr>
+          <tr><td>Diary</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-outlookcal"/></svg><div><b>Outlook Calendar</b><span>Logs time against matters</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-gcal"/></svg><div><b>Google Calendar</b><span>Logs time against matters</span></div></div></td></tr>
+          <tr><td>Sign-in</td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-entra"/></svg><div><b>Microsoft Entra ID</b><span>Your existing accounts and MFA</span></div></div></td><td><div class="cell"><svg class="ico" aria-hidden="true"><use href="#i-google"/></svg><div><b>Google sign-in</b><span>Your existing accounts and MFA</span></div></div></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="table-note">Mixed estates are fine. Plenty of firms run Google for mail and Microsoft for documents. Mediate connects to each service independently, so you can use either side of this table in any combination.</p>
+    <p class="note">You can mix the two. If you use Gmail for email and SharePoint for files, that works too.</p>
   </div>
 </section>
 
-<!-- ================= 05 SECURITY ================= -->
 <section class="s" id="security">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-num"><b>05</b><span class="label">Security &amp; data protection</span></div>
-      <h2>Client confidentiality was the first requirement, not the last.</h2>
-      <p class="lead">Family mediation handles some of the most sensitive material in law. Mediate was architected around that from the first line, with data handling designed to comply with UK GDPR.</p>
+    <div class="head" data-reveal>
+      <h2>Built around client confidentiality.</h2>
+      <p class="lead">Family mediation involves some of the most sensitive information in law. Mediate was designed around that from the start, with data handling designed to meet UK GDPR.</p>
     </div>
-    <div class="grid g3">
-      <article class="card"><div class="label">Residency</div><h3>UK and EU data residency</h3><p>Case data is stored in a UK or EU region. Documents, transcripts and mail stay inside your own Microsoft or Google tenancy.</p></article>
-      <article class="card"><div class="label">Access</div><h3>Role-based access control</h3><p>Row-level security across every case table, with distinct principal, administrator and auditor roles. Anonymous access is revoked outright.</p></article>
-      <article class="card"><div class="label">Audit</div><h3>Append-only audit log</h3><p>Every read, draft and approval is recorded and cannot be edited or deleted by ordinary users, administrators included.</p></article>
-      <article class="card"><div class="label">Training</div><h3>No training on your data</h3><p>Client material is never used to train models. It is processed to do the job you asked for, and nothing beyond it.</p></article>
-      <article class="card"><div class="label">Isolation</div><h3>Cross-party isolation</h3><p>Each party is handled in a separate, structurally enforced pass. Party A's answers cannot leak into Party B's file.</p></article>
-      <article class="card"><div class="label">Compliance</div><h3>Built to GDPR regulations</h3><p>Data handling is designed to comply with UK GDPR and EU GDPR: UK or EU residency, access controls, retention limits and a full audit trail.</p></article>
+    <div class="sec">
+      <div data-reveal><h3>UK and EU data storage</h3><p>Case data is stored in the UK or EU. Documents, transcripts and email stay in your own Microsoft or Google account.</p></div>
+      <div data-reveal style="--i:1"><h3>Role-based access</h3><p>Separate roles for principals, administrators and auditors, with access controlled on every case record.</p></div>
+      <div data-reveal style="--i:2"><h3>A log that can't be changed</h3><p>Every read, draft and approval is recorded. Nobody can edit or delete the log, administrators included.</p></div>
+      <div data-reveal><h3>Your data isn't used for training</h3><p>Client material is only used to do the work you asked for. It is never used to train AI models.</p></div>
+      <div data-reveal style="--i:1"><h3>Parties kept apart</h3><p>Each party is handled separately, so one party's answers can't end up in the other's file.</p></div>
+      <div data-reveal style="--i:2"><h3>Designed for UK GDPR</h3><p>UK or EU storage, access controls, retention limits and a full audit log.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ================= 06 DEMO ================= -->
 <section class="s alt" id="demo">
   <div class="wrap demo">
-    <div class="demo-left">
-      <div class="sec-num"><b>06</b><span class="label">Book a demo</span></div>
-      <h2>See it running on matters like yours.</h2>
-      <p class="lead">Twenty minutes, no slides. We walk through a real intake, a real MIAM write-up and a real billing run, then talk about what it would take to run it in your practice.</p>
-      <ul class="ticks">
-        <li>A live walkthrough, not a recorded pitch</li>
-        <li>Straight answers on data protection and where your files sit</li>
-        <li>An honest view on whether it fits your firm, including when it doesn't</li>
-        <li>A reply within one working day</li>
+    <div class="demo-left" data-reveal>
+      <h2>Book a 20-minute demo.</h2>
+      <p class="lead">We'll take you through an intake, a MIAM write-up and a billing run, then answer your questions.</p>
+      <ul>
+        <li>A live walkthrough with a person</li>
+        <li>Where your data is stored and who can see it</li>
+        <li>Whether it suits a firm your size</li>
+        <li>We reply within one working day</li>
       </ul>
     </div>
 
-    <div class="form-card">
+    <div class="form-card" data-reveal style="--i:1">
       <form id="demo-form" name="demo-request" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="demo-request">
-        <p class="hp" aria-hidden="true"><label>Leave this blank: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
-
-        <div class="row">
-          <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+        <p class="hp" aria-hidden="true"><input name="bot-field" tabindex="-1" autocomplete="off" aria-label="Leave empty"></p>
+        <div class="two">
+          <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
           <div class="field"><label for="f-firm">Firm</label><input id="f-firm" name="firm" type="text" autocomplete="organization" required></div>
         </div>
-        <div class="row">
+        <div class="two">
           <div class="field"><label for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
           <div class="field"><label for="f-phone">Phone <em>(optional)</em></label><input id="f-phone" name="phone" type="tel" autocomplete="tel"></div>
         </div>
-        <div class="row">
-          <div class="field"><label for="f-size">Mediators in the practice</label>
+        <div class="two">
+          <div class="field"><label for="f-size">Number of mediators</label>
             <select id="f-size" name="mediators" required>
-              <option value="" selected disabled>Select…</option>
-              <option>Sole practitioner</option><option>2–5</option><option>6–15</option><option>16+</option>
+              <option value="" selected disabled>Choose</option>
+              <option>Just me</option><option>2–5</option><option>6–15</option><option>16+</option>
             </select></div>
-          <div class="field"><label for="f-stack">Your stack</label>
+          <div class="field"><label for="f-stack">You use</label>
             <select id="f-stack" name="stack" required>
-              <option value="" selected disabled>Select…</option>
-              <option>Microsoft 365</option><option>Google Workspace</option><option>A mix of both</option><option>Not sure</option>
+              <option value="" selected disabled>Choose</option>
+              <option>Microsoft 365</option><option>Google Workspace</option><option>Both</option><option>Not sure</option>
             </select></div>
         </div>
-        <div class="field"><label for="f-note">What's taking the most time right now? <em>(optional)</em></label><textarea id="f-note" name="message"></textarea></div>
-
-        <div class="form-err" id="form-err" role="alert" hidden>
-          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true" style="flex-shrink:0;margin-top:1px"><circle cx="10" cy="10" r="8.2" stroke="#B91C1C" stroke-width="1.6"/><path d="M10 5.8v5M10 13.6v.1" stroke="#B91C1C" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <span>That didn't send. Please email <a href="mailto:Nikhal@realaidynamics.com">Nikhal@realaidynamics.com</a> directly.</span>
-        </div>
-        <button class="btn btn-primary" id="form-btn" type="submit">Book a demo</button>
-        <p class="fine">Used only to arrange your demo. No mailing list, no sharing with anyone else.</p>
+        <div class="field"><label for="f-note">What takes up most of your time? <em>(optional)</em></label><textarea id="f-note" name="message"></textarea></div>
+        <div class="form-err" id="form-err" role="alert" hidden>That didn't send. Please email <a href="mailto:Nikhal@realaidynamics.com">Nikhal@realaidynamics.com</a> instead.</div>
+        <button class="btn btn-primary" id="form-btn" type="submit">Request a demo</button>
+        <p class="fine">We only use these details to arrange your demo.</p>
       </form>
-
       <div class="done" id="form-done" tabindex="-1" hidden>
-        <div class="tick"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5.5 12.6l4.2 4.2 8.8-9" stroke="#15803D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="label">Submitted</div>
-        <h3>Thank you. That's landed.</h3>
-        <p>We'll be in touch within one working day to find a time that suits.</p>
+        <div class="tick"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5.5 12.6l4.2 4.2 8.8-9" stroke="#1d7a3e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Thanks, we've got it.</h3>
+        <p>We'll email you within one working day to find a time.</p>
       </div>
     </div>
   </div>
@@ -848,278 +610,165 @@ td .cell b{display:block}
 
 <footer>
   <div class="wrap foot">
-    <a class="brand" href="#top" aria-label="Mediate, back to top"><img src="/logo.svg" alt="" width="28" height="28">Mediate</a>
-    <nav class="foot-links" aria-label="Footer">
-      <a href="#capabilities">Capabilities</a><a href="#workflow">How it works</a><a href="#stack">Integrations</a><a href="#security">Security</a><a href="#demo">Contact</a>
-    </nav>
-    <div class="copy">© 2026 Mediate · practice software for family mediation</div>
+    <span>© 2026 Mediate. Practice software for family mediation.</span>
+    <nav aria-label="Footer"><a href="#what">What it does</a><a href="#how">How it works</a><a href="#integrations">Integrations</a><a href="#security">Security</a><a href="#demo">Contact</a></nav>
   </div>
 </footer>
 
 <script>
 (function () {
-  /* Workflow tabs */
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var each = function (list, fn) { Array.prototype.forEach.call(list, fn); };
+
+  /* ---- Loading screen: at least 700ms so it never flickers, at most 1.6s ---- */
+  var loader = document.getElementById('loader');
+  var t0 = Date.now(), hidden = false;
+  function hideLoader() {
+    if (hidden) return; hidden = true;
+    var wait = Math.max(0, (reduced ? 200 : 700) - (Date.now() - t0));
+    setTimeout(function () { loader.classList.add('done'); }, wait);
+  }
+  if (document.readyState === 'complete') hideLoader(); else window.addEventListener('load', hideLoader);
+  setTimeout(hideLoader, 1600);
+
+  /* ---- Nav gets a hairline once the page moves ---- */
+  var nav = document.getElementById('nav');
+
+  /* ---- Laptop scene: scroll position drives everything, 1:1 ---- */
+  var scene = document.getElementById('scene');
+  var lid = document.getElementById('lid');
+  var glare = document.getElementById('glare');
+  var device = document.getElementById('device');
+  var steppers = scene.querySelectorAll('[data-step]');
+  var navItems = scene.querySelectorAll('[data-nav]');
+  var base = document.getElementById('base');
+  var current = -1;
+  var OPEN_END = 0.24;
+  var CLOSED = -86, OPEN = 2;
+
+  var markTop = document.getElementById('mark-top');
+  var markHinge = document.getElementById('mark-hinge');
+  var lidH = 0;
+  function measure() { lidH = lid.offsetHeight; }
+
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function setStep(n) {
+    if (n === current) return;
+    current = n;
+    each(steppers, function (el) { el.classList.toggle('on', +el.getAttribute('data-step') === n); });
+    each(navItems, function (el) { el.classList.toggle('on', +el.getAttribute('data-nav') === n); });
+  }
+
+  function renderScene() {
+    var rect = scene.getBoundingClientRect();
+    var total = scene.offsetHeight - window.innerHeight;
+    var p = clamp(-rect.top / (total || 1), 0, 1);
+    var o = reduced ? 1 : easeOut(clamp(p / OPEN_END, 0, 1));
+    lid.style.transform = 'rotateX(' + (CLOSED + (OPEN - CLOSED) * o) + 'deg)';
+    var scale = 0.92 + 0.08 * o;
+    // While closed, lift the laptop so the folded lid sits mid-stage.
+    device.style.transform = 'translateY(' + (-lidH * 0.62 * (1 - o)) + 'px) scale(' + scale + ')';
+    // The base's front edge sits under whichever is nearer the viewer: the
+    // hinge (lid open) or the lid's top edge (lid folding down). Read from the
+    // projected positions of two markers, so it matches at every angle.
+    var front = markTop.getBoundingClientRect().top - markHinge.getBoundingClientRect().top;
+    base.style.transform = 'translateY(' + Math.max(0, front / scale) + 'px)';
+    glare.style.opacity = String(0.85 * (1 - clamp((o - 0.55) / 0.45, 0, 1)));
+    var step = p < OPEN_END ? 0 : Math.min(2, Math.floor((p - OPEN_END) / ((1 - OPEN_END) / 3)));
+    setStep(step);
+  }
+
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return; ticking = true;
+    window.requestAnimationFrame(function () {
+      ticking = false;
+      nav.classList.toggle('scrolled', window.scrollY > 8);
+      renderScene();
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { measure(); onScroll(); });
+  measure();
+  renderScene();
+
+  /* ---- Scroll reveal, once per element ---- */
+  var reveals = document.querySelectorAll('[data-reveal]');
+  if (reduced || !('IntersectionObserver' in window)) {
+    each(reveals, function (el) { el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    each(reveals, function (el) { io.observe(el); });
+  }
+
+  /* ---- Workflow tabs ---- */
   var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
-  var panels = Array.prototype.slice.call(document.querySelectorAll('[role="tabpanel"]'));
+  var panels = document.querySelectorAll('[role="tabpanel"]');
   function select(tab, focus) {
     tabs.forEach(function (t) { var on = t === tab; t.setAttribute('aria-selected', on ? 'true' : 'false'); t.tabIndex = on ? 0 : -1; });
-    panels.forEach(function (p) { p.hidden = p.id !== tab.getAttribute('aria-controls'); });
+    each(panels, function (p) { p.hidden = p.id !== tab.getAttribute('aria-controls'); });
     if (focus) tab.focus();
   }
   tabs.forEach(function (t, i) {
     t.addEventListener('click', function () { select(t); });
     t.addEventListener('keydown', function (e) {
-      var n = null;
-      if (e.key === 'ArrowRight') n = tabs[(i + 1) % tabs.length];
-      else if (e.key === 'ArrowLeft') n = tabs[(i - 1 + tabs.length) % tabs.length];
-      else if (e.key === 'Home') n = tabs[0];
-      else if (e.key === 'End') n = tabs[tabs.length - 1];
+      var n = e.key === 'ArrowRight' ? tabs[(i + 1) % tabs.length] : e.key === 'ArrowLeft' ? tabs[(i - 1 + tabs.length) % tabs.length] : e.key === 'Home' ? tabs[0] : e.key === 'End' ? tabs[tabs.length - 1] : null;
       if (n) { e.preventDefault(); select(n, true); }
     });
   });
 
-  /* ============================================================
-     Motion layer. Every part of this is an enhancement: if it does
-     not run, the page is the same page, fully readable, with its
-     content already in the DOM. Anyone who has asked their system
-     for reduced motion gets the finished state immediately and
-     none of the animation below is started at all.
-     ============================================================ */
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-  /* ---- Scroll reveal ----------------------------------------
-     One observer for the whole page. Elements reveal once and are
-     then unobserved: re-animating on every scroll past is the
-     thing that makes a site feel restless rather than considered. */
-  function setupReveal() {
-    var targets = document.querySelectorAll('[data-reveal]');
-    if (reduced || !('IntersectionObserver' in window)) {
-      Array.prototype.forEach.call(targets, function (el) { el.classList.add('in'); });
-      return;
-    }
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('in');
-        io.unobserve(entry.target);
-      });
-    }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
-    Array.prototype.forEach.call(targets, function (el) { io.observe(el); });
-  }
-
-  /* Tag the things worth revealing, and stagger siblings so a row of
-     cards arrives in sequence. Done in script rather than by hand in
-     the markup so the HTML stays readable and nothing is missed. */
-  function markReveals() {
-    // The hero card reveals as ONE unit: animating its five rows separately
-    // reads as the card assembling itself, which is busier than the page wants.
-    var solo = ['.sec-head', '.trust-in', '.table-wrap', '.table-note', '.tabs', '.demo-left', '.form-card', '.hero-cta', '.hero-meta', '.pill', '.hero .mock'];
-    solo.forEach(function (sel) {
-      Array.prototype.forEach.call(document.querySelectorAll(sel), function (el) {
-        if (!el.hasAttribute('data-reveal')) el.setAttribute('data-reveal', '');
-      });
-    });
-    // Staggered groups: each child gets its index, so they cascade.
-    var groups = ['.grid', '.steps', '.alist'];
-    groups.forEach(function (sel) {
-      Array.prototype.forEach.call(document.querySelectorAll(sel), function (group) {
-        var kids = group.children.length ? group.children : [group];
-        Array.prototype.forEach.call(kids, function (kid, i) {
-          if (kid.hasAttribute('data-reveal')) return;
-          kid.setAttribute('data-reveal', '');
-          kid.style.setProperty('--i', String(Math.min(i, 6)));
-        });
-      });
-    });
-  }
-
-  /* ---- Headline words rise into place -----------------------
-     Applied to the hero h1 and each section h2. Words are wrapped
-     individually; the wrapper has overflow hidden so each word
-     appears to rise out of the line rather than fade in place. */
-  function splitHeadlines() {
-    if (reduced) return;
-    var heads = document.querySelectorAll('.hero h1, .sec-head h2');
-    Array.prototype.forEach.call(heads, function (h) {
-      var words = h.textContent.trim().split(/\s+/);
-      h.textContent = '';
-      words.forEach(function (w, i) {
-        var outer = document.createElement('span');
-        outer.className = 'wordline';
-        var inner = document.createElement('span');
-        inner.textContent = w;
-        inner.style.setProperty('--i', String(i));
-        outer.appendChild(inner);
-        h.appendChild(outer);
-        if (i < words.length - 1) h.appendChild(document.createTextNode(' '));
-      });
-      if (!('IntersectionObserver' in window)) { h.querySelectorAll('.wordline').forEach(function (n) { n.classList.add('in'); }); return; }
-      var io = new IntersectionObserver(function (es) {
-        es.forEach(function (e) {
-          if (!e.isIntersecting) return;
-          Array.prototype.forEach.call(h.querySelectorAll('.wordline'), function (n) { n.classList.add('in'); });
-          io.unobserve(h);
-        });
-      }, { threshold: 0.3 });
-      io.observe(h);
-    });
-  }
-
-  /* ---- Nav lifts once the page has moved -------------------- */
-  function setupNav() {
-    var nav = document.querySelector('.nav');
-    if (!nav) return;
-    var ticking = false;
-    function update() { nav.classList.toggle('scrolled', window.scrollY > 12); ticking = false; }
-    window.addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(update);
-    }, { passive: true });
-    update();
-  }
-
-  /* ---- The draft writes itself -------------------------------
-     The paragraphs already contain the finished letter. This stores
-     that text, empties them, and types it back when the card comes
-     into view, so the section shows the drafting happening instead
-     of asserting it. The letter region is marked aria-busy and
-     hidden from assistive tech only while it types, then handed
-     back complete: a screen reader gets the whole letter, never a
-     stream of half-sentences. */
-  function setupDraft() {
+  /* ---- The letter writes itself when it comes into view ----
+     The finished text is in the HTML; with JS off or reduced motion it is
+     simply shown. Hidden from screen readers only while typing. */
+  (function () {
     var letter = document.getElementById('draft-letter');
     var state = document.getElementById('draft-state');
     var foot = document.getElementById('draft-foot');
-    var replay = document.getElementById('draft-replay');
-    if (!letter || !state || !foot) return;
-
     var paras = Array.prototype.slice.call(letter.querySelectorAll('p'));
     var full = paras.map(function (p) { return p.textContent; });
     var timers = [];
-    function clearTimers() { timers.forEach(clearTimeout); timers = []; }
-
     function finish() {
+      timers.forEach(clearTimeout); timers = [];
       paras.forEach(function (p, i) { p.textContent = full[i]; p.classList.remove('typing'); });
       letter.removeAttribute('aria-hidden');
-      letter.removeAttribute('aria-busy');
-      state.className = 'draft-state ready';
-      state.innerHTML = '<span class="dot"></span>Awaiting approval';
+      state.className = 'state'; state.textContent = 'Waiting for approval';
       foot.classList.remove('pending');
-      if (replay) replay.hidden = false;
     }
-
-    function run() {
-      clearTimers();
-      if (replay) replay.hidden = true;
-      foot.classList.add('pending');
-      letter.setAttribute('aria-hidden', 'true');
-      letter.setAttribute('aria-busy', 'true');
-      state.className = 'draft-state writing';
-      state.innerHTML = '<span class="dot"></span>Drafting from transcript';
-      paras.forEach(function (p) { p.textContent = ''; });
-
-      var delay = 420;
-      paras.forEach(function (p, pi) {
-        timers.push(setTimeout(function () { typePara(p, full[pi], pi === paras.length - 1); }, delay));
-        // Pace per paragraph, plus a beat between them: a letter is
-        // composed in sentences, not at a constant character rate.
-        delay += full[pi].length * 15 + 360;
-      });
-    }
-
-    function typePara(p, text, isLast) {
-      p.classList.add('typing');
-      var i = 0;
+    function type(p, text, last) {
+      var i = 0; p.classList.add('typing');
       (function step() {
-        // Two or three characters a tick reads as writing; one at a
-        // time reads as a terminal, which is the wrong register for a
-        // solicitor's letter.
         i = Math.min(text.length, i + 2 + Math.floor(Math.random() * 2));
         p.textContent = text.slice(0, i);
-        if (i < text.length) { timers.push(setTimeout(step, 14)); return; }
+        if (i < text.length) { timers.push(setTimeout(step, 16)); return; }
         p.classList.remove('typing');
-        if (isLast) timers.push(setTimeout(finish, 260));
+        if (last) timers.push(setTimeout(finish, 300));
       })();
     }
-
-    if (reduced || !('IntersectionObserver' in window)) { finish(); return; }
-
-    var started = false;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting || started) return;
-        started = true;
-        run();
-        io.unobserve(letter);
+    function run() {
+      letter.setAttribute('aria-hidden', 'true');
+      state.className = 'state writing'; state.textContent = 'Drafting';
+      foot.classList.add('pending');
+      paras.forEach(function (p) { p.textContent = ''; });
+      var d = 300;
+      paras.forEach(function (p, i) {
+        timers.push(setTimeout(function () { type(p, full[i], i === paras.length - 1); }, d));
+        d += full[i].length * 9 + 320;
       });
-    }, { threshold: 0.45 });
-    io.observe(letter);
-
-    if (replay) replay.addEventListener('click', run);
-
-    // A tab switch mid-type leaves half a letter on screen; finish it
-    // rather than leaving the card looking broken.
-    document.addEventListener('visibilitychange', function () {
-      if (document.hidden && started) { clearTimers(); finish(); }
-    });
-  }
-
-  /* ---- Cursor tracker ---------------------------------------
-     A precise dot on the pointer and a ring that trails it, eased
-     toward the target each frame. The lag between the two is the
-     whole effect. It reacts to what is under the pointer: opening
-     over anything clickable, narrowing to a bar over text. Desktop
-     with a real pointer only, and never when reduced motion is
-     requested, since this is decoration. */
-  function setupCursor() {
-    if (reduced || !finePointer) return;
-
-    var dot = document.createElement('div'); dot.className = 'cursor-dot';
-    var ring = document.createElement('div'); ring.className = 'cursor-ring';
-    document.body.appendChild(dot); document.body.appendChild(ring);
-
-    var tx = window.innerWidth / 2, ty = window.innerHeight / 2;
-    var rx = tx, ry = ty, raf = null;
-
-    function frame() {
-      // Exponential easing toward the pointer: fast enough to feel
-      // attached, slow enough to read as a trail.
-      rx += (tx - rx) * 0.18;
-      ry += (ty - ry) * 0.18;
-      ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0)';
-      raf = Math.abs(tx - rx) > 0.1 || Math.abs(ty - ry) > 0.1 ? window.requestAnimationFrame(frame) : null;
     }
-    function kick() { if (!raf) raf = window.requestAnimationFrame(frame); }
+    if (reduced || !('IntersectionObserver' in window)) return;
+    var started = false;
+    var lio = new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting && !started) { started = true; run(); lio.disconnect(); }
+    }, { threshold: 0.5 });
+    lio.observe(letter);
+    document.addEventListener('visibilitychange', function () { if (document.hidden && started) finish(); });
+  })();
 
-    window.addEventListener('mousemove', function (e) {
-      tx = e.clientX; ty = e.clientY;
-      dot.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0)';
-      document.body.classList.add('cursor-on');
-      kick();
-
-      var el = e.target;
-      var clickable = el.closest && el.closest('a,button,.tab,.mb,.card,input,select,textarea,.replay');
-      var textish = !clickable && el.closest && el.closest('p,h1,h2,h3,li,q,td,th,.lead,.meta,label');
-      ring.classList.toggle('hot', !!clickable);
-      ring.classList.toggle('text', !!textish);
-    }, { passive: true });
-
-    window.addEventListener('mousedown', function () { ring.classList.add('down'); });
-    window.addEventListener('mouseup', function () { ring.classList.remove('down'); });
-    document.addEventListener('mouseleave', function () { document.body.classList.remove('cursor-on'); });
-    document.addEventListener('mouseenter', function () { document.body.classList.add('cursor-on'); });
-  }
-
-  markReveals();
-  splitHeadlines();
-  setupReveal();
-  setupNav();
-  setupDraft();
-  setupCursor();
-
-  /* Demo request -> Netlify Forms (emailed to the site owner via a Netlify form notification) */
+  /* ---- Demo form -> Netlify Forms ---- */
   var form = document.getElementById('demo-form');
   var btn = document.getElementById('form-btn');
   var err = document.getElementById('form-err');
@@ -1128,12 +777,11 @@ td .cell b{display:block}
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!form.reportValidity()) return;
-    if (form.elements['bot-field'].value) { showDone(); return; } /* honeypot: look successful, send nothing */
+    if (form.elements['bot-field'].value) { showDone(); return; }
     btn.disabled = true; btn.textContent = 'Sending…'; err.hidden = true;
-    var body = new URLSearchParams(new FormData(form)).toString();
-    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body })
-      .then(function (res) { if (!res.ok) throw new Error('status ' + res.status); showDone(); })
-      .catch(function () { err.hidden = false; btn.disabled = false; btn.textContent = 'Book a demo'; });
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(form)).toString() })
+      .then(function (res) { if (!res.ok) throw new Error(res.status); showDone(); })
+      .catch(function () { err.hidden = false; btn.disabled = false; btn.textContent = 'Request a demo'; });
   });
 })();
 </script>

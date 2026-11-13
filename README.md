@@ -5,11 +5,11 @@ Static site: `index.html` plus assets. No build step, no dependencies.
 ## Files
 | File | Purpose |
 |---|---|
-| `index.html` | The whole page (HTML, CSS and JS in one file) |
+| `index.html` | The whole page (HTML, CSS and JS in one file): loading screen, scroll-driven laptop scene, sections, demo form |
 | `logo.svg` / `favicon.svg` | Logo mark (vector) |
 | `logo.png` (512px) / `logo@2x.png` (1024px) | Logo mark (transparent PNG) |
 | `favicon-32.png`, `apple-touch-icon.png` | Browser tab and iOS home-screen icons |
-| `fonts/` | Inter, Newsreader, JetBrains Mono (self-hosted — no requests to Google) |
+| `fonts/` | Inter and Newsreader, self-hosted (Apple devices use their system font first) |
 | `netlify.toml` | Publish folder, security headers (CSP etc.) and font caching |
 
 ## Push to GitHub
