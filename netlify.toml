@@ -18,3 +18,9 @@
   for = "/fonts/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Link-preview images: cached for a day so a future update shows up reasonably soon.
+[[headers]]
+  for = "/og-*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
